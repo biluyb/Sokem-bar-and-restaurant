@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <div className="space-y-28 pb-28">
       {/* 1. LUMINOUS HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center justify-center pt-12 sm:pt-16 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Hero Background Image with Warm Overlay */}
         <div className="absolute inset-0 z-0">
           <Image

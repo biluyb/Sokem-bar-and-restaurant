@@ -45,7 +45,7 @@ export default function MenuPage() {
   }, [selectedCategory, selectedDietary, searchQuery]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-28 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-24 space-y-12">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
