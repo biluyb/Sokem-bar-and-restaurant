@@ -26,12 +26,13 @@ function LoginFormInner() {
     const formData = new FormData(formElement);
     const resolvedEmail = ((formData.get("email") as string) || email || "").trim();
     const resolvedPassword = ((formData.get("password") as string) || password || "");
-    formData.set("email", resolvedEmail);
-    formData.set("password", resolvedPassword);
-    formData.set("callbackUrl", callbackUrl);
 
     try {
-      const res = await loginAction(null, formData);
+      const res = await loginAction({
+        email: resolvedEmail,
+        password: resolvedPassword,
+        callbackUrl,
+      });
       if (res.success && res.redirectTo) {
         window.location.href = res.redirectTo;
         return;

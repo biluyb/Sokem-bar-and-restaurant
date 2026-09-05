@@ -15,9 +15,13 @@ export interface SystemUser {
  */
 function getConfiguredAdminUser(): SystemUser {
   const email = (process.env.ADMIN_EMAIL || "admin@sokem-restaurant.com").toLowerCase().trim();
-  const passwordHash =
-    process.env.ADMIN_PASSWORD_HASH ||
-    "$2b$10$KxT58HGlCqrx.Z5H9rODkOGZ3DY1EVHHLo/VpUDWAROyrcye3EHMC"; // default hash for SokemAdmin2026!
+  let passwordHash = process.env.ADMIN_PASSWORD_HASH;
+
+  // Guard against dotenv-expand unescaped $ variable expansion in environment files
+  if (!passwordHash || !passwordHash.startsWith("$2")) {
+    passwordHash = "$2b$10$KxT58HGlCqrx.Z5H9rODkOGZ3DY1EVHHLo/VpUDWAROyrcye3EHMC";
+  }
+
   const name = process.env.ADMIN_NAME || "Sokem Operations Director";
   const role = (process.env.ADMIN_ROLE as "SUPER_ADMIN") || "SUPER_ADMIN";
 

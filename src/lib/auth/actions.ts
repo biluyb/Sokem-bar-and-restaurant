@@ -19,12 +19,23 @@ export interface LoginActionResult {
  * Real Server Action for Admin Login
  */
 export async function loginAction(
-  prevState: LoginActionResult | null,
-  formData: FormData
+  param1: LoginActionResult | { email?: string; password?: string; callbackUrl?: string } | null,
+  maybeFormData?: FormData
 ): Promise<LoginActionResult> {
-  const rawEmail = formData.get("email");
-  const rawPassword = formData.get("password");
-  const callbackUrl = (formData.get("callbackUrl") as string) || "/admin/dashboard";
+  let rawEmail = "";
+  let rawPassword = "";
+  let callbackUrl = "/admin/dashboard";
+
+  if (maybeFormData && typeof maybeFormData.get === "function") {
+    rawEmail = (maybeFormData.get("email") as string) || "";
+    rawPassword = (maybeFormData.get("password") as string) || "";
+    callbackUrl = (maybeFormData.get("callbackUrl") as string) || callbackUrl;
+  } else if (param1 && typeof param1 === "object") {
+    const creds = param1 as { email?: string; password?: string; callbackUrl?: string };
+    rawEmail = creds.email || "";
+    rawPassword = creds.password || "";
+    callbackUrl = creds.callbackUrl || callbackUrl;
+  }
 
   const validated = LoginSchema.safeParse({
     email: rawEmail,
