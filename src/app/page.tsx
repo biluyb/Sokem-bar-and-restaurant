@@ -53,15 +53,27 @@ export default function HomePage() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative z-10 max-w-4xl mx-auto text-center space-y-8"
         >
-          {/* Animated Floating Pill */}
+          {/* Animated Brand Emblem & Pill */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-semibold uppercase tracking-wider backdrop-blur-md animate-float"
+            className="flex flex-col items-center gap-4"
           >
-            <Sparkles className="w-3.5 h-3.5 text-gold" />
-            <span>Welcome to Sokem • Addis Ababa</span>
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 drop-shadow-[0_0_30px_rgba(245,158,11,0.4)]">
+              <Image
+                src="/images/icon.png"
+                alt="Sokem Bar and Restaurant"
+                fill
+                priority
+                className="object-contain"
+              />
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-gold" />
+              <span>Welcome to Sokem • Addis Ababa</span>
+            </div>
           </motion.div>
 
           {/* Bold, Elegant Headline */}

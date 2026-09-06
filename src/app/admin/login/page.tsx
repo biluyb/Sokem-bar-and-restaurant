@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Shield, Lock, Mail, ArrowLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -52,8 +53,15 @@ function LoginFormInner() {
     <Card className="border border-white/[0.12] bg-[#12151D]/90 backdrop-blur-xl shadow-2xl p-8 space-y-6 rounded-2xl">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="w-12 h-12 rounded-xl bg-gold/15 border border-gold/40 flex items-center justify-center text-gold mx-auto mb-3">
-          <Shield className="w-6 h-6" />
+        <div className="relative w-16 h-16 drop-shadow-[0_0_20px_rgba(245,158,11,0.35)] mx-auto mb-3">
+          <Image
+            src="/images/icon.png"
+            alt="Sokem Bar & Restaurant"
+            width={64}
+            height={64}
+            className="object-contain"
+            priority
+          />
         </div>
         <span className="text-[11px] uppercase font-bold tracking-widest text-gold">
           Sokem Management

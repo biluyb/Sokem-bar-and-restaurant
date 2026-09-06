@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Calendar,
@@ -59,14 +60,12 @@ export const Header: React.FC = () => {
           {/* Status badge */}
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="font-medium text-gray-300 tracking-wider uppercase text-[10px]">
-              Lounge & Dining Open
+            <span className="text-gray-300 font-medium tracking-wide">
+              Open Today • Table Reservations Available
             </span>
-            <span className="hidden sm:inline text-gray-600">•</span>
-            <span className="hidden sm:inline text-gray-400">12:00 PM – 11:30 PM</span>
           </div>
 
           {/* Location, Phone & Portal Links */}
@@ -108,9 +107,16 @@ export const Header: React.FC = () => {
           href="/"
           className="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg p-1"
         >
-          {/* Architectural Crest Monogram */}
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold/25 via-gold/10 to-transparent border border-gold/40 flex items-center justify-center text-gold shadow-sm group-hover:border-gold transition-all duration-300">
-            <span className="font-serif font-bold text-sm tracking-wider text-gold">SK</span>
+          {/* Official Sokem Crest Monogram */}
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-gold/30 flex items-center justify-center bg-gold/10 p-1 group-hover:border-gold group-hover:bg-gold/15 transition-all duration-300 shadow-glow">
+            <Image
+              src="/images/icon.png"
+              alt="Sokem Monogram"
+              width={36}
+              height={36}
+              className="object-contain"
+              priority
+            />
           </div>
 
           <div className="flex flex-col">

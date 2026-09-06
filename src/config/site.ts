@@ -11,6 +11,7 @@ export const SOKEM_CONFIG = {
   tagline: "Culinary Elegance & Handcrafted Libations",
   description:
     "Experience elevated dining, world-class mixology, and an unforgettable luxury ambience at Sokem Bar & Restaurant.",
+  logo: "/images/logo.png",
   
   // Business Contact Details
   address: "Sokem Bar & Restaurant",

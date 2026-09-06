@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { MapPin, Phone, Wine, Lock } from "lucide-react";
+import Image from "next/image";
+import { MapPin, Phone, Lock } from "lucide-react";
 import { SOKEM_CONFIG } from "@/config/site";
 
 export const Footer: React.FC = () => {
@@ -11,8 +12,14 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gold/20 text-gold flex items-center justify-center">
-                <Wine className="w-4 h-4" />
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-gold/30 flex items-center justify-center bg-gold/10 p-1 shadow-glow">
+                <Image
+                  src="/images/icon.png"
+                  alt="Sokem Bar & Restaurant"
+                  width={36}
+                  height={36}
+                  className="object-contain"
+                />
               </div>
               <span className="font-serif font-bold text-lg text-white">
                 SOKEM
