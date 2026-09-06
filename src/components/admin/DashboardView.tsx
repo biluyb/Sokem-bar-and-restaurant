@@ -125,7 +125,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
             <Wine className="w-5 h-5 text-gold" />
           </div>
           <div className="font-serif text-3xl font-bold text-white mt-2">3 Scheduled</div>
-          <span className="text-xs text-gold mt-1 block">Jazz Soirée this Thursday</span>
+          <span className="text-xs text-gold mt-1 block">Cand Night this Thursday</span>
         </Card>
       </div>
 

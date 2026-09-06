@@ -78,7 +78,7 @@ export const Header: React.FC = () => {
               className="hidden md:flex items-center gap-1.5 hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold rounded"
             >
               <MapPin className="w-3 h-3 text-gold" />
-              <span>Bole, Addis Ababa</span>
+              <span>Legehar, Addis ababa</span>
               <ExternalLink className="w-2.5 h-2.5 text-gray-500" />
             </a>
 
@@ -228,11 +228,7 @@ export const Header: React.FC = () => {
           <div className="pt-4 border-t border-white/[0.08] space-y-3 text-xs text-gray-400">
             <div className="flex items-center justify-between">
               <span>Location:</span>
-              <span className="text-gray-200">Bole, Addis Ababa</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Hours:</span>
-              <span className="text-gray-200">12:00 PM – 11:30 PM Daily</span>
+              <span className="text-gray-200">Legehar, Addis ababa</span>
             </div>
 
             <a

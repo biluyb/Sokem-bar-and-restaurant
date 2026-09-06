@@ -28,5 +28,6 @@ describe("Site Configuration Integrity (src/config/site.ts)", () => {
     expect(SOKEM_CONFIG.hours.weekday).toBeDefined();
     expect(SOKEM_CONFIG.hours.weekend).toBeDefined();
     expect(SOKEM_CONFIG.hours.sunday).toBeDefined();
+    expect(SOKEM_CONFIG.hours.schedule).toHaveLength(7);
   });
 });

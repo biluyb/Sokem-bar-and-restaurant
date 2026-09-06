@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { MapPin, Phone, Clock, Wine, Lock } from "lucide-react";
+import { MapPin, Phone, Wine, Lock } from "lucide-react";
 import { SOKEM_CONFIG } from "@/config/site";
 
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#12141C] border-t border-white/[0.1] text-gray-300 text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -39,19 +39,6 @@ export const Footer: React.FC = () => {
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          {/* Opening Schedule */}
-          <div>
-            <h4 className="font-serif text-white font-bold text-sm mb-4 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-gold" />
-              Hours
-            </h4>
-            <ul className="space-y-2 text-xs text-gray-400">
-              <li>{SOKEM_CONFIG.hours.weekday}</li>
-              <li>{SOKEM_CONFIG.hours.weekend}</li>
-              <li>{SOKEM_CONFIG.hours.sunday}</li>
             </ul>
           </div>
 

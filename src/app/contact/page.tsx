@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Mail, Send, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
 import { SOKEM_CONFIG } from "@/config/site";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -135,28 +135,6 @@ export default function ContactPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
-          </Card>
-
-          {/* Opening Schedule */}
-          <Card className="p-8 space-y-4">
-            <div className="flex items-center gap-2 text-gold">
-              <Clock className="w-5 h-5" />
-              <h3 className="font-serif text-lg font-bold text-white">Opening Hours</h3>
-            </div>
-            <ul className="space-y-2 text-sm text-gray-300">
-              <li className="flex justify-between border-b border-white/[0.08] pb-2">
-                <span className="text-gray-400">Mon - Thu:</span>
-                <span>{SOKEM_CONFIG.hours.weekday}</span>
-              </li>
-              <li className="flex justify-between border-b border-white/[0.08] pb-2">
-                <span className="text-gray-400">Fri - Sat:</span>
-                <span>{SOKEM_CONFIG.hours.weekend}</span>
-              </li>
-              <li className="flex justify-between pb-1">
-                <span className="text-gray-400">Sunday:</span>
-                <span>{SOKEM_CONFIG.hours.sunday}</span>
-              </li>
-            </ul>
           </Card>
         </motion.div>
 

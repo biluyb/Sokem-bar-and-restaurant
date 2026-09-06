@@ -4,7 +4,20 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Utensils, Wine, Clock, Calendar, Star, Sparkles, MapPin, Phone } from "lucide-react";
+import {
+  ArrowRight,
+  Utensils,
+  Wine,
+  Clock,
+  Calendar,
+  Sparkles,
+  MapPin,
+  Phone,
+  Beer,
+  Flame,
+  Martini,
+  Coffee,
+} from "lucide-react";
 import { SOKEM_CONFIG } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -58,8 +71,7 @@ export default function HomePage() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="font-serif text-5xl sm:text-7xl font-bold tracking-tight text-white leading-[1.1]"
           >
-            Culinary Elegance &{" "}
-            <span className="gold-gradient italic block sm:inline">Craft Mixology</span>
+            Sokem bar and restaurant
           </motion.h1>
 
           {/* Simple, Warm Subtitle */}
@@ -116,59 +128,76 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* 2. SIMPLE, CLEAN VALUE PILLARS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 30 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="p-8 space-y-4 h-full">
-              <div className="w-12 h-12 rounded-2xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shadow-glow">
-                <Wine className="w-6 h-6" />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-white">Artisanal Cocktails</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Handcrafted syrups, smoked aromatics, and world-class spirits balanced to perfection by our mixology team.
-              </p>
-            </Card>
-          </motion.div>
+      {/* 2. SERVICES & OFFERINGS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center space-y-2 max-w-xl mx-auto">
+          <span className="text-xs uppercase font-bold text-gold tracking-widest">
+            What We Offer
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
+            Dining & Bar Services
+          </h2>
+        </div>
 
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 30 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-          >
-            <Card className="p-8 space-y-4 h-full">
-              <div className="w-12 h-12 rounded-2xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shadow-glow">
-                <Utensils className="w-6 h-6" />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-white">Prime Dry-Aged Cuts</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Ethically sourced Black Angus aged 45 days in-house and grilled over white oak charcoal for deep, rich flavor.
-              </p>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 30 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <Card className="p-8 space-y-4 h-full">
-              <div className="w-12 h-12 rounded-2xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shadow-glow">
-                <Star className="w-6 h-6" />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-white">Atmosphere & Jazz</h3>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Warm lighting, plush seating, and weekly live acoustic sessions designed for relaxed conversation.
-              </p>
-            </Card>
-          </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[
+            {
+              icon: <Utensils className="w-6 h-6" />,
+              title: "Dining",
+              description:
+                "Chef-crafted cuisine, prime dry-aged steaks, ocean delicacies, and seasonal culinary specialties.",
+            },
+            {
+              icon: <Beer className="w-6 h-6" />,
+              title: "Beer",
+              description:
+                "A refreshing selection of draught and bottled beers served chilled for any gathering or relaxed evening.",
+            },
+            {
+              icon: <Flame className="w-6 h-6" />,
+              title: "Whisky",
+              description:
+                "Distinguished single malts, reserve blended whiskies, and curated tasting pours for connoisseurs.",
+            },
+            {
+              icon: <Wine className="w-6 h-6" />,
+              title: "Wine",
+              description:
+                "An international cellar of select red, white, and sparkling vintages chosen to complement every course.",
+            },
+            {
+              icon: <Martini className="w-6 h-6" />,
+              title: "Cocktails",
+              description:
+                "Handcrafted artisanal mixology featuring smoked aromatics, bespoke syrups, and premium spirits.",
+            },
+            {
+              icon: <Coffee className="w-6 h-6" />,
+              title: "Other Drinks",
+              description:
+                "Handcrafted mocktails, freshly brewed espresso beverages, artisanal teas, and refreshing soft drinks.",
+            },
+          ].map((service, index) => (
+            <motion.div
+              key={service.title}
+              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+            >
+              <Card className="p-8 space-y-4 h-full">
+                <div className="w-12 h-12 rounded-2xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shadow-glow">
+                  {service.icon}
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-white">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  {service.description}
+                </p>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </section>
 

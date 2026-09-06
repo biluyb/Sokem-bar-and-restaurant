@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Maximize2, X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
@@ -12,6 +13,12 @@ const CATEGORIES: GalleryCategory[] = ["All", "Culinary", "Cocktails", "Ambience
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>("All");
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "All") return MOCK_GALLERY;
@@ -34,6 +41,18 @@ export default function GalleryPage() {
       prev !== null && prev > 0 ? prev - 1 : filteredItems.length - 1
     );
   }, [activeLightboxIndex, filteredItems.length]);
+
+  // Lock background scroll when lightbox is active
+  useEffect(() => {
+    if (activeLightboxIndex !== null) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      setTimeout(() => closeButtonRef.current?.focus(), 50);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [activeLightboxIndex]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -136,57 +155,93 @@ export default function GalleryPage() {
         </AnimatePresence>
       </motion.div>
 
-      {/* Lightbox Modal */}
-      {activeItem && activeLightboxIndex !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in"
-          role="dialog"
-          aria-modal="true"
-        >
-          <button
+      {/* Lightbox Modal (Portal to document.body) */}
+      {mounted &&
+        activeItem &&
+        activeLightboxIndex !== null &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/90 backdrop-blur-md animate-in fade-in"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Enlarged image preview"
             onClick={() => setActiveLightboxIndex(null)}
-            className="absolute top-6 right-6 p-3 rounded-full bg-canvas border border-white/[0.1] text-gray-300 hover:text-white z-50"
-            aria-label="Close lightbox"
           >
-            <X className="w-6 h-6" />
-          </button>
+            {/* Modal Container */}
+            <div
+              className="relative w-full max-w-5xl max-h-[92vh] flex flex-col items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Lightbox Header / Controls Bar */}
+              <div className="w-full flex items-center justify-between pb-3 px-1 text-white">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs uppercase font-bold text-gold tracking-wider bg-gold/15 px-2.5 py-1 rounded-full border border-gold/30">
+                    {activeItem.category}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    {activeLightboxIndex + 1} of {filteredItems.length}
+                  </span>
+                </div>
 
-          <button
-            onClick={handlePrev}
-            className="absolute left-4 sm:left-8 p-3 rounded-full bg-canvas/80 border border-white/[0.1] text-gray-300 hover:text-gold z-50"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
+                {/* Visible & Accessible Close Button */}
+                <button
+                  ref={closeButtonRef}
+                  onClick={() => setActiveLightboxIndex(null)}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 hover:bg-gold hover:text-slate-950 text-gray-200 border border-white/[0.2] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer shadow-lg"
+                  aria-label="Close image"
+                >
+                  <X className="w-5 h-5" />
+                  <span className="text-xs font-semibold hidden sm:inline">Close</span>
+                </button>
+              </div>
 
-          <button
-            onClick={handleNext}
-            className="absolute right-4 sm:right-8 p-3 rounded-full bg-canvas/80 border border-white/[0.1] text-gray-300 hover:text-gold z-50"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+              {/* Image & Prev/Next Arrows */}
+              <div className="relative w-full h-[62vh] sm:h-[68vh] md:h-[72vh] rounded-2xl overflow-hidden bg-black/50 border border-white/[0.15] flex items-center justify-center shadow-2xl">
+                <Image
+                  src={activeItem.imageUrl}
+                  alt={activeItem.alt}
+                  fill
+                  sizes="(max-width: 1280px) 100vw, 1200px"
+                  priority
+                  className="object-contain"
+                />
 
-          <div className="relative max-w-4xl max-h-[80vh] w-full h-full flex flex-col items-center justify-center">
-            <div className="relative w-full h-[70vh] rounded-2xl overflow-hidden border border-white/[0.15]">
-              <Image
-                src={activeItem.imageUrl}
-                alt={activeItem.alt}
-                fill
-                className="object-contain"
-              />
+                {/* Previous Button */}
+                {filteredItems.length > 1 && (
+                  <button
+                    onClick={handlePrev}
+                    className="absolute left-3 sm:left-5 p-2.5 sm:p-3 rounded-full bg-black/60 hover:bg-gold hover:text-slate-950 text-white border border-white/[0.2] transition-colors z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
+                )}
+
+                {/* Next Button */}
+                {filteredItems.length > 1 && (
+                  <button
+                    onClick={handleNext}
+                    className="absolute right-3 sm:right-5 p-2.5 sm:p-3 rounded-full bg-black/60 hover:bg-gold hover:text-slate-950 text-white border border-white/[0.2] transition-colors z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
+                )}
+              </div>
+
+              {/* Caption */}
+              <div className="w-full text-center mt-3 px-4">
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
+                  {activeItem.title}
+                </h3>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {activeItem.alt}
+                </p>
+              </div>
             </div>
-            <div className="text-center mt-4">
-              <span className="text-xs uppercase font-bold text-gold tracking-wider block">
-                {activeItem.category}
-              </span>
-              <h3 className="font-serif text-xl font-bold text-white mt-1">
-                {activeItem.title}
-              </h3>
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

@@ -1,18 +1,40 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SOKEM_CONFIG } from "@/config/site";
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const playfair = localFont({
+  src: [
+    {
+      path: "../../public/fonts/PlayfairDisplay-Regular.woff2",
+      weight: "400 900",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/PlayfairDisplay-Italic.woff2",
+      weight: "400 900",
+      style: "italic",
+    },
+  ],
   variable: "--font-playfair",
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+const jakarta = localFont({
+  src: [
+    {
+      path: "../../public/fonts/PlusJakartaSans-Regular.woff2",
+      weight: "200 800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/PlusJakartaSans-Italic.woff2",
+      weight: "200 800",
+      style: "italic",
+    },
+  ],
   variable: "--font-jakarta",
   display: "swap",
 });
@@ -56,7 +78,7 @@ export default function RootLayout({
         <div className="fixed -bottom-40 -left-40 w-[600px] h-[500px] bg-gold/10 blur-[150px] pointer-events-none rounded-full" />
 
         <Header />
-        <main className="flex-grow z-10">{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>

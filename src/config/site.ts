@@ -19,11 +19,26 @@ export const SOKEM_CONFIG = {
   mapUrl: "https://maps.app.goo.gl/MJnT1GHeW1mSMDQr5",
   email: "[SOKEM_EMAIL_PLACEHOLDER]",
   
-  // Operating Hours Placeholders
+  // Operating Hours Schedule
   hours: {
-    weekday: "Monday - Thursday: [HOURS_PLACEHOLDER]",
-    weekend: "Friday - Saturday: [HOURS_PLACEHOLDER]",
-    sunday: "Sunday: [HOURS_PLACEHOLDER]",
+    schedule: [
+      { day: "Sunday", time: "6 AM–11:30 PM" },
+      { day: "Monday", time: "6 AM–11:30 PM" },
+      { day: "Tuesday", time: "6 AM–11:30 PM" },
+      { day: "Wednesday", time: "6 AM–11:30 PM" },
+      { day: "Thursday", time: "6 AM–11:30 PM" },
+      {
+        day: "Friday",
+        subtitle: "(Enkutatash)",
+        time: "6 AM–11:30 PM",
+        note: "Hours might differ",
+      },
+      { day: "Saturday", time: "6 AM–11:30 PM" },
+    ],
+    summary: "6 AM–11:30 PM Daily",
+    weekday: "Monday - Thursday: 6 AM–11:30 PM",
+    weekend: "Friday - Saturday: 6 AM–11:30 PM",
+    sunday: "Sunday: 6 AM–11:30 PM",
   },
 
   // Social Media Links

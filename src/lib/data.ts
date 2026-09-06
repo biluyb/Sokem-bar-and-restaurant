@@ -93,13 +93,13 @@ export const MOCK_MENU_ITEMS: MenuItem[] = [
 export const MOCK_EVENTS: RestaurantEvent[] = [
   {
     id: "event-1",
-    title: "Jazz & Gold Cocktail Soirée",
-    slug: "jazz-and-gold-soiree",
-    description: "Immerse yourself in live acoustic jazz trio performances paired with exclusive cocktail flights and chef canapés.",
+    title: "Cand Night",
+    slug: "cand-night",
+    description: "Join us for our signature Cand Night every Thursday evening at Sokem Bar & Restaurant.",
     date: "Every Thursday Evening",
     time: "7:30 PM - 11:00 PM",
     imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
-    badge: "Live Music",
+    badge: "Special Event",
     isPublished: true,
   },
   {
