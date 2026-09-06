@@ -63,8 +63,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: [
+      { url: "/images/icon.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/images/icon-192.png",
   },
 };
 

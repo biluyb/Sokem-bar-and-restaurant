@@ -29,8 +29,37 @@ export default function HomePage() {
   const featuredItems = MOCK_MENU_ITEMS.filter((item) => item.isFeatured).slice(0, 3);
   const featuredEvent = MOCK_EVENTS[0];
 
+  const restaurantJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: SOKEM_CONFIG.name,
+    description: SOKEM_CONFIG.description,
+    image: "https://sokem-restaurant.com/images/logo.png",
+    telephone: SOKEM_CONFIG.phone,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Legehar",
+      addressLocality: "Addis Ababa",
+      addressCountry: "ET",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 9.0138883,
+      longitude: 38.7520751,
+    },
+    servesCuisine: ["Steakhouse", "Fine Dining", "Cocktail Bar", "Wine Bar"],
+    priceRange: "$$$",
+    hasMenu: "https://sokem-restaurant.com/menu",
+  };
+
   return (
     <div className="space-y-28 pb-28">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd) }}
+      />
+
       {/* 1. LUMINOUS HERO SECTION */}
       <section className="relative min-h-[85vh] flex items-center justify-center pt-12 sm:pt-16 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Hero Background Image with Warm Overlay */}

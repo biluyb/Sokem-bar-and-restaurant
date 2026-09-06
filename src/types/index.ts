@@ -48,6 +48,8 @@ export interface RestaurantEvent {
   isPublished: boolean;
 }
 
+export type EventItem = RestaurantEvent;
+
 export type GalleryCategory = "All" | "Culinary" | "Cocktails" | "Ambience" | "Events";
 
 export interface GalleryItem {

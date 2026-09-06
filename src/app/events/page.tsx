@@ -10,8 +10,34 @@ import { Badge } from "@/components/ui/Badge";
 import { MOCK_EVENTS } from "@/lib/data";
 
 export default function EventsPage() {
+  const eventsJsonLd = MOCK_EVENTS.map((event) => ({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    description: event.description,
+    image: event.imageUrl,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: {
+      "@type": "Place",
+      name: "Sokem Bar & Restaurant",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Legehar",
+        addressLocality: "Addis Ababa",
+        addressCountry: "ET",
+      },
+    },
+  }));
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-24 space-y-16">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventsJsonLd) }}
+      />
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

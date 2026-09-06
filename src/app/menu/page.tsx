@@ -44,8 +44,35 @@ export default function MenuPage() {
     });
   }, [selectedCategory, selectedDietary, searchQuery]);
 
+  const menuJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FoodMenu",
+    name: "Sokem Bar & Restaurant Food & Cocktail Menu",
+    description: "Dry-aged steaks, artisan appetizers, signature cocktails, and curated beverages in Addis Ababa.",
+    hasMenuSection: MOCK_CATEGORIES.map((cat) => ({
+      "@type": "MenuSection",
+      name: cat.name,
+      hasMenuItem: MOCK_MENU_ITEMS.filter((i) => i.categoryId === cat.id).map((item) => ({
+        "@type": "MenuItem",
+        name: item.title,
+        description: item.description,
+        offers: {
+          "@type": "Offer",
+          price: item.price,
+          priceCurrency: item.currency,
+        },
+      })),
+    })),
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-24 space-y-12">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(menuJsonLd) }}
+      />
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
