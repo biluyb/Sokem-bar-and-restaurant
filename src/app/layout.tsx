@@ -71,46 +71,22 @@ export const metadata: Metadata = {
   },
 };
 
-import { LanguageProvider } from "@/components/ui/LanguageContext";
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${jakarta.variable} dark`} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var saved = localStorage.getItem('sokem-theme') || 'dark';
-                  var root = document.documentElement;
-                  if (saved === 'system') {
-                    var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    root.classList.add(systemDark ? 'dark' : 'light');
-                  } else {
-                    root.classList.add(saved);
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className={`${playfair.variable} ${jakarta.variable} dark`}>
       <body className="flex flex-col min-h-screen bg-canvas text-gray-100 font-sans antialiased selection:bg-gold selection:text-slate-950 overflow-x-hidden relative">
-        <LanguageProvider>
-          {/* Soft Warm Lighting Orbs */}
-          <div className="fixed -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold/15 blur-[140px] pointer-events-none rounded-full" />
-          <div className="fixed top-1/2 -right-40 w-[500px] h-[500px] bg-amber-500/10 blur-[150px] pointer-events-none rounded-full" />
-          <div className="fixed -bottom-40 -left-40 w-[600px] h-[500px] bg-gold/10 blur-[150px] pointer-events-none rounded-full" />
+        {/* Soft Warm Lighting Orbs */}
+        <div className="fixed -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold/15 blur-[140px] pointer-events-none rounded-full" />
+        <div className="fixed top-1/2 -right-40 w-[500px] h-[500px] bg-amber-500/10 blur-[150px] pointer-events-none rounded-full" />
+        <div className="fixed -bottom-40 -left-40 w-[600px] h-[500px] bg-gold/10 blur-[150px] pointer-events-none rounded-full" />
 
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </LanguageProvider>
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
       </body>
     </html>
   );
