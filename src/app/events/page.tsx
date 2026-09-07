@@ -10,7 +10,20 @@ import { Badge } from "@/components/ui/Badge";
 import { MOCK_EVENTS } from "@/lib/data";
 
 export default function EventsPage() {
-  const eventsJsonLd = MOCK_EVENTS.map((event) => ({
+  const [events, setEvents] = React.useState(MOCK_EVENTS);
+
+  React.useEffect(() => {
+    fetch("/api/events")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setEvents(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const eventsJsonLd = events.map((event) => ({
     "@context": "https://schema.org",
     "@type": "Event",
     name: event.title,
@@ -59,7 +72,7 @@ export default function EventsPage() {
 
       {/* Events List */}
       <div className="space-y-8 max-w-5xl mx-auto">
-        {MOCK_EVENTS.map((event, index) => (
+        {events.map((event, index) => (
           <motion.div
             key={event.id}
             whileInView={{ opacity: 1, y: 0 }}

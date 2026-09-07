@@ -24,7 +24,7 @@ describe("Admin Route Navigation & Config", () => {
       userId: "usr_admin_test",
       email: "admin@sokem-restaurant.com",
       name: "Sokem Operations Director",
-      role: "SUPER_ADMIN",
+      role: "ADMIN",
     };
 
     const token = await signSessionToken(adminUser);

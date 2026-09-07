@@ -6,7 +6,7 @@ describe("authenticateCredentials Service", () => {
     const user = await authenticateCredentials("admin@sokem-restaurant.com", "SokemAdmin2026!");
     expect(user).not.toBeNull();
     expect(user?.email).toBe("admin@sokem-restaurant.com");
-    expect(user?.role).toBe("SUPER_ADMIN");
+    expect(user?.role).toBe("ADMIN");
   });
 
   it("rejects valid email with wrong password", async () => {

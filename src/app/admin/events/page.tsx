@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/auth/session";
 import { EventManagerView } from "@/components/admin/EventManagerView";
+import { prisma } from "@/db/client";
 
 export const dynamic = "force-dynamic";
 
@@ -12,8 +13,27 @@ export default async function AdminEventsPage() {
   const session = await getCurrentSession();
 
   if (!session) {
-    redirect("/admin/login?callbackUrl=/admin/events");
+    redirect("/sign-in?callbackUrl=/admin/events");
   }
 
-  return <EventManagerView user={session} />;
+  const events = await prisma.restaurantEvent.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <EventManagerView
+      user={session}
+      initialEvents={events.map((e) => ({
+        id: e.id,
+        title: e.title,
+        slug: e.slug,
+        description: e.description,
+        date: e.date,
+        time: e.time,
+        imageUrl: e.imageUrl || undefined,
+        badge: e.badge || undefined,
+        isPublished: e.isPublished,
+      }))}
+    />
+  );
 }

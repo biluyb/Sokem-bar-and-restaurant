@@ -21,14 +21,26 @@ import { MOCK_EVENTS } from "@/lib/data";
 import { EventItem } from "@/types";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import {
+  createEventAction,
+  updateEventAction,
+  deleteEventAction,
+} from "@/lib/actions/events";
+import { Upload } from "lucide-react";
 
 interface EventManagerViewProps {
   user: AuthSessionPayload;
+  initialEvents?: EventItem[];
 }
 
-export const EventManagerView: React.FC<EventManagerViewProps> = ({ user }) => {
-  const [events, setEvents] = useState<EventItem[]>(MOCK_EVENTS);
+export const EventManagerView: React.FC<EventManagerViewProps> = ({
+  user,
+  initialEvents,
+}) => {
+  const [events, setEvents] = useState<EventItem[]>(initialEvents || MOCK_EVENTS);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,9 +67,45 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({ user }) => {
     );
   }, [events, searchQuery]);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to remove this event?")) {
       setEvents((prev) => prev.filter((e) => e.id !== id));
+      try {
+        await deleteEventAction(id);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const data = new FormData();
+      data.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      });
+
+      const json = await res.json();
+      if (res.ok && json.url) {
+        setFormData((prev) => ({
+          ...prev,
+          imageUrl: json.url,
+        }));
+      } else {
+        alert(json.error || "Failed to upload image");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error uploading file");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -87,7 +135,7 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({ user }) => {
     setIsModalOpen(true);
   };
 
-  const handleSaveEvent = (e: React.FormEvent) => {
+  const handleSaveEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingEventId) {
       setEvents((prev) =>
@@ -100,6 +148,11 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({ user }) => {
             : item
         )
       );
+      try {
+        await updateEventAction(editingEventId, formData);
+      } catch (err) {
+        console.error(err);
+      }
     } else {
       const newEvent: EventItem = {
         id: `event-${Date.now()}`,
@@ -108,6 +161,16 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({ user }) => {
         ...formData,
       };
       setEvents((prev) => [newEvent, ...prev]);
+      try {
+        const res = await createEventAction(formData);
+        if (res.success && res.data) {
+          setEvents((prev) =>
+            prev.map((i) => (i.id === newEvent.id ? { ...i, id: res.data!.id } : i))
+          );
+        }
+      } catch (err) {
+        console.error(err);
+      }
     }
     setIsModalOpen(false);
   };
@@ -305,13 +368,38 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({ user }) => {
             required
           />
 
-          <Input
-            label="Cover Image URL *"
-            placeholder="https://images.unsplash.com/..."
-            value={formData.imageUrl}
-            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-            required
-          />
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+              Cover Image (Upload or URL) *
+            </label>
+            <div className="flex gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={isUploading}
+                onClick={() => fileInputRef.current?.click()}
+                className="gap-1.5 shrink-0"
+              >
+                <Upload className="w-3.5 h-3.5 text-gold" />
+                <span>{isUploading ? "Uploading..." : "Upload File"}</span>
+              </Button>
+              <Input
+                placeholder="https://images.unsplash.com/... or /uploads/..."
+                value={formData.imageUrl}
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                required
+                className="flex-1"
+              />
+            </div>
+          </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
             <Button

@@ -13,6 +13,9 @@ import {
   Utensils,
   CalendarCheck2,
   Sparkles,
+  Image as ImageIcon,
+  Users,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { AuthSessionPayload } from "@/lib/validators/auth";
@@ -38,35 +41,60 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   const handleLogout = () => {
     startLogoutTransition(async () => {
       await logoutAction();
-      window.location.href = "/admin/login";
+      window.location.href = "/sign-in";
     });
   };
+
+  const isStaffSection = pathname.startsWith("/staff");
+  const basePath = isStaffSection ? "/staff" : "/admin";
 
   const navItems = [
     {
       label: "Overview",
-      href: "/admin/dashboard",
+      href: `${basePath}/dashboard`,
       icon: LayoutDashboard,
-      isActive: pathname === "/admin/dashboard",
+      isActive: pathname === `${basePath}/dashboard`,
     },
     {
       label: "Menu Manager",
-      href: "/admin/menu",
+      href: `${basePath}/menu`,
       icon: Utensils,
-      isActive: pathname.startsWith("/admin/menu"),
+      isActive: pathname.startsWith(`${basePath}/menu`),
     },
     {
-      label: "Reservations",
-      href: "/admin/reservations",
-      icon: CalendarCheck2,
-      isActive: pathname.startsWith("/admin/reservations"),
+      label: "Gallery",
+      href: `${basePath}/gallery`,
+      icon: ImageIcon,
+      isActive: pathname.startsWith(`${basePath}/gallery`),
     },
     {
       label: "Events",
-      href: "/admin/events",
+      href: `${basePath}/events`,
       icon: Sparkles,
-      isActive: pathname.startsWith("/admin/events"),
+      isActive: pathname.startsWith(`${basePath}/events`),
     },
+    ...(user.role === "ADMIN" && !isStaffSection
+      ? [
+          {
+            label: "Reservations",
+            href: "/admin/reservations",
+            icon: CalendarCheck2,
+            isActive: pathname.startsWith("/admin/reservations"),
+          },
+          {
+            label: "Users",
+            href: "/admin/users",
+            icon: Users,
+            isActive: pathname.startsWith("/admin/users"),
+          },
+          {
+            label: "Audit Logs",
+            href: "/admin/audit",
+            icon: FileText,
+            isActive: pathname.startsWith("/admin/audit"),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -86,7 +114,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           <div>
             <div className="flex items-center gap-2 text-gold text-xs font-bold uppercase tracking-wider">
               <Shield className="w-3.5 h-3.5" />
-              <span>Sokem Management Console</span>
+              <span>{isStaffSection ? "Sokem Staff Portal" : "Sokem Management Console"}</span>
             </div>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight">
               {title}

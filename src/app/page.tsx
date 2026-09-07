@@ -26,8 +26,31 @@ import { MOCK_MENU_ITEMS, MOCK_EVENTS } from "@/lib/data";
 import { formatPrice } from "@/lib/utils";
 
 export default function HomePage() {
-  const featuredItems = MOCK_MENU_ITEMS.filter((item) => item.isFeatured).slice(0, 3);
-  const featuredEvent = MOCK_EVENTS[0];
+  const [items, setItems] = React.useState(MOCK_MENU_ITEMS);
+  const [events, setEvents] = React.useState(MOCK_EVENTS);
+
+  React.useEffect(() => {
+    fetch("/api/menu")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.items && Array.isArray(data.items) && data.items.length > 0) {
+          setItems(data.items);
+        }
+      })
+      .catch(() => {});
+
+    fetch("/api/events")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setEvents(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const featuredItems = items.filter((item) => item.isFeatured).slice(0, 3);
+  const featuredEvent = events[0] || MOCK_EVENTS[0];
 
   const restaurantJsonLd = {
     "@context": "https://schema.org",

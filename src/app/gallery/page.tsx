@@ -11,6 +11,7 @@ import { GalleryCategory, GalleryItem } from "@/types";
 const CATEGORIES: GalleryCategory[] = ["All", "Culinary", "Cocktails", "Ambience", "Events"];
 
 export default function GalleryPage() {
+  const [items, setItems] = useState<GalleryItem[]>(MOCK_GALLERY);
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>("All");
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -18,12 +19,20 @@ export default function GalleryPage() {
 
   useEffect(() => {
     setMounted(true);
+    fetch("/api/gallery")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setItems(data);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const filteredItems = useMemo(() => {
-    if (selectedCategory === "All") return MOCK_GALLERY;
-    return MOCK_GALLERY.filter((item) => item.category === selectedCategory);
-  }, [selectedCategory]);
+    if (selectedCategory === "All") return items;
+    return items.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory, items]);
 
   const activeItem: GalleryItem | null =
     activeLightboxIndex !== null ? filteredItems[activeLightboxIndex] : null;

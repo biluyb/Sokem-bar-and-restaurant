@@ -8,7 +8,7 @@ export default async function AdminDashboardPage() {
   const session = await getCurrentSession();
 
   if (!session) {
-    redirect("/admin/login?callbackUrl=/admin/dashboard");
+    redirect("/sign-in?callbackUrl=/admin/dashboard");
   }
 
   return <DashboardView user={session} />;

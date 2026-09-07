@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { LoginSchema } from "@/lib/validators/auth";
 import { authenticateCredentials } from "./user";
 import { signSessionToken, setSessionCookie, deleteSessionCookie } from "./session";
+import { getRoleDashboardPath } from "@/lib/rbac";
+import { logAuditEvent } from "@/lib/audit";
 
 export interface LoginActionResult {
   success: boolean;
@@ -16,7 +18,9 @@ export interface LoginActionResult {
 }
 
 /**
- * Real Server Action for Admin Login
+ * Real Server Action for Login — works for both ADMIN and STAFF.
+ * Authenticates against the database, sets an HTTP-only JWT session cookie,
+ * then returns a role-based redirect path.
  */
 export async function loginAction(
   param1: LoginActionResult | { email?: string; password?: string; callbackUrl?: string } | null,
@@ -24,17 +28,17 @@ export async function loginAction(
 ): Promise<LoginActionResult> {
   let rawEmail = "";
   let rawPassword = "";
-  let callbackUrl = "/admin/dashboard";
+  let callbackUrl = "";
 
   if (maybeFormData && typeof maybeFormData.get === "function") {
     rawEmail = (maybeFormData.get("email") as string) || "";
     rawPassword = (maybeFormData.get("password") as string) || "";
-    callbackUrl = (maybeFormData.get("callbackUrl") as string) || callbackUrl;
+    callbackUrl = (maybeFormData.get("callbackUrl") as string) || "";
   } else if (param1 && typeof param1 === "object") {
     const creds = param1 as { email?: string; password?: string; callbackUrl?: string };
     rawEmail = creds.email || "";
     rawPassword = creds.password || "";
-    callbackUrl = creds.callbackUrl || callbackUrl;
+    callbackUrl = creds.callbackUrl || "";
   }
 
   const validated = LoginSchema.safeParse({
@@ -52,7 +56,7 @@ export async function loginAction(
 
   const { email, password } = validated.data;
 
-  // Real credential authentication with bcrypt hash verification
+  // Real credential authentication with bcrypt hash verification against DB
   const sessionUser = await authenticateCredentials(email, password);
 
   if (!sessionUser) {
@@ -66,8 +70,26 @@ export async function loginAction(
   const token = await signSessionToken(sessionUser);
   await setSessionCookie(token);
 
-  // Safely return redirect target path
-  const targetPath = callbackUrl.startsWith("/admin") ? callbackUrl : "/admin/dashboard";
+  // Log the login event
+  await logAuditEvent(sessionUser.userId, "LOGIN", "Session", undefined, {
+    email: sessionUser.email,
+    role: sessionUser.role,
+  });
+
+  // Determine redirect: honor callbackUrl only if it matches the user's allowed area
+  const roleDashboard = getRoleDashboardPath(sessionUser.role);
+  let targetPath = roleDashboard;
+
+  if (callbackUrl) {
+    const isAdminCallback = callbackUrl.startsWith("/admin");
+    const isStaffCallback = callbackUrl.startsWith("/staff");
+    if (sessionUser.role === "ADMIN" && (isAdminCallback || isStaffCallback)) {
+      targetPath = callbackUrl;
+    } else if (sessionUser.role === "STAFF" && isStaffCallback) {
+      targetPath = callbackUrl;
+    }
+  }
+
   return {
     success: true,
     redirectTo: targetPath,
@@ -75,9 +97,9 @@ export async function loginAction(
 }
 
 /**
- * Real Server Action for Admin Logout
+ * Server Action for Logout
  */
 export async function logoutAction(): Promise<void> {
   await deleteSessionCookie();
-  redirect("/admin/login");
+  redirect("/sign-in");
 }

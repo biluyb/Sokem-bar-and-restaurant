@@ -1,0 +1,144 @@
+// Sokem Bar & Restaurant — Prisma Schema
+// Uses SQLite for zero-infrastructure local development.
+// Switch provider to "postgresql" and update DATABASE_URL for production.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Users & Authentication
+// ─────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         UserRole   @default(STAFF)
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Menu
+// ─────────────────────────────────────────────────────────────
+
+model MenuCategory {
+  id           String     @id @default(cuid())
+  name         String
+  slug         String     @unique
+  displayOrder Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  menuItems    MenuItem[]
+
+  @@map("menu_categories")
+}
+
+model MenuItem {
+  id           String       @id @default(cuid())
+  title        String
+  description  String
+  price        Float
+  currency     String       @default("ETB")
+  categoryId   String
+  category     MenuCategory @relation(fields: [categoryId], references: [id])
+  imageUrl     String?
+  dietaryFlags String       @default("[]") // JSON array stored as string
+  isAvailable  Boolean      @default(true)
+  isFeatured   Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("menu_items")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Gallery
+// ─────────────────────────────────────────────────────────────
+
+model GalleryItem {
+  id          String   @id @default(cuid())
+  title       String
+  category    String   @default("Ambience")
+  imageUrl    String
+  alt         String
+  displayOrder Int     @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("gallery_items")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Events
+// ─────────────────────────────────────────────────────────────
+
+model RestaurantEvent {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  date        String
+  time        String
+  imageUrl    String?
+  badge       String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("restaurant_events")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Site Content (editable website copy)
+// ─────────────────────────────────────────────────────────────
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique  // e.g. "hero_title", "hero_subtitle"
+  value     String
+  label     String   // Human-readable label for the admin UI
+  group     String   @default("general") // e.g. "hero", "about", "footer"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("site_content")
+}
+
+// ─────────────────────────────────────────────────────────────
+// Audit Log
+// ─────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  action       String   // e.g. "CREATE", "UPDATE", "DELETE", "LOGIN"
+  resourceType String   // e.g. "MenuItem", "GalleryItem", "User"
+  resourceId   String?
+  metadata     String?  // JSON string with additional context (never passwords/tokens)
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

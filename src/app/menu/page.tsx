@@ -21,13 +21,29 @@ const DIETARY_FILTERS: DietaryFlag[] = [
 ];
 
 export default function MenuPage() {
+  const [categories, setCategories] = useState(MOCK_CATEGORIES);
+  const [menuItems, setMenuItems] = useState(MOCK_MENU_ITEMS);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedDietary, setSelectedDietary] = useState<DietaryFlag | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeItemModal, setActiveItemModal] = useState<MenuItem | null>(null);
 
+  React.useEffect(() => {
+    fetch("/api/menu")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.items && Array.isArray(data.items) && data.items.length > 0) {
+          setMenuItems(data.items);
+        }
+        if (data?.categories && Array.isArray(data.categories) && data.categories.length > 0) {
+          setCategories(data.categories);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const filteredItems = useMemo(() => {
-    return MOCK_MENU_ITEMS.filter((item) => {
+    return menuItems.filter((item) => {
       if (selectedCategory !== "all" && item.categoryId !== selectedCategory) {
         return false;
       }
@@ -42,7 +58,7 @@ export default function MenuPage() {
       }
       return true;
     });
-  }, [selectedCategory, selectedDietary, searchQuery]);
+  }, [menuItems, selectedCategory, selectedDietary, searchQuery]);
 
   const menuJsonLd = {
     "@context": "https://schema.org",
@@ -131,7 +147,7 @@ export default function MenuPage() {
             <span className="relative z-10">All</span>
           </button>
 
-          {MOCK_CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}

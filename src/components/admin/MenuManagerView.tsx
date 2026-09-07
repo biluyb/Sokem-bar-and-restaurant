@@ -17,14 +17,23 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
-import { MOCK_MENU_ITEMS, MOCK_CATEGORIES } from "@/lib/data";
-import { MenuItem, DietaryFlag } from "@/types";
+import { MenuItem, MenuCategory, DietaryFlag } from "@/types";
+import { MOCK_CATEGORIES, MOCK_MENU_ITEMS } from "@/lib/data";
 import { formatPrice } from "@/lib/utils";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import {
+  createMenuItemAction,
+  updateMenuItemAction,
+  deleteMenuItemAction,
+  toggleMenuItemAvailableAction,
+} from "@/lib/actions/menu";
+import { Upload } from "lucide-react";
 
 interface MenuManagerViewProps {
   user: AuthSessionPayload;
+  initialItems?: MenuItem[];
+  initialCategories?: MenuCategory[];
 }
 
 const ALL_DIETARY_FLAGS: DietaryFlag[] = [
@@ -35,11 +44,18 @@ const ALL_DIETARY_FLAGS: DietaryFlag[] = [
   "Vegan",
 ];
 
-export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
-  const [items, setItems] = useState<MenuItem[]>(MOCK_MENU_ITEMS);
+export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
+  user,
+  initialItems,
+  initialCategories,
+}) => {
+  const categories = initialCategories || MOCK_CATEGORIES;
+  const [items, setItems] = useState<MenuItem[]>(initialItems || MOCK_MENU_ITEMS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "available" | "sold_out">("all");
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,17 +91,60 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
     });
   }, [items, selectedCategory, statusFilter, searchQuery]);
 
-  const toggleStock = (id: string) => {
+  const toggleStock = async (id: string) => {
+    const item = items.find((i) => i.id === id);
+    if (!item) return;
+    const newStatus = !item.isAvailable;
+    // Optimistic update
     setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, isAvailable: !item.isAvailable } : item
-      )
+      prev.map((i) => (i.id === id ? { ...i, isAvailable: newStatus } : i))
     );
+    try {
+      await toggleMenuItemAvailableAction(id, newStatus);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to remove this dish from the menu?")) {
       setItems((prev) => prev.filter((i) => i.id !== id));
+      try {
+        await deleteMenuItemAction(id);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const data = new FormData();
+      data.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      });
+
+      const json = await res.json();
+      if (res.ok && json.url) {
+        setFormData((prev) => ({
+          ...prev,
+          imageUrl: json.url,
+        }));
+      } else {
+        alert(json.error || "Failed to upload image");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error uploading file");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -93,7 +152,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
     setEditingItemId(null);
     setFormData({
       title: "",
-      categoryId: MOCK_CATEGORIES[0].id,
+      categoryId: categories[0]?.id || "starters",
       price: 350,
       description: "",
       imageUrl: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
@@ -117,9 +176,9 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
     setIsModalOpen(true);
   };
 
-  const handleSaveDish = (e: React.FormEvent) => {
+  const handleSaveDish = async (e: React.FormEvent) => {
     e.preventDefault();
-    const category = MOCK_CATEGORIES.find((c) => c.id === formData.categoryId);
+    const category = categories.find((c) => c.id === formData.categoryId);
     const categoryName = category ? category.name : "Specials";
 
     if (editingItemId) {
@@ -134,6 +193,19 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
             : item
         )
       );
+      try {
+        await updateMenuItemAction(editingItemId, {
+          title: formData.title,
+          categoryId: formData.categoryId,
+          price: Number(formData.price),
+          description: formData.description,
+          imageUrl: formData.imageUrl,
+          dietaryFlags: formData.dietaryFlags,
+          isAvailable: formData.isAvailable,
+        });
+      } catch (err) {
+        console.error(err);
+      }
     } else {
       const newItem: MenuItem = {
         id: `dish-${Date.now()}`,
@@ -149,6 +221,24 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
         isFeatured: false,
       };
       setItems((prev) => [newItem, ...prev]);
+      try {
+        const res = await createMenuItemAction({
+          title: formData.title,
+          categoryId: formData.categoryId,
+          price: Number(formData.price),
+          description: formData.description,
+          imageUrl: formData.imageUrl,
+          dietaryFlags: formData.dietaryFlags,
+          isAvailable: formData.isAvailable,
+        });
+        if (res.success && res.data) {
+          setItems((prev) =>
+            prev.map((i) => (i.id === newItem.id ? { ...i, id: res.data!.id } : i))
+          );
+        }
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     setIsModalOpen(false);
@@ -213,7 +303,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
             className="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
           >
             <option value="all">All Categories ({items.length})</option>
-            {MOCK_CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name} ({items.filter((i) => i.categoryId === cat.id).length})
               </option>
@@ -412,7 +502,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
                 onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                 className="w-full py-2.5 px-3 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-gold"
               >
-                {MOCK_CATEGORIES.map((cat) => (
+                {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
                   </option>
@@ -438,13 +528,38 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({ user }) => {
             required
           />
 
-          <Input
-            label="Image URL *"
-            placeholder="https://images.unsplash.com/..."
-            value={formData.imageUrl}
-            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-            required
-          />
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+              Dish Image (Upload or URL) *
+            </label>
+            <div className="flex gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={isUploading}
+                onClick={() => fileInputRef.current?.click()}
+                className="gap-1.5 shrink-0"
+              >
+                <Upload className="w-3.5 h-3.5 text-gold" />
+                <span>{isUploading ? "Uploading..." : "Upload File"}</span>
+              </Button>
+              <Input
+                placeholder="https://images.unsplash.com/... or /uploads/..."
+                value={formData.imageUrl}
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                required
+                className="flex-1"
+              />
+            </div>
+          </div>
 
           <div>
             <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">
