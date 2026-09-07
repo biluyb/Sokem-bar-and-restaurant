@@ -20,7 +20,7 @@ async function main() {
 
   const admin = await prisma.user.upsert({
     where: { email: "admin@sokem-restaurant.com" },
-    update: {},
+    update: { passwordHash: adminPasswordHash, isActive: true },
     create: {
       email: "admin@sokem-restaurant.com",
       name: "Sokem Operations Director",
@@ -32,7 +32,7 @@ async function main() {
 
   const staff = await prisma.user.upsert({
     where: { email: "staff@sokem-restaurant.com" },
-    update: {},
+    update: { passwordHash: staffPasswordHash, isActive: true },
     create: {
       email: "staff@sokem-restaurant.com",
       name: "Sokem Staff Member",
