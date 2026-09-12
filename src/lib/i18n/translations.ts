@@ -56,6 +56,14 @@ export interface TranslationDictionary {
     clearFilter: string;
     noItemsFound: string;
     viewDetails: string;
+    orderNow: string;
+    orderModalTitle: string;
+    orderModalSubtitle: string;
+    callToOrder: string;
+    copyNumber: string;
+    copied: string;
+    orderHoursNotice: string;
+    kitchenDirect: string;
     ingredients: string;
     dietary: {
       chefSpecial: string;
@@ -224,6 +232,14 @@ export const translations: Record<Locale, TranslationDictionary> = {
       clearFilter: "Clear filter",
       noItemsFound: "No menu items match your search criteria.",
       viewDetails: "View Details",
+      orderNow: "Order Now",
+      orderModalTitle: "Order by Phone",
+      orderModalSubtitle: "Call our kitchen directly to place your order for takeout or table-ready dining.",
+      callToOrder: "Call to Order",
+      copyNumber: "Copy Number",
+      copied: "Copied!",
+      orderHoursNotice: "Kitchen & Bar open daily: 6:00 AM – 11:30 PM",
+      kitchenDirect: "Direct Kitchen Line",
       ingredients: "Key Ingredients",
       dietary: {
         chefSpecial: "Chef Special",
@@ -393,6 +409,14 @@ export const translations: Record<Locale, TranslationDictionary> = {
       clearFilter: "ማጣሪያን አጽዳ",
       noItemsFound: "የተፈለገው የምግብ ዓይነት አልተገኘም።",
       viewDetails: "ዝርዝር ይመልከቱ",
+      orderNow: "አሁን ይዘዙ",
+      orderModalTitle: "በስልክ ይዘዙ",
+      orderModalSubtitle: "ምግብ ለማዘዝ ወይም ለውሰድ ትዕዛዝ በቀጥታ ወደ ኩሽናችን ይደውሉ።",
+      callToOrder: "ለመዘዝ ይደውሉ",
+      copyNumber: "ስልክ ቁጥር ቅዳ",
+      copied: "ተቀድቷል!",
+      orderHoursNotice: "የኩሽና እና ባር ክፍት ሰዓት፡ በየቀኑ ከጠዋቱ 12:00 እስከ ማታ 5:30",
+      kitchenDirect: "የኩሽና ቀጥታ ስልክ",
       ingredients: "ዋና ይዘቶች",
       dietary: {
         chefSpecial: "የሼፍ ልዩ",

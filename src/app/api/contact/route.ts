@@ -50,15 +50,25 @@ export async function POST(request: Request) {
     const contactRecipient = process.env.CONTACT_EMAIL || "biluquick123@gmail.com";
 
     if (smtpHost && smtpUser && smtpPass) {
-      const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpPort === 465,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass,
-        },
-      });
+      const cleanPass = smtpPass.replace(/\s+/g, "");
+      const isGmail = smtpHost === "smtp.gmail.com" || smtpUser.endsWith("@gmail.com");
+      const transporter = isGmail
+        ? nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: smtpUser,
+              pass: cleanPass,
+            },
+          })
+        : nodemailer.createTransport({
+            host: smtpHost,
+            port: smtpPort,
+            secure: smtpPort === 465,
+            auth: {
+              user: smtpUser,
+              pass: cleanPass,
+            },
+          });
 
       await transporter.sendMail({
         from: `"${name}" <${smtpUser}>`,

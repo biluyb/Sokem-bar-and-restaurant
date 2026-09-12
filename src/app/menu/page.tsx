@@ -3,11 +3,13 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Utensils, X, Eye } from "lucide-react";
+import { Search, Utensils, X, Eye, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
+import { OrderPhoneModal } from "@/components/ui/OrderPhoneModal";
+import { SOKEM_CONFIG } from "@/config/site";
 import { MOCK_CATEGORIES, MOCK_MENU_ITEMS } from "@/lib/data";
 import { MenuItem, DietaryFlag } from "@/types";
 import { formatPrice } from "@/lib/utils";
@@ -29,6 +31,7 @@ export default function MenuPage() {
   const [selectedDietary, setSelectedDietary] = useState<DietaryFlag | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeItemModal, setActiveItemModal] = useState<MenuItem | null>(null);
+  const [orderModalItem, setOrderModalItem] = useState<MenuItem | null>(null);
 
   React.useEffect(() => {
     fetch("/api/menu")
@@ -124,6 +127,20 @@ export default function MenuPage() {
         <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
           {t.menu.subtitle}
         </p>
+
+        {/* Direct Phone Order Pill */}
+        <div className="pt-2 flex justify-center">
+          <button
+            onClick={() => setOrderModalItem(menuItems[0] || null)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 hover:border-amber-500/60 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-colors shadow-sm cursor-pointer"
+          >
+            <Phone className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
+            <span>{locale === "am" ? "በቀጥታ በስልክ ለማዘዝ፦" : "Direct Kitchen Order Line:"}</span>
+            <span className="font-bold text-amber-700 dark:text-gold hover:underline">
+              {SOKEM_CONFIG.phone}
+            </span>
+          </button>
+        </div>
       </motion.div>
 
       {/* Search & Category Tabs */}
@@ -277,17 +294,30 @@ export default function MenuPage() {
                     </CardContent>
                   </div>
 
-                  <div className="px-6 pb-6 pt-0 flex items-center justify-between text-xs text-slate-500 dark:text-gray-400">
-                    <span className="font-medium">{item.categoryName}</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveItemModal(item);
-                      }}
-                      className="text-amber-700 dark:text-gold font-semibold hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      {t.common.viewDetails} →
-                    </button>
+                  <div className="px-6 pb-6 pt-3 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-gray-400">
+                    <span className="font-medium truncate">{item.categoryName}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveItemModal(item);
+                        }}
+                        className="text-amber-700 dark:text-gold font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        {t.common.viewDetails}
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOrderModalItem(item);
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 shadow-sm transition-all cursor-pointer"
+                        title={t.menu.orderNow}
+                      >
+                        <Phone className="w-3 h-3" />
+                        <span>{t.menu.orderNow}</span>
+                      </button>
+                    </div>
                   </div>
                 </Card>
               </motion.div>
@@ -352,18 +382,38 @@ export default function MenuPage() {
               ))}
             </div>
 
-            <div className="pt-4 flex justify-end">
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
               <Button
-                variant="primary"
+                variant="outline"
                 size="sm"
                 onClick={() => setActiveItemModal(null)}
               >
                 {t.common.close}
               </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => {
+                  const it = activeItemModal;
+                  setActiveItemModal(null);
+                  setOrderModalItem(it);
+                }}
+                className="gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold"
+              >
+                <Phone className="w-4 h-4" />
+                <span>{t.menu.orderNow} ({SOKEM_CONFIG.phone})</span>
+              </Button>
             </div>
           </div>
         </Modal>
       )}
+
+      {/* Order Now Phone Dialog */}
+      <OrderPhoneModal
+        isOpen={!!orderModalItem}
+        onClose={() => setOrderModalItem(null)}
+        item={orderModalItem}
+      />
     </div>
   );
 }

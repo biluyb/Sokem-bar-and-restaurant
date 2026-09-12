@@ -22,7 +22,9 @@ import { SOKEM_CONFIG } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { OrderPhoneModal } from "@/components/ui/OrderPhoneModal";
 import { MOCK_MENU_ITEMS, MOCK_EVENTS } from "@/lib/data";
+import { MenuItem } from "@/types";
 import { formatPrice } from "@/lib/utils";
 import { useLanguage } from "@/components/ui/LanguageContext";
 
@@ -30,6 +32,7 @@ export default function HomePage() {
   const { t, locale } = useLanguage();
   const [items, setItems] = React.useState(MOCK_MENU_ITEMS);
   const [events, setEvents] = React.useState(MOCK_EVENTS);
+  const [orderModalItem, setOrderModalItem] = React.useState<MenuItem | null>(null);
 
   React.useEffect(() => {
     fetch("/api/menu")
@@ -303,11 +306,21 @@ export default function HomePage() {
                   </CardContent>
                 </div>
 
-                <div className="px-6 pb-6 pt-0 flex items-center justify-between text-xs text-slate-500 dark:text-gray-400">
-                  <span>{item.categoryName}</span>
-                  <Link href="/menu" className="text-amber-700 dark:text-gold font-semibold hover:underline flex items-center gap-1">
-                    {t.common.viewDetails} →
-                  </Link>
+                <div className="px-6 pb-6 pt-3 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-gray-400">
+                  <span className="truncate">{item.categoryName}</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Link href="/menu" className="text-amber-700 dark:text-gold font-semibold hover:underline flex items-center gap-1">
+                      {t.common.viewDetails}
+                    </Link>
+                    <button
+                      onClick={() => setOrderModalItem(item)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 shadow-sm transition-all cursor-pointer"
+                      title={t.menu.orderNow}
+                    >
+                      <Phone className="w-3 h-3" />
+                      <span>{t.menu.orderNow}</span>
+                    </button>
+                  </div>
                 </div>
               </Card>
             </motion.div>
@@ -406,6 +419,13 @@ export default function HomePage() {
           </div>
         </motion.div>
       </section>
+
+      {/* Order Phone Dialog */}
+      <OrderPhoneModal
+        isOpen={!!orderModalItem}
+        onClose={() => setOrderModalItem(null)}
+        item={orderModalItem}
+      />
     </div>
   );
 }
