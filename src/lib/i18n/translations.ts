@@ -159,6 +159,9 @@ export interface TranslationDictionary {
     locationContact: string;
     viewMap: string;
     rightsReserved: string;
+    hours: string;
+    findUs: string;
+    getDirections: string;
   };
 }
 
@@ -323,10 +326,13 @@ export const translations: Record<Locale, TranslationDictionary> = {
     },
     footer: {
       tagline: "Fine Dining & Cocktail Lounge",
-      explore: "Explore",
-      locationContact: "Location & Contact",
+      explore: "Dining & Experiences",
+      locationContact: "Hours & Contact",
       viewMap: "View on Google Maps →",
       rightsReserved: "All rights reserved.",
+      hours: "Operating Hours",
+      findUs: "Location & Map",
+      getDirections: "Get Directions on Google Maps",
     },
   },
   am: {
@@ -489,10 +495,13 @@ export const translations: Record<Locale, TranslationDictionary> = {
     },
     footer: {
       tagline: "ዘመናዊ ምግብና ኮክቴል ላውንጅ",
-      explore: "ማሰሻ",
-      locationContact: "አድራሻ እና ግንኙነት",
+      explore: "ምግቦች እና ዝግጅቶች",
+      locationContact: "የስራ ሰዓትና አድራሻ",
       viewMap: "በጉግል ካርታ ይመልከቱ →",
       rightsReserved: "መብቱ በህግ የተጠበቀ ነው።",
+      hours: "የስራ ሰዓታት",
+      findUs: "አድራሻ እና ካርታ",
+      getDirections: "አቅጣጫ በጉግል ካርታ ይመልከቱ",
     },
   },
 };
