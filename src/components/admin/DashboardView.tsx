@@ -60,17 +60,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <Link href="/admin/reservations" className="block group">
-          <Card className="p-6 transition-colors group-hover:border-gold/50">
+          <Card className="p-6 transition-colors group-hover:border-amber-500/50 dark:group-hover:border-gold/50">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">
+              <span className="text-xs uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">
                 Tonight&apos;s Covers
               </span>
-              <Calendar className="w-5 h-5 text-gold" />
+              <Calendar className="w-5 h-5 text-amber-600 dark:text-gold" />
             </div>
-            <div className="font-serif text-3xl font-bold text-white mt-2">12 Guests</div>
+            <div className="font-serif text-3xl font-bold text-slate-900 dark:text-white mt-2">12 Guests</div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-xs text-emerald-400 block">3 Tables Confirmed</span>
-              <span className="text-xs text-gold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium block">3 Tables Confirmed</span>
+              <span className="text-xs text-amber-700 dark:text-gold font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                 Manage <ArrowRight className="w-3 h-3" />
               </span>
             </div>
@@ -78,19 +78,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
         </Link>
 
         <Link href="/admin/menu" className="block group">
-          <Card className="p-6 transition-colors group-hover:border-gold/50">
+          <Card className="p-6 transition-colors group-hover:border-amber-500/50 dark:group-hover:border-gold/50">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">
+              <span className="text-xs uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">
                 Menu Items Active
               </span>
-              <Utensils className="w-5 h-5 text-gold" />
+              <Utensils className="w-5 h-5 text-amber-600 dark:text-gold" />
             </div>
-            <div className="font-serif text-3xl font-bold text-white mt-2">
+            <div className="font-serif text-3xl font-bold text-slate-900 dark:text-white mt-2">
               {menuItems.filter((i) => i.isAvailable).length} / {menuItems.length}
             </div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-xs text-slate-400 block">Real-time sync active</span>
-              <span className="text-xs text-gold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block">Real-time sync active</span>
+              <span className="text-xs text-amber-700 dark:text-gold font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                 Manage <ArrowRight className="w-3 h-3" />
               </span>
             </div>
@@ -98,17 +98,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
         </Link>
 
         <Link href="/admin/events" className="block group">
-          <Card className="p-6 transition-colors group-hover:border-gold/50">
+          <Card className="p-6 transition-colors group-hover:border-amber-500/50 dark:group-hover:border-gold/50">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">
+              <span className="text-xs uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">
                 Special Events
               </span>
-              <Wine className="w-5 h-5 text-gold" />
+              <Wine className="w-5 h-5 text-amber-600 dark:text-gold" />
             </div>
-            <div className="font-serif text-3xl font-bold text-white mt-2">{MOCK_EVENTS.length} Scheduled</div>
+            <div className="font-serif text-3xl font-bold text-slate-900 dark:text-white mt-2">{MOCK_EVENTS.length} Scheduled</div>
             <div className="flex items-center justify-between mt-2">
-              <span className="text-xs text-gold block">Cand Night this Thursday</span>
-              <span className="text-xs text-gold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              <span className="text-xs text-amber-700 dark:text-gold block font-medium">Candlelight Night</span>
+              <span className="text-xs text-amber-700 dark:text-gold font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                 Manage <ArrowRight className="w-3 h-3" />
               </span>
             </div>
@@ -118,17 +118,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
 
       {/* Section 1: Live Menu Stock & Availability Manager */}
       <Card className="overflow-hidden">
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 className="font-serif text-lg font-bold text-white">
+            <h2 className="font-serif text-lg font-bold text-slate-900 dark:text-white">
               Menu Availability & Stock Status
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Toggle items in/out of stock. Changes reflect immediately on public customer menu.
             </p>
           </div>
           <Link href="/admin/menu">
-            <Button size="sm" variant="outline" className="text-xs gap-1.5 text-gold border-gold/30 hover:bg-gold/10">
+            <Button size="sm" variant="outline" className="text-xs gap-1.5">
               <Utensils className="w-3.5 h-3.5" />
               Open Full Menu Manager
             </Button>
@@ -136,8 +136,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
         </CardHeader>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/90 text-xs uppercase text-slate-400 border-b border-slate-800">
+          <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
+            <thead className="bg-slate-100 dark:bg-slate-900/90 text-xs uppercase text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="px-6 py-3">Dish / Item</th>
                 <th className="px-6 py-3">Category</th>
@@ -146,12 +146,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
                 <th className="px-6 py-3 text-right">Stock Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800">
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               {menuItems.slice(0, 5).map((item) => (
-                <tr key={item.id} className="hover:bg-slate-800/40 transition-colors">
-                  <td className="px-6 py-4 font-medium text-white">{item.title}</td>
-                  <td className="px-6 py-4 text-xs text-slate-400">{item.categoryName}</td>
-                  <td className="px-6 py-4 font-mono text-gold">
+                <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                  <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{item.title}</td>
+                  <td className="px-6 py-4 text-xs text-slate-500 dark:text-slate-400">{item.categoryName}</td>
+                  <td className="px-6 py-4 font-mono font-semibold text-amber-700 dark:text-gold">
                     {formatPrice(item.price, item.currency)}
                   </td>
                   <td className="px-6 py-4">
@@ -180,17 +180,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
 
       {/* Section 2: Incoming Table Reservations */}
       <Card className="overflow-hidden">
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 className="font-serif text-lg font-bold text-white">
+            <h2 className="font-serif text-lg font-bold text-slate-900 dark:text-white">
               Upcoming Seating Reservations
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Review guest bookings, confirm seatings, or cancel reservations.
             </p>
           </div>
           <Link href="/admin/reservations">
-            <Button size="sm" variant="outline" className="text-xs gap-1.5 text-gold border-gold/30 hover:bg-gold/10">
+            <Button size="sm" variant="outline" className="text-xs gap-1.5">
               <Calendar className="w-3.5 h-3.5" />
               Open Full Reservations Manager
             </Button>
@@ -198,8 +198,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
         </CardHeader>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/90 text-xs uppercase text-slate-400 border-b border-slate-800">
+          <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
+            <thead className="bg-slate-100 dark:bg-slate-900/90 text-xs uppercase text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="px-6 py-3">Guest Name</th>
                 <th className="px-6 py-3">Party Size</th>
@@ -208,12 +208,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
                 <th className="px-6 py-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800">
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               {reservations.map((res) => (
-                <tr key={res.id} className="hover:bg-slate-800/40 transition-colors">
-                  <td className="px-6 py-4 font-medium text-white">{res.name}</td>
-                  <td className="px-6 py-4 text-xs text-slate-300">{res.guests} Guests</td>
-                  <td className="px-6 py-4 text-xs text-slate-400">{res.time}</td>
+                <tr key={res.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                  <td className="px-6 py-4 font-medium text-slate-900 dark:text-white">{res.name}</td>
+                  <td className="px-6 py-4 text-xs text-slate-700 dark:text-slate-300">{res.guests} Guests</td>
+                  <td className="px-6 py-4 text-xs text-slate-500 dark:text-slate-400">{res.time}</td>
                   <td className="px-6 py-4">
                     {res.status === "CONFIRMED" && <Badge variant="success">Confirmed</Badge>}
                     {res.status === "PENDING" && <Badge variant="gold">Pending</Badge>}
@@ -236,7 +236,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ user }) => {
                         size="sm"
                         variant="ghost"
                         onClick={() => updateReservationStatus(res.id, "CANCELLED")}
-                        className="text-xs text-rose-400 hover:text-rose-300 px-2.5 py-1"
+                        className="text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-2.5 py-1"
                       >
                         <X className="w-3.5 h-3.5 mr-1" />
                         Cancel

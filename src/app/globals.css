@@ -5,23 +5,26 @@
 :root {
   --bg-main: #0E1015;
   --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
   --card-bg: rgba(22, 25, 34, 0.75);
   --card-border: rgba(255, 255, 255, 0.1);
   --radial-bg: radial-gradient(circle at 50% 0%, #1A1D27 0%, #0E1015 70%);
 }
 
 html.light {
-  --bg-main: #F8F9FA;
+  --bg-main: #FAF9F6;
   --text-main: #0F172A;
-  --card-bg: rgba(255, 255, 255, 0.95);
-  --card-border: rgba(15, 23, 42, 0.12);
-  --radial-bg: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F1F5F9 100%);
+  --text-muted: #475569;
+  --card-bg: #FFFFFF;
+  --card-border: rgba(15, 23, 42, 0.08);
+  --radial-bg: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F5F3EF 100%);
   color-scheme: light;
 }
 
 html.dark {
   --bg-main: #0E1015;
   --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
   --card-bg: rgba(22, 25, 34, 0.75);
   --card-border: rgba(255, 255, 255, 0.1);
   --radial-bg: radial-gradient(circle at 50% 0%, #1A1D27 0%, #0E1015 70%);
@@ -44,8 +47,15 @@ html.dark {
     background: var(--radial-bg);
   }
 
-  h1, h2, h3 {
+  h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-playfair), "Nyala", Georgia, serif;
+    color: var(--text-main);
+  }
+
+  /* Ensure Ethiopic text has adequate line height and doesn't get squished */
+  [lang="am"] {
+    line-height: 1.6;
+    word-break: normal;
   }
 }
 
@@ -59,15 +69,19 @@ html.dark {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #94A3B8;
   border-radius: 3px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #F59E0B;
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
 }
 
-/* Luminous Glass Cards */
+::-webkit-scrollbar-thumb:hover {
+  background: #D97706;
+}
+
+/* Luxury Cards */
 .luminous-card {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
@@ -78,12 +92,19 @@ html.dark {
 }
 
 html.light .luminous-card {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
 }
 
 .luminous-card:hover {
   border-color: rgba(245, 158, 11, 0.4);
   box-shadow: 0 15px 40px -10px rgba(245, 158, 11, 0.15);
+}
+
+html.light .luminous-card:hover {
+  border-color: rgba(217, 119, 6, 0.4);
+  box-shadow: 0 12px 30px -4px rgba(217, 119, 6, 0.12);
 }
 
 /* Floating Animation */
@@ -98,6 +119,12 @@ html.light .luminous-card {
 
 /* Golden Gradient Text */
 .gold-gradient {
+  background: linear-gradient(135deg, #B45309 0%, #D97706 50%, #B45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.dark .gold-gradient {
   background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #D97706 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { Calendar as CalendarIcon, Clock, Users, CheckCircle2, AlertCircle, Sparkles, Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { Card } from "@/components/ui/Card";
 import { SOKEM_CONFIG } from "@/config/site";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 const TIME_SLOTS = [
   "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM",
@@ -15,6 +15,7 @@ const TIME_SLOTS = [
 ];
 
 export default function ReservationsPage() {
+  const { t } = useLanguage();
   const [partySize, setPartySize] = useState<number>(2);
   const [date, setDate] = useState<string>("");
   const [timeSlot, setTimeSlot] = useState<string>("");
@@ -33,23 +34,23 @@ export default function ReservationsPage() {
     setErrorMessage("");
 
     if (!date) {
-      setErrorMessage("Please choose a reservation date.");
+      setErrorMessage(t.reservations.dateRequired);
       return;
     }
     if (!timeSlot) {
-      setErrorMessage("Please select a dining time slot.");
+      setErrorMessage(t.reservations.timeRequired);
       return;
     }
     if (!name.trim()) {
-      setErrorMessage("Please enter your name.");
+      setErrorMessage(t.reservations.nameRequired);
       return;
     }
     if (!email.trim() || !email.includes("@")) {
-      setErrorMessage("Please provide a valid email address.");
+      setErrorMessage(t.reservations.emailRequired);
       return;
     }
     if (!phone.trim()) {
-      setErrorMessage("Please provide a contact phone number.");
+      setErrorMessage(t.reservations.phoneRequired);
       return;
     }
 
@@ -71,16 +72,16 @@ export default function ReservationsPage() {
         transition={{ duration: 0.6 }}
         className="text-center space-y-3"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-amber-600/30 dark:border-gold/30 text-amber-900 dark:text-gold text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Online Reservations</span>
+          <span>{t.reservations.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-5xl font-bold text-white tracking-tight">
-          Book a Table at Sokem
+        <h1 className="font-serif text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
+          {t.reservations.title}
         </h1>
-        <p className="text-gray-300 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-          Reserve your dining experience online or call us directly at{" "}
-          <a href={`tel:${SOKEM_CONFIG.phone.replace(/\s+/g, "")}`} className="text-gold font-semibold hover:underline">
+        <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+          {t.reservations.subtitle}{" "}
+          <a href={`tel:${SOKEM_CONFIG.phone.replace(/\s+/g, "")}`} className="text-amber-700 dark:text-gold font-semibold hover:underline">
             {SOKEM_CONFIG.phone}
           </a>.
         </p>
@@ -92,37 +93,36 @@ export default function ReservationsPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="luminous-card p-8 sm:p-12 text-center space-y-6 max-w-xl mx-auto border border-gold/40 rounded-3xl"
+          className="luminous-card p-8 sm:p-12 text-center space-y-6 max-w-xl mx-auto border border-amber-500/40 dark:border-gold/40 rounded-3xl"
         >
-          <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
+          <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <div className="space-y-2">
-            <h2 className="font-serif text-3xl font-bold text-white">
-              Reservation Confirmed!
-            </h2>
-            <p className="text-sm text-gray-300">
-              We look forward to welcoming you. A confirmation was sent to{" "}
-              <span className="text-gold font-semibold">{email}</span>.
+            <h3 className="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+              {t.reservations.successTitle}
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-gray-300">
+              {t.reservations.successMessage}
             </p>
           </div>
 
-          <div className="bg-canvas-lighter rounded-2xl p-5 border border-white/[0.1] text-left space-y-2.5 text-sm">
-            <div className="flex justify-between border-b border-white/[0.08] pb-2">
-              <span className="text-gray-400">Confirmation Code:</span>
-              <span className="font-mono text-gold font-bold">{confirmationCode}</span>
-            </div>
-            <div className="flex justify-between border-b border-white/[0.08] pb-2">
-              <span className="text-gray-400">Guest Name:</span>
-              <span className="text-white font-medium">{name}</span>
-            </div>
-            <div className="flex justify-between border-b border-white/[0.08] pb-2">
-              <span className="text-gray-400">Party Size:</span>
-              <span className="text-white font-medium">{partySize} Guests</span>
+          <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-white/[0.1] text-xs space-y-2 text-left">
+            <div className="flex justify-between">
+              <span className="text-slate-500 dark:text-gray-400">{t.reservations.bookingCode}:</span>
+              <span className="font-mono font-bold text-amber-700 dark:text-gold">{confirmationCode}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-400">Date & Time:</span>
-              <span className="text-white font-medium">{date} at {timeSlot}</span>
+              <span className="text-slate-500 dark:text-gray-400">{t.reservations.fullName}:</span>
+              <span className="text-slate-900 dark:text-white font-medium">{name}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500 dark:text-gray-400">{t.reservations.stepPartySize}:</span>
+              <span className="text-slate-900 dark:text-white font-medium">{partySize} {t.reservations.guests}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500 dark:text-gray-400">{t.reservations.stepDateTime}:</span>
+              <span className="text-slate-900 dark:text-white font-medium">{date} @ {timeSlot}</span>
             </div>
           </div>
 
@@ -135,11 +135,11 @@ export default function ReservationsPage() {
               setSpecialNotes("");
             }}
           >
-            Make Another Booking
+            {t.reservations.makeAnother}
           </Button>
         </motion.div>
       ) : (
-        /* Simple, Clean Booking Form */
+        /* Booking Form */
         <motion.form
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -148,7 +148,7 @@ export default function ReservationsPage() {
           className="space-y-8"
         >
           {errorMessage && (
-            <div className="p-4 rounded-xl bg-rose-950/50 border border-rose-800/80 text-rose-300 text-sm flex items-center gap-3">
+            <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800/80 text-rose-800 dark:text-rose-300 text-sm flex items-center gap-3">
               <AlertCircle className="w-5 h-5 shrink-0" />
               <span>{errorMessage}</span>
             </div>
@@ -156,9 +156,9 @@ export default function ReservationsPage() {
 
           {/* 1. Party Size */}
           <div className="luminous-card p-6 sm:p-8 rounded-3xl space-y-4">
-            <label className="text-sm font-semibold uppercase tracking-wider text-gray-200 flex items-center gap-2">
-              <Users className="w-4 h-4 text-gold" />
-              1. Select Party Size
+            <label className="text-sm font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-200 flex items-center gap-2">
+              <Users className="w-4 h-4 text-amber-600 dark:text-gold" />
+              {t.reservations.stepPartySize}
             </label>
             <div className="flex flex-wrap gap-2.5">
               {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((size) => (
@@ -166,10 +166,10 @@ export default function ReservationsPage() {
                   type="button"
                   key={size}
                   onClick={() => setPartySize(size)}
-                  className={`w-12 h-12 rounded-2xl text-sm font-bold transition-all ${
+                  className={`w-12 h-12 rounded-2xl text-sm font-bold transition-all cursor-pointer ${
                     partySize === size
-                      ? "bg-gold text-slate-950 shadow-glow scale-105"
-                      : "bg-canvas-lighter text-gray-300 hover:text-white border border-white/[0.1] hover:border-gold/30"
+                      ? "bg-gold text-slate-950 shadow-sm scale-105"
+                      : "bg-slate-100 dark:bg-canvas-lighter text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-white/[0.1] hover:border-amber-500/40 dark:hover:border-gold/30"
                   }`}
                 >
                   {size}
@@ -180,9 +180,9 @@ export default function ReservationsPage() {
 
           {/* 2. Date & Time */}
           <div className="luminous-card p-6 sm:p-8 rounded-3xl space-y-6">
-            <label className="text-sm font-semibold uppercase tracking-wider text-gray-200 flex items-center gap-2">
-              <CalendarIcon className="w-4 h-4 text-gold" />
-              2. Choose Date & Seating Time
+            <label className="text-sm font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-200 flex items-center gap-2">
+              <CalendarIcon className="w-4 h-4 text-amber-600 dark:text-gold" />
+              {t.reservations.stepDateTime}
             </label>
 
             <div className="max-w-xs">
@@ -191,14 +191,14 @@ export default function ReservationsPage() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 min={new Date().toISOString().split("T")[0]}
-                className="w-full px-4 py-3 rounded-xl bg-canvas-lighter border border-white/[0.12] text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold text-sm"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-canvas-lighter border border-slate-300 dark:border-white/[0.12] text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 dark:focus:border-gold focus:ring-1 focus:ring-amber-500 dark:focus:ring-gold text-sm shadow-sm"
               />
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs text-gray-400 font-medium flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-gold" />
-                Available Time Slots
+              <span className="text-xs text-slate-600 dark:text-gray-400 font-medium flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
+                {t.reservations.timeSlots}
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
                 {TIME_SLOTS.map((slot) => (
@@ -206,10 +206,10 @@ export default function ReservationsPage() {
                     type="button"
                     key={slot}
                     onClick={() => setTimeSlot(slot)}
-                    className={`py-2 px-1 rounded-xl text-xs font-semibold transition-all ${
+                    className={`py-2 px-1 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                       timeSlot === slot
-                        ? "bg-gold text-slate-950 shadow-glow"
-                        : "bg-canvas-lighter text-gray-300 hover:text-white border border-white/[0.08]"
+                        ? "bg-gold text-slate-950 shadow-sm"
+                        : "bg-slate-100 dark:bg-canvas-lighter text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-white/[0.08]"
                     }`}
                   >
                     {slot}
@@ -221,57 +221,56 @@ export default function ReservationsPage() {
 
           {/* 3. Contact Details */}
           <div className="luminous-card p-6 sm:p-8 rounded-3xl space-y-4">
-            <label className="text-sm font-semibold uppercase tracking-wider text-gray-200 block border-b border-white/[0.1] pb-3">
-              3. Guest Information
+            <label className="text-sm font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-200 block">
+              {t.reservations.stepContact}
             </label>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
-                label="Your Name *"
-                placeholder="e.g. Michael Smith"
+                label={t.reservations.fullName}
+                placeholder={t.reservations.fullNamePlaceholder}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
               <Input
-                label="Email *"
+                label={t.reservations.emailAddress}
                 type="email"
-                placeholder="michael@example.com"
+                placeholder={t.reservations.emailPlaceholder}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <Input
-                label="Phone Number *"
-                type="tel"
-                placeholder="093 001 4033"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
             </div>
 
+            <Input
+              label={t.reservations.phoneNumber}
+              type="tel"
+              placeholder={t.reservations.phonePlaceholder}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+
             <Textarea
-              label="Special Requests (Optional)"
-              placeholder="e.g. Window table, anniversary celebration, allergy notes..."
+              label={t.reservations.specialNotes}
+              placeholder={t.reservations.specialNotesPlaceholder}
               value={specialNotes}
               onChange={(e) => setSpecialNotes(e.target.value)}
+              rows={3}
             />
           </div>
 
           {/* Submit */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-            <p className="text-xs text-gray-400">
-              * Tables are held for 15 minutes past the booking time.
-            </p>
+          <div className="text-center pt-2">
             <Button
               type="submit"
               variant="primary"
               size="lg"
               isLoading={isSubmitting}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto px-12"
             >
-              Confirm Table Reservation
+              {isSubmitting ? t.reservations.submitting : t.reservations.submitButton}
             </Button>
           </div>
         </motion.form>

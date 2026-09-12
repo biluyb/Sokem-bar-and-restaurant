@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Send, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Mail, Send, CheckCircle2, Sparkles, ExternalLink, Clock } from "lucide-react";
 import { SOKEM_CONFIG } from "@/config/site";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 export default function ContactPage() {
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -53,15 +55,15 @@ export default function ContactPage() {
         transition={{ duration: 0.6 }}
         className="text-center space-y-3 max-w-2xl mx-auto"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-amber-600/30 dark:border-gold/30 text-amber-900 dark:text-gold text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Get in Touch</span>
+          <span>{t.contact.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-white tracking-tight">
-          Location & Inquiries
+        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
+          {t.contact.title}
         </h1>
-        <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-          Reach our hospitality team in Addis Ababa for table questions, private bookings, or special requests.
+        <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
+          {t.contact.subtitle}
         </p>
       </motion.div>
 
@@ -74,42 +76,42 @@ export default function ContactPage() {
           className="lg:col-span-5 space-y-6"
         >
           <Card className="p-8 space-y-6">
-            <h3 className="font-serif text-xl font-bold text-white border-b border-white/[0.08] pb-3">
-              Visit Sokem
+            <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-white/[0.08] pb-3">
+              {t.contact.visitCardTitle}
             </h3>
 
             <div className="space-y-4 text-sm">
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gold/15 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-9 h-9 rounded-xl bg-gold/15 text-amber-700 dark:text-gold flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-xs uppercase font-bold text-gray-400 block">Address</span>
-                  <span className="text-white block font-medium">{SOKEM_CONFIG.address}</span>
-                  <span className="text-gray-300 block">{SOKEM_CONFIG.city}</span>
+                  <span className="text-xs uppercase font-bold text-slate-500 dark:text-gray-400 block">{t.contact.addressHeading}</span>
+                  <span className="text-slate-900 dark:text-white block font-medium">{SOKEM_CONFIG.address}</span>
+                  <span className="text-slate-600 dark:text-gray-300 block">{SOKEM_CONFIG.city}</span>
                   {SOKEM_CONFIG.mapUrl && (
                     <a
                       href={SOKEM_CONFIG.mapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs text-gold hover:underline mt-1 font-semibold"
+                      className="inline-flex items-center gap-1.5 text-xs text-amber-700 dark:text-gold hover:underline mt-1 font-semibold"
                     >
                       <ExternalLink className="w-3 h-3" />
-                      Open Location in Google Maps
+                      {t.common.viewMap}
                     </a>
                   )}
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gold/15 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-9 h-9 rounded-xl bg-gold/15 text-amber-700 dark:text-gold flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                   <Phone className="w-4 h-4" />
                 </div>
-                <div>
-                  <span className="text-xs uppercase font-bold text-gray-400 block">Phone</span>
+                <div className="space-y-1">
+                  <span className="text-xs uppercase font-bold text-slate-500 dark:text-gray-400 block">{t.contact.phoneHeading}</span>
                   <a
                     href={`tel:${SOKEM_CONFIG.phone.replace(/\s+/g, "")}`}
-                    className="text-white hover:text-gold transition-colors font-medium font-mono"
+                    className="text-slate-900 dark:text-white hover:text-amber-700 dark:hover:text-gold transition-colors font-mono font-medium block"
                   >
                     {SOKEM_CONFIG.phone}
                   </a>
@@ -117,129 +119,133 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gold/15 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-9 h-9 rounded-xl bg-gold/15 text-amber-700 dark:text-gold flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                   <Mail className="w-4 h-4" />
                 </div>
-                <div>
-                  <span className="text-xs uppercase font-bold text-gray-400 block">Email</span>
-                  <span className="text-white">{SOKEM_CONFIG.email}</span>
+                <div className="space-y-1">
+                  <span className="text-xs uppercase font-bold text-slate-500 dark:text-gray-400 block">Email Inquiries</span>
+                  <a
+                    href={`mailto:${SOKEM_CONFIG.email}`}
+                    className="text-slate-900 dark:text-white hover:text-amber-700 dark:hover:text-gold transition-colors font-medium block"
+                  >
+                    {SOKEM_CONFIG.email}
+                  </a>
                 </div>
               </div>
             </div>
-          </Card>
 
-          {/* Interactive Map Preview Card */}
-          <Card className="overflow-hidden p-0">
-            <div className="p-4 border-b border-white/[0.08] flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-300 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-gold" />
-                Google Maps Location
+            {/* Operating Hours */}
+            <div className="pt-4 border-t border-slate-200 dark:border-white/[0.08] space-y-3">
+              <span className="text-xs uppercase font-bold text-slate-500 dark:text-gray-400 flex items-center gap-2">
+                <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
+                {t.contact.hoursHeading}
               </span>
-              <a
-                href={SOKEM_CONFIG.mapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-gold hover:underline flex items-center gap-1"
-              >
-                Directions
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-            <div className="relative h-60 w-full bg-canvas-lighter">
-              <iframe
-                title="Sokem Bar & Restaurant Map"
-                src="https://maps.google.com/maps?q=9.0138883,38.7520751&z=17&output=embed"
-                className="w-full h-full border-0 filter brightness-90 contrast-110"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-slate-600 dark:text-gray-300">Monday – Sunday</span>
+                  <span className="text-slate-900 dark:text-white font-medium">{SOKEM_CONFIG.hours.weekdays}</span>
+                </div>
+              </div>
             </div>
           </Card>
         </motion.div>
 
-        {/* Right Column: Clean Inquiry Form */}
+        {/* Right Column: Direct Message Form */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="lg:col-span-7"
         >
           <Card className="p-8 sm:p-10 space-y-6">
-            <h3 className="font-serif text-2xl font-bold text-white border-b border-white/[0.08] pb-4">
-              Send a Direct Message
-            </h3>
+            <div>
+              <h3 className="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+                {t.contact.formCardTitle}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-gray-400 mt-1">
+                {t.contact.formSubtitle}
+              </p>
+            </div>
 
             {isSent ? (
-              <div className="p-8 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
-                  <CheckCircle2 className="w-7 h-7" />
+              <div className="py-12 text-center space-y-4">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h4 className="font-serif text-2xl font-bold text-white">
-                  Message Sent
+                <h4 className="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+                  {t.contact.successTitle}
                 </h4>
-                <p className="text-sm text-gray-300 max-w-sm mx-auto">
-                  Thank you for reaching out. Our concierge team will get back to you shortly.
+                <p className="text-sm text-slate-600 dark:text-gray-300 max-w-md mx-auto">
+                  {t.contact.successMessage}
                 </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setIsSent(false);
-                    setMessage("");
-                    setSubject("");
-                  }}
-                >
-                  Send Another Message
-                </Button>
+                <div className="pt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setIsSent(false);
+                      setName("");
+                      setEmail("");
+                      setSubject("");
+                      setMessage("");
+                    }}
+                  >
+                    {t.contact.sendAnother}
+                  </Button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {errorMessage && (
-                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                  <div className="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800/80 text-rose-800 dark:text-rose-300 text-xs">
                     {errorMessage}
                   </div>
                 )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input
-                    label="Your Name *"
-                    placeholder="e.g. John Doe"
+                    label={t.contact.nameLabel}
+                    placeholder={t.contact.namePlaceholder}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                   />
                   <Input
-                    label="Email Address *"
+                    label={t.contact.emailLabel}
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder={t.contact.emailPlaceholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
+
                 <Input
-                  label="Subject *"
-                  placeholder="e.g. Table Inquiry / Private Event"
+                  label={t.contact.subjectLabel}
+                  placeholder={t.contact.subjectPlaceholder}
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                   required
                 />
+
                 <Textarea
-                  label="Message *"
-                  placeholder="How can we assist you today?"
+                  label={t.contact.messageLabel}
+                  placeholder={t.contact.messagePlaceholder}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  rows={5}
                   required
                 />
+
                 <div className="pt-2">
                   <Button
                     type="submit"
                     variant="primary"
                     size="lg"
                     isLoading={isSubmitting}
-                    className="gap-2 w-full sm:w-auto"
+                    className="w-full sm:w-auto px-8 gap-2"
                   >
                     <Send className="w-4 h-4" />
-                    Send Message
+                    <span>{isSubmitting ? t.contact.sendingButton : t.contact.sendButton}</span>
                   </Button>
                 </div>
               </form>

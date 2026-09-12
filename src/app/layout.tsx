@@ -86,13 +86,14 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var savedTheme = localStorage.getItem('sokem-theme') || 'dark';
+                  var savedTheme = localStorage.getItem('sokem-theme');
                   var root = document.documentElement;
-                  if (savedTheme === 'system') {
-                    var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    root.classList.add(systemDark ? 'dark' : 'light');
+                  if (savedTheme === 'light') {
+                    root.classList.remove('dark');
+                    root.classList.add('light');
                   } else {
-                    root.classList.add(savedTheme);
+                    root.classList.remove('light');
+                    root.classList.add('dark');
                   }
                 } catch (e) {}
               })();
@@ -100,12 +101,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="flex flex-col min-h-screen bg-canvas text-gray-100 font-sans antialiased selection:bg-gold selection:text-slate-950 overflow-x-hidden relative">
+      <body className="flex flex-col min-h-screen bg-canvas text-slate-900 dark:text-gray-100 font-sans antialiased selection:bg-gold selection:text-slate-950 overflow-x-hidden relative transition-colors duration-300">
         <LanguageProvider>
           {/* Soft Warm Lighting Orbs */}
-          <div className="fixed -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold/15 blur-[140px] pointer-events-none rounded-full" />
-          <div className="fixed top-1/2 -right-40 w-[500px] h-[500px] bg-amber-500/10 blur-[150px] pointer-events-none rounded-full" />
-          <div className="fixed -bottom-40 -left-40 w-[600px] h-[500px] bg-gold/10 blur-[150px] pointer-events-none rounded-full" />
+          <div className="fixed -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold/15 dark:bg-gold/15 blur-[140px] pointer-events-none rounded-full opacity-40 dark:opacity-100" />
+          <div className="fixed top-1/2 -right-40 w-[500px] h-[500px] bg-amber-500/10 dark:bg-amber-500/10 blur-[150px] pointer-events-none rounded-full opacity-30 dark:opacity-100" />
+          <div className="fixed -bottom-40 -left-40 w-[600px] h-[500px] bg-gold/10 dark:bg-gold/10 blur-[150px] pointer-events-none rounded-full opacity-30 dark:opacity-100" />
 
           <Header />
           <main className="flex-grow">{children}</main>

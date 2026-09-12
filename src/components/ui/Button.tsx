@@ -20,17 +20,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       primary:
-        "bg-gold text-slate-950 font-semibold hover:bg-gold-hover shadow-glow hover:shadow-glow-lg hover:-translate-y-0.5",
+        "bg-gold text-slate-950 font-semibold hover:bg-gold-hover shadow-md hover:shadow-glow hover:-translate-y-0.5",
       gold:
-        "bg-gold text-slate-950 font-semibold hover:bg-gold-hover shadow-glow hover:shadow-glow-lg hover:-translate-y-0.5",
+        "bg-gold text-slate-950 font-semibold hover:bg-gold-hover shadow-md hover:shadow-glow hover:-translate-y-0.5",
       champagne:
-        "bg-gold text-slate-950 font-semibold hover:bg-gold-hover shadow-glow hover:shadow-glow-lg hover:-translate-y-0.5",
+        "bg-gold text-slate-950 font-semibold hover:bg-gold-hover shadow-md hover:shadow-glow hover:-translate-y-0.5",
       outline:
-        "border border-gold/60 text-gold-light hover:bg-gold hover:text-slate-950 hover:border-gold hover:-translate-y-0.5 transition-colors",
+        "border border-amber-700/60 dark:border-gold/60 text-amber-900 dark:text-gold-light hover:bg-amber-600 hover:text-white dark:hover:bg-gold dark:hover:text-slate-950 hover:border-transparent hover:-translate-y-0.5 transition-colors font-medium",
       brass:
-        "border border-gold/60 text-gold-light hover:bg-gold hover:text-slate-950 hover:border-gold hover:-translate-y-0.5 transition-colors",
+        "border border-amber-700/60 dark:border-gold/60 text-amber-900 dark:text-gold-light hover:bg-amber-600 hover:text-white dark:hover:bg-gold dark:hover:text-slate-950 hover:border-transparent hover:-translate-y-0.5 transition-colors font-medium",
       ghost:
-        "text-slate-300 hover:text-gold hover:bg-white/[0.05]",
+        "text-slate-700 dark:text-slate-300 hover:text-amber-800 dark:hover:text-gold hover:bg-slate-100 dark:hover:bg-white/[0.05]",
     };
 
     return (

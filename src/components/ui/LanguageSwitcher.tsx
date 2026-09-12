@@ -2,26 +2,43 @@
 
 import React from "react";
 import { useLanguage } from "./LanguageContext";
-import { Languages } from "lucide-react";
 
 export const LanguageSwitcher: React.FC<{ className?: string }> = ({
   className = "",
 }) => {
   const { locale, setLocale } = useLanguage();
 
-  const toggleLanguage = () => {
-    setLocale(locale === "en" ? "am" : "en");
-  };
-
   return (
-    <button
-      onClick={toggleLanguage}
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-white/[0.12] text-xs font-semibold text-gray-300 hover:text-gold transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold cursor-pointer ${className}`}
-      aria-label="Toggle language between English and Amharic"
-      title={locale === "en" ? "Switch to Amharic (አማርኛ)" : "Switch to English"}
+    <div
+      role="group"
+      aria-label="Language selector"
+      className={`inline-flex items-center rounded-lg border border-slate-300 dark:border-white/[0.12] bg-slate-100 dark:bg-slate-900/90 p-0.5 text-xs font-semibold ${className}`}
     >
-      <Languages className="w-3.5 h-3.5 text-gold" />
-      <span className="font-mono tracking-wider">{locale === "en" ? "አማ" : "EN"}</span>
-    </button>
+      <button
+        type="button"
+        onClick={() => setLocale("am")}
+        aria-pressed={locale === "am"}
+        className={`px-2 py-1 rounded-md transition-all duration-200 cursor-pointer ${
+          locale === "am"
+            ? "bg-gold text-slate-950 font-bold shadow-sm"
+            : "text-slate-600 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
+        }`}
+      >
+        አማ
+      </button>
+      <span className="text-slate-300 dark:text-white/20 select-none">|</span>
+      <button
+        type="button"
+        onClick={() => setLocale("en")}
+        aria-pressed={locale === "en"}
+        className={`px-2 py-1 rounded-md transition-all duration-200 cursor-pointer font-mono ${
+          locale === "en"
+            ? "bg-gold text-slate-950 font-bold shadow-sm"
+            : "text-slate-600 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
+        }`}
+      >
+        EN
+      </button>
+    </div>
   );
 };

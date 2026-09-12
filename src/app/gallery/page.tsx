@@ -7,10 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Maximize2, X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { MOCK_GALLERY } from "@/lib/data";
 import { GalleryCategory, GalleryItem } from "@/types";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 const CATEGORIES: GalleryCategory[] = ["All", "Culinary", "Cocktails", "Ambience", "Events"];
 
 export default function GalleryPage() {
+  const { t } = useLanguage();
   const [items, setItems] = useState<GalleryItem[]>(MOCK_GALLERY);
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>("All");
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
@@ -75,6 +77,23 @@ export default function GalleryPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeLightboxIndex, handleNext, handlePrev]);
 
+  const getCategoryLabel = (cat: GalleryCategory) => {
+    switch (cat) {
+      case "All":
+        return t.gallery.categories.all;
+      case "Culinary":
+        return t.gallery.categories.culinary;
+      case "Cocktails":
+        return t.gallery.categories.cocktails;
+      case "Ambience":
+        return t.gallery.categories.ambience;
+      case "Events":
+        return t.gallery.categories.events;
+      default:
+        return cat;
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-24 space-y-12">
       {/* Header */}
@@ -84,15 +103,15 @@ export default function GalleryPage() {
         transition={{ duration: 0.6 }}
         className="text-center space-y-3 max-w-2xl mx-auto"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-amber-600/30 dark:border-gold/30 text-amber-900 dark:text-gold text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Photos & Ambience</span>
+          <span>{t.gallery.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-white tracking-tight">
-          Visual Atmosphere
+        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
+          {t.gallery.title}
         </h1>
-        <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-          A vibrant look into our kitchen craft, cocktail bar, and candlelit rooms in Addis Ababa.
+        <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
+          {t.gallery.subtitle}
         </p>
       </motion.div>
 
@@ -105,20 +124,20 @@ export default function GalleryPage() {
               setSelectedCategory(cat);
               setActiveLightboxIndex(null);
             }}
-            className={`relative px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors ${
+            className={`relative px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
               selectedCategory === cat
                 ? "text-slate-950 font-bold"
-                : "text-gray-300 hover:text-white"
+                : "text-slate-600 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
             }`}
           >
             {selectedCategory === cat && (
               <motion.span
                 layoutId="galleryActivePill"
-                className="absolute inset-0 bg-gold rounded-full shadow-glow"
+                className="absolute inset-0 bg-gold rounded-full shadow-sm"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
-            <span className="relative z-10">{cat}</span>
+            <span className="relative z-10">{getCategoryLabel(cat)}</span>
           </button>
         ))}
       </div>
@@ -137,7 +156,7 @@ export default function GalleryPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="group relative h-80 rounded-3xl overflow-hidden cursor-pointer border border-white/[0.1] hover:border-gold/50 transition-all duration-300 shadow-lg"
+              className="group relative h-80 rounded-3xl overflow-hidden cursor-pointer border border-slate-200 dark:border-white/[0.1] hover:border-amber-500/50 dark:hover:border-gold/50 transition-all duration-300 shadow-md"
               onClick={() => setActiveLightboxIndex(index)}
             >
               <Image
@@ -146,7 +165,7 @@ export default function GalleryPage() {
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-6">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-6">
                 <div>
                   <span className="text-xs uppercase font-bold text-gold tracking-wider block">
                     {item.category}
@@ -155,7 +174,7 @@ export default function GalleryPage() {
                     {item.title}
                   </h3>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-gold text-slate-950 flex items-center justify-center shadow-glow">
+                <div className="w-10 h-10 rounded-full bg-gold text-slate-950 flex items-center justify-center shadow-sm">
                   <Maximize2 className="w-4 h-4" />
                 </div>
               </div>
@@ -187,8 +206,8 @@ export default function GalleryPage() {
                   <span className="text-xs uppercase font-bold text-gold tracking-wider bg-gold/15 px-2.5 py-1 rounded-full border border-gold/30">
                     {activeItem.category}
                   </span>
-                  <span className="text-xs text-gray-400">
-                    {activeLightboxIndex + 1} of {filteredItems.length}
+                  <span className="text-xs text-gray-300">
+                    {activeLightboxIndex + 1} {t.gallery.of} {filteredItems.length}
                   </span>
                 </div>
 
@@ -197,10 +216,10 @@ export default function GalleryPage() {
                   ref={closeButtonRef}
                   onClick={() => setActiveLightboxIndex(null)}
                   className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 hover:bg-gold hover:text-slate-950 text-gray-200 border border-white/[0.2] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer shadow-lg"
-                  aria-label="Close image"
+                  aria-label={t.gallery.closeModal}
                 >
                   <X className="w-5 h-5" />
-                  <span className="text-xs font-semibold hidden sm:inline">Close</span>
+                  <span className="text-xs font-semibold hidden sm:inline">{t.common.close}</span>
                 </button>
               </div>
 
@@ -220,7 +239,7 @@ export default function GalleryPage() {
                   <button
                     onClick={handlePrev}
                     className="absolute left-3 sm:left-5 p-2.5 sm:p-3 rounded-full bg-black/60 hover:bg-gold hover:text-slate-950 text-white border border-white/[0.2] transition-colors z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
-                    aria-label="Previous image"
+                    aria-label={t.common.previous}
                   >
                     <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
@@ -231,7 +250,7 @@ export default function GalleryPage() {
                   <button
                     onClick={handleNext}
                     className="absolute right-3 sm:right-5 p-2.5 sm:p-3 rounded-full bg-black/60 hover:bg-gold hover:text-slate-950 text-white border border-white/[0.2] transition-colors z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer"
-                    aria-label="Next image"
+                    aria-label={t.common.next}
                   >
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
@@ -243,7 +262,7 @@ export default function GalleryPage() {
                 <h3 className="font-serif text-lg sm:text-xl font-bold text-white">
                   {activeItem.title}
                 </h3>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs text-gray-300 mt-0.5">
                   {activeItem.alt}
                 </p>
               </div>
