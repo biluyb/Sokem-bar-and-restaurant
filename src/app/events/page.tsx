@@ -64,7 +64,7 @@ export default function EventsPage() {
           <Sparkles className="w-3.5 h-3.5" />
           <span>{t.events.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
           {t.events.title}
         </h1>
         <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
@@ -98,7 +98,7 @@ export default function EventsPage() {
                 )}
               </div>
 
-              <div className="p-8 sm:p-10 lg:col-span-7 flex flex-col justify-between space-y-6">
+              <div className="p-5 sm:p-8 lg:p-10 lg:col-span-7 flex flex-col justify-between space-y-6">
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-4 text-xs text-amber-700 dark:text-gold font-medium">
                     <span className="flex items-center gap-1.5 font-semibold">
@@ -112,7 +112,7 @@ export default function EventsPage() {
                     </span>
                   </div>
 
-                  <h2 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                  <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                     {event.title}
                   </h2>
 

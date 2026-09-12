@@ -121,7 +121,7 @@ export default function MenuPage() {
         <span className="text-xs uppercase font-bold text-amber-700 dark:text-gold tracking-widest bg-gold/10 border border-amber-600/30 dark:border-gold/30 px-3.5 py-1 rounded-full">
           {t.menu.badge}
         </span>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
           {t.menu.title}
         </h1>
         <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
@@ -132,9 +132,9 @@ export default function MenuPage() {
         <div className="pt-2 flex justify-center">
           <button
             onClick={() => setOrderModalItem(menuItems[0] || null)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 hover:border-amber-500/60 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-colors shadow-sm cursor-pointer"
+            className="inline-flex items-center flex-wrap justify-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 hover:border-amber-500/60 text-xs sm:text-sm text-slate-800 dark:text-slate-200 transition-colors shadow-sm cursor-pointer max-w-full text-center"
           >
-            <Phone className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
+            <Phone className="w-3.5 h-3.5 text-amber-600 dark:text-gold shrink-0" />
             <span>{locale === "am" ? "በቀጥታ በስልክ ለማዘዝ፦" : "Direct Kitchen Order Line:"}</span>
             <span className="font-bold text-amber-700 dark:text-gold hover:underline">
               {SOKEM_CONFIG.phone}
@@ -166,10 +166,10 @@ export default function MenuPage() {
         </div>
 
         {/* Animated Category Tabs */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none px-4 -mx-4 sm:mx-0">
           <button
             onClick={() => setSelectedCategory("all")}
-            className={`relative px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+            className={`relative px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer shrink-0 ${
               selectedCategory === "all"
                 ? "text-slate-950 font-bold"
                 : "text-slate-600 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
@@ -279,12 +279,12 @@ export default function MenuPage() {
                       </div>
                     </div>
 
-                    <CardContent className="p-6 space-y-3">
+                    <CardContent className="p-4 sm:p-6 space-y-3">
                       <div className="flex items-baseline justify-between gap-2">
-                        <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-gold transition-colors">
+                        <h3 className="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-gold transition-colors">
                           {item.title}
                         </h3>
-                        <span className="font-serif text-lg font-bold text-amber-700 dark:text-gold shrink-0">
+                        <span className="font-serif text-base sm:text-lg font-bold text-amber-700 dark:text-gold shrink-0">
                           {formatPrice(item.price, item.currency)}
                         </span>
                       </div>
@@ -294,8 +294,8 @@ export default function MenuPage() {
                     </CardContent>
                   </div>
 
-                  <div className="px-6 pb-6 pt-3 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-gray-400">
-                    <span className="font-medium truncate">{item.categoryName}</span>
+                  <div className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 border-t border-slate-100 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-gray-400">
+                    <span className="font-medium">{item.categoryName}</span>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={(e) => {

@@ -59,7 +59,7 @@ export default function ContactPage() {
           <Sparkles className="w-3.5 h-3.5" />
           <span>{t.contact.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
           {t.contact.title}
         </h1>
         <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
@@ -67,7 +67,7 @@ export default function ContactPage() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10">
         {/* Left Column: Contact Details & Hours */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -75,7 +75,7 @@ export default function ContactPage() {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="lg:col-span-5 space-y-6"
         >
-          <Card className="p-8 space-y-6">
+          <Card className="p-5 sm:p-8 space-y-6">
             <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-white/[0.08] pb-3">
               {t.contact.visitCardTitle}
             </h3>
@@ -157,9 +157,9 @@ export default function ContactPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="lg:col-span-7"
         >
-          <Card className="p-8 sm:p-10 space-y-6">
+          <Card className="p-5 sm:p-8 lg:p-10 space-y-6">
             <div>
-              <h3 className="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                 {t.contact.formCardTitle}
               </h3>
               <p className="text-xs text-slate-600 dark:text-gray-400 mt-1">

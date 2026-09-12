@@ -22,7 +22,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             "w-full px-4 py-2.5 rounded-lg bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500",
             "focus:outline-none focus:border-amber-500 dark:focus:border-gold focus:ring-1 focus:ring-amber-500 dark:focus:ring-gold transition-colors duration-200",
-            "disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[44px]",
+            "disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-sm min-h-[44px]",
             error && "border-rose-500 focus:border-rose-500 focus:ring-rose-500",
             className
           )}
@@ -56,7 +56,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           className={cn(
             "w-full px-4 py-2.5 rounded-lg bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500",
             "focus:outline-none focus:border-amber-500 dark:focus:border-gold focus:ring-1 focus:ring-amber-500 dark:focus:ring-gold transition-colors duration-200",
-            "disabled:opacity-50 disabled:cursor-not-allowed text-sm min-h-[100px]",
+            "disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-sm min-h-[100px]",
             error && "border-rose-500 focus:border-rose-500 focus:ring-rose-500",
             className
           )}

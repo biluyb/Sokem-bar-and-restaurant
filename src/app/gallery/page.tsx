@@ -107,7 +107,7 @@ export default function GalleryPage() {
           <Sparkles className="w-3.5 h-3.5" />
           <span>{t.gallery.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-slate-900 dark:text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
           {t.gallery.title}
         </h1>
         <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
@@ -116,7 +116,7 @@ export default function GalleryPage() {
       </motion.div>
 
       {/* Category Tabs */}
-      <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2">
+      <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none px-4 -mx-4 sm:mx-0">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
@@ -124,7 +124,7 @@ export default function GalleryPage() {
               setSelectedCategory(cat);
               setActiveLightboxIndex(null);
             }}
-            className={`relative px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+            className={`relative px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer shrink-0 ${
               selectedCategory === cat
                 ? "text-slate-950 font-bold"
                 : "text-slate-600 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white"
@@ -145,7 +145,7 @@ export default function GalleryPage() {
       {/* Photo Grid */}
       <motion.div
         layout
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8"
       >
         <AnimatePresence>
           {filteredItems.map((item, index) => (
@@ -156,7 +156,7 @@ export default function GalleryPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
-              className="group relative h-80 rounded-3xl overflow-hidden cursor-pointer border border-slate-200 dark:border-white/[0.1] hover:border-amber-500/50 dark:hover:border-gold/50 transition-all duration-300 shadow-md"
+              className="group relative h-72 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer border border-slate-200 dark:border-white/[0.1] hover:border-amber-500/50 dark:hover:border-gold/50 transition-all duration-300 shadow-md"
               onClick={() => setActiveLightboxIndex(index)}
             >
               <Image

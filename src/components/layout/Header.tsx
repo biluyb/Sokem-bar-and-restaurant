@@ -71,12 +71,12 @@ export const Header: React.FC = () => {
       <div className="border-b border-slate-200/80 dark:border-white/[0.06] bg-slate-50/90 dark:bg-[#0A0C10]/95 px-4 sm:px-6 lg:px-8 py-1.5 text-[11px] text-slate-600 dark:text-gray-400">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Status badge */}
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="text-slate-700 dark:text-gray-300 font-medium tracking-wide">
+            <span className="text-slate-700 dark:text-gray-300 font-medium tracking-wide truncate text-[10px] sm:text-[11px]">
               {t.nav.statusOpen}
             </span>
           </div>
@@ -110,7 +110,7 @@ export const Header: React.FC = () => {
             {/* Public Sign In Link */}
             <Link
               href="/sign-in"
-              className="flex items-center gap-1.5 text-[11px] font-semibold text-amber-700 dark:text-gold hover:text-amber-800 dark:hover:text-gold-light transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold rounded px-2 py-0.5"
+              className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold text-amber-700 dark:text-gold hover:text-amber-800 dark:hover:text-gold-light transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold rounded px-1.5 py-0.5 shrink-0"
             >
               <LogIn className="w-3 h-3 text-amber-700 dark:text-gold" />
               <span>{t.nav.signIn}</span>
@@ -196,11 +196,11 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Mobile Actions & Hamburger */}
-        <div className="flex md:hidden items-center gap-1.5">
+        <div className="flex md:hidden items-center gap-1.5 shrink-0">
           <ThemeSwitcher />
           <LanguageSwitcher />
 
-          <Link href="/reservations">
+          <Link href="/reservations" className="hidden sm:inline-flex">
             <Button variant="primary" size="sm" className="px-2.5 py-1 text-xs font-semibold">
               {t.nav.bookTable}
             </Button>
@@ -229,6 +229,20 @@ export const Header: React.FC = () => {
           aria-label="Navigation Menu"
           className="md:hidden border-t border-slate-200 dark:border-white/[0.08] bg-white/98 dark:bg-[#0E1117]/98 backdrop-blur-2xl px-6 py-6 space-y-6 shadow-xl dark:shadow-2xl animate-in slide-in-from-top-2 duration-200 text-slate-900 dark:text-gray-100"
         >
+          {/* Primary Mobile Action: Book a Table */}
+          <div className="pb-1">
+            <Link href="/reservations" onClick={() => setMobileMenuOpen(false)} className="w-full block">
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full flex items-center justify-center gap-2 font-bold shadow-md tracking-wide"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>{t.nav.bookTable}</span>
+              </Button>
+            </Link>
+          </div>
+
           {/* Navigation Links */}
           <nav aria-label="Mobile Navigation" className="flex flex-col space-y-1">
             {navLinks.map((link) => {

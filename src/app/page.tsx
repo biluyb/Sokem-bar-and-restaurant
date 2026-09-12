@@ -149,7 +149,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
+            className="font-serif text-3xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.15]"
           >
             {t.hero.title}
           </motion.h1>
@@ -159,7 +159,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-base sm:text-xl text-slate-700 dark:text-gray-200 max-w-2xl mx-auto font-normal leading-relaxed"
+            className="text-sm sm:text-lg text-slate-700 dark:text-gray-200 max-w-2xl mx-auto font-normal leading-relaxed"
           >
             {t.hero.subtitle}
           </motion.p>
@@ -169,7 +169,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-2 w-full max-w-xs sm:max-w-none mx-auto"
           >
             <Link href="/reservations" className="w-full sm:w-auto">
               <Button variant="primary" size="lg" className="w-full sm:w-auto gap-2">
@@ -191,15 +191,15 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-amber-900 dark:text-gold-light"
+            className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-amber-900 dark:text-gold-light text-center"
           >
             <div className="flex items-center gap-1.5 font-medium">
-              <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
+              <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-gold shrink-0" />
               <span>{SOKEM_CONFIG.address}, {SOKEM_CONFIG.city}</span>
             </div>
-            <span className="text-slate-400">•</span>
+            <span className="hidden sm:inline text-slate-400">•</span>
             <div className="flex items-center gap-1.5 font-medium">
-              <Phone className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
+              <Phone className="w-3.5 h-3.5 text-amber-600 dark:text-gold shrink-0" />
               <a href={`tel:${SOKEM_CONFIG.phone.replace(/\s+/g, "")}`} className="hover:underline font-mono">
                 {SOKEM_CONFIG.phone}
               </a>
@@ -219,7 +219,7 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
@@ -228,11 +228,11 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
-              <Card className="p-8 space-y-4 h-full">
+              <Card className="p-6 sm:p-8 space-y-3 sm:space-y-4 h-full">
                 <div className="w-12 h-12 rounded-2xl bg-gold/15 dark:bg-gold/15 border border-amber-600/30 dark:border-gold/30 flex items-center justify-center text-amber-700 dark:text-gold shadow-sm">
                   {service.icon}
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-slate-900 dark:text-white">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                   {service.title}
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-gray-300 leading-relaxed">
@@ -291,12 +291,12 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <CardContent className="p-6 space-y-3">
+                  <CardContent className="p-4 sm:p-6 space-y-3">
                     <div className="flex items-baseline justify-between gap-2">
-                      <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-gold transition-colors">
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-gold transition-colors">
                         {item.title}
                       </h3>
-                      <span className="font-serif text-lg font-bold text-amber-700 dark:text-gold shrink-0">
+                      <span className="font-serif text-base sm:text-lg font-bold text-amber-700 dark:text-gold shrink-0">
                         {formatPrice(item.price, item.currency)}
                       </span>
                     </div>
@@ -306,8 +306,8 @@ export default function HomePage() {
                   </CardContent>
                 </div>
 
-                <div className="px-6 pb-6 pt-3 border-t border-slate-100 dark:border-white/[0.06] flex items-center justify-between gap-2 text-xs text-slate-500 dark:text-gray-400">
-                  <span className="truncate">{item.categoryName}</span>
+                <div className="px-4 sm:px-6 pb-5 sm:pb-6 pt-3 border-t border-slate-100 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-gray-400">
+                  <span className="font-medium">{item.categoryName}</span>
                   <div className="flex items-center gap-2 shrink-0">
                     <Link href="/menu" className="text-amber-700 dark:text-gold font-semibold hover:underline flex items-center gap-1">
                       {t.common.viewDetails}

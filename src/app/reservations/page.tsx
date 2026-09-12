@@ -99,7 +99,7 @@ export default function ReservationsPage() {
           <Sparkles className="w-3.5 h-3.5" />
           <span>{t.reservations.badge}</span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
           {t.reservations.title}
         </h1>
         <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
@@ -178,18 +178,18 @@ export default function ReservationsPage() {
           )}
 
           {/* 1. Party Size */}
-          <div className="luminous-card p-6 sm:p-8 rounded-3xl space-y-4">
+          <div className="luminous-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl space-y-4">
             <label className="text-sm font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-200 flex items-center gap-2">
               <Users className="w-4 h-4 text-amber-600 dark:text-gold" />
               {t.reservations.stepPartySize}
             </label>
-            <div className="flex flex-wrap gap-2.5">
+            <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
               {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((size) => (
                 <button
                   type="button"
                   key={size}
                   onClick={() => setPartySize(size)}
-                  className={`w-12 h-12 rounded-2xl text-sm font-bold transition-all cursor-pointer ${
+                  className={`w-full h-11 sm:h-12 rounded-xl sm:rounded-2xl text-sm font-bold flex items-center justify-center transition-all cursor-pointer ${
                     partySize === size
                       ? "bg-gold text-slate-950 shadow-sm scale-105"
                       : "bg-slate-100 dark:bg-canvas-lighter text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-white/[0.1] hover:border-amber-500/40 dark:hover:border-gold/30"
@@ -202,19 +202,19 @@ export default function ReservationsPage() {
           </div>
 
           {/* 2. Date & Time */}
-          <div className="luminous-card p-6 sm:p-8 rounded-3xl space-y-6">
+          <div className="luminous-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl space-y-6">
             <label className="text-sm font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-200 flex items-center gap-2">
               <CalendarIcon className="w-4 h-4 text-amber-600 dark:text-gold" />
               {t.reservations.stepDateTime}
             </label>
 
-            <div className="max-w-xs">
+            <div className="w-full sm:max-w-xs">
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 min={new Date().toISOString().split("T")[0]}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-canvas-lighter border border-slate-300 dark:border-white/[0.12] text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 dark:focus:border-gold focus:ring-1 focus:ring-amber-500 dark:focus:ring-gold text-sm shadow-sm"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-canvas-lighter border border-slate-300 dark:border-white/[0.12] text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 dark:focus:border-gold focus:ring-1 focus:ring-amber-500 dark:focus:ring-gold text-base sm:text-sm shadow-sm"
               />
             </div>
 
@@ -229,7 +229,7 @@ export default function ReservationsPage() {
                     type="button"
                     key={slot}
                     onClick={() => setTimeSlot(slot)}
-                    className={`py-2 px-1 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                    className={`py-2.5 px-1 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                       timeSlot === slot
                         ? "bg-gold text-slate-950 shadow-sm"
                         : "bg-slate-100 dark:bg-canvas-lighter text-slate-700 dark:text-gray-300 hover:text-slate-950 dark:hover:text-white border border-slate-200 dark:border-white/[0.08]"
@@ -243,7 +243,7 @@ export default function ReservationsPage() {
           </div>
 
           {/* 3. Contact Details */}
-          <div className="luminous-card p-6 sm:p-8 rounded-3xl space-y-4">
+          <div className="luminous-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl space-y-4">
             <label className="text-sm font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-200 block">
               {t.reservations.stepContact}
             </label>
@@ -291,7 +291,7 @@ export default function ReservationsPage() {
               variant="primary"
               size="lg"
               isLoading={isSubmitting}
-              className="w-full sm:w-auto px-12"
+              className="w-full sm:w-auto px-12 font-bold text-base min-h-[48px]"
             >
               {isSubmitting ? t.reservations.submitting : t.reservations.submitButton}
             </Button>
