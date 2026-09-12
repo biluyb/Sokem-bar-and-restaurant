@@ -16,6 +16,10 @@ describe("Site Configuration Integrity (src/config/site.ts)", () => {
     expect(SOKEM_CONFIG.mapUrl).toBe("https://maps.app.goo.gl/MJnT1GHeW1mSMDQr5");
   });
 
+  it("should have the verified contact email set", () => {
+    expect(SOKEM_CONFIG.email).toBe("biluquick123@gmail.com");
+  });
+
   it("should contain all required public navigation routes", () => {
     const expectedHrefs = ["/", "/menu", "/reservations", "/events", "/gallery", "/contact"];
     const actualHrefs = SOKEM_CONFIG.navLinks.map((link) => link.href);

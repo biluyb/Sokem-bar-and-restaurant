@@ -92,11 +92,11 @@ export const Footer: React.FC = () => {
           <p>© {new Date().getFullYear()} {SOKEM_CONFIG.name}. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link
-              href="/admin/dashboard"
+              href="/sign-in"
               className="flex items-center gap-1.5 text-gray-400 hover:text-gold transition-colors"
             >
               <Lock className="w-3 h-3" />
-              Staff Login
+              Sign In
             </Link>
           </div>
         </div>

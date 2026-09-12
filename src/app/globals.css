@@ -2,25 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-main: #0E1015;
+  --text-main: #F3F4F6;
+  --card-bg: rgba(22, 25, 34, 0.75);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --radial-bg: radial-gradient(circle at 50% 0%, #1A1D27 0%, #0E1015 70%);
+}
+
+html.light {
+  --bg-main: #F8F9FA;
+  --text-main: #0F172A;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(15, 23, 42, 0.12);
+  --radial-bg: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F1F5F9 100%);
+  color-scheme: light;
+}
+
+html.dark {
+  --bg-main: #0E1015;
+  --text-main: #F3F4F6;
+  --card-bg: rgba(22, 25, 34, 0.75);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --radial-bg: radial-gradient(circle at 50% 0%, #1A1D27 0%, #0E1015 70%);
+  color-scheme: dark;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #0E1015;
-    color: #F3F4F6;
-    color-scheme: dark;
+    background-color: var(--bg-main);
+    color: var(--text-main);
   }
 
   body {
-    background-color: #0E1015;
-    color: #F3F4F6;
-    font-family: var(--font-jakarta), sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-jakarta), "Nyala", "Abyssinica SIL", "Noto Sans Ethiopic", sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    background: radial-gradient(circle at 50% 0%, #1A1D27 0%, #0E1015 70%);
+    background: var(--radial-bg);
   }
 
   h1, h2, h3 {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-playfair), "Nyala", Georgia, serif;
   }
 }
 
@@ -30,7 +55,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0E1015;
+  background: var(--bg-main);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -44,12 +69,16 @@
 
 /* Luminous Glass Cards */
 .luminous-card {
-  background: rgba(22, 25, 34, 0.75);
+  background: var(--card-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html.light .luminous-card {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
 }
 
 .luminous-card:hover {

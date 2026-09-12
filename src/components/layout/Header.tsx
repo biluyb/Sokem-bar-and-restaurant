@@ -15,6 +15,9 @@ import {
 } from "lucide-react";
 import { SOKEM_CONFIG } from "@/config/site";
 import { Button } from "@/components/ui/Button";
+import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { useLanguage } from "@/components/ui/LanguageContext";
 import { cn } from "@/lib/utils";
 
 export const Header: React.FC = () => {
@@ -22,6 +25,7 @@ export const Header: React.FC = () => {
   const pathname = usePathname();
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const { t } = useLanguage();
 
   // Close drawer on route change
   useEffect(() => {
@@ -52,6 +56,15 @@ export const Header: React.FC = () => {
     };
   }, [mobileMenuOpen]);
 
+  const navLinks = [
+    { label: t.nav.home, href: "/" },
+    { label: t.nav.menu, href: "/menu" },
+    { label: t.nav.reservations, href: "/reservations" },
+    { label: t.nav.events, href: "/events" },
+    { label: t.nav.gallery, href: "/gallery" },
+    { label: t.nav.contact, href: "/contact" },
+  ];
+
   return (
     <header className="sticky top-0 z-40 w-full bg-[#0E1117]/95 backdrop-blur-md border-b border-white/[0.08] shadow-lg shadow-black/40">
       {/* Tier 1: Slender Hospitality & Utility Bar */}
@@ -68,8 +81,8 @@ export const Header: React.FC = () => {
             </span>
           </div>
 
-          {/* Location, Phone, & Sign In */}
-          <div className="flex items-center gap-4 sm:gap-5">
+          {/* Location, Phone, Controls & Sign In */}
+          <div className="flex items-center gap-3 sm:gap-4">
             <a
               href={SOKEM_CONFIG.mapUrl}
               target="_blank"
@@ -89,13 +102,18 @@ export const Header: React.FC = () => {
               <span className="font-mono">{SOKEM_CONFIG.phone}</span>
             </a>
 
+            <div className="hidden sm:flex items-center gap-1.5">
+              <ThemeSwitcher />
+              <LanguageSwitcher />
+            </div>
+
             {/* Public Sign In Link */}
             <Link
               href="/sign-in"
               className="flex items-center gap-1.5 text-[11px] font-semibold text-gold hover:text-gold-light transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold rounded px-2 py-0.5"
             >
               <LogIn className="w-3 h-3 text-gold" />
-              <span>Sign In</span>
+              <span>{t.nav.signIn}</span>
             </Link>
           </div>
         </div>
@@ -135,7 +153,7 @@ export const Header: React.FC = () => {
           aria-label="Primary Navigation"
           className="hidden md:flex items-center gap-1 bg-[#141822] px-3 py-1.5 rounded-xl border border-white/[0.08]"
         >
-          {SOKEM_CONFIG.navLinks.map((link) => {
+          {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
@@ -172,16 +190,19 @@ export const Header: React.FC = () => {
               className="gap-2 shadow-md hover:shadow-gold/20 font-semibold text-xs tracking-wider"
             >
               <Calendar className="w-3.5 h-3.5" />
-              <span>Book Table</span>
+              <span>{t.nav.bookTable}</span>
             </Button>
           </Link>
         </div>
 
         {/* Mobile Actions & Hamburger */}
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex md:hidden items-center gap-1.5">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
+
           <Link href="/reservations">
-            <Button variant="primary" size="sm" className="px-3 py-1.5 text-xs font-semibold">
-              Book Table
+            <Button variant="primary" size="sm" className="px-2.5 py-1 text-xs font-semibold">
+              {t.nav.bookTable}
             </Button>
           </Link>
 
@@ -210,7 +231,7 @@ export const Header: React.FC = () => {
         >
           {/* Navigation Links */}
           <nav aria-label="Mobile Navigation" className="flex flex-col space-y-1">
-            {SOKEM_CONFIG.navLinks.map((link) => {
+            {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
@@ -254,7 +275,7 @@ export const Header: React.FC = () => {
                 className="text-xs text-gold hover:text-gold-light transition-colors inline-flex items-center gap-1 font-semibold"
               >
                 <LogIn className="w-3.5 h-3.5" />
-                <span>Sign In</span>
+                <span>{t.nav.signIn}</span>
               </Link>
             </div>
           </div>

@@ -18,7 +18,7 @@ export const SOKEM_CONFIG = {
   city: "Addis Ababa, Ethiopia",
   phone: "093 001 4033",
   mapUrl: "https://maps.app.goo.gl/MJnT1GHeW1mSMDQr5",
-  email: "[SOKEM_EMAIL_PLACEHOLDER]",
+  email: "biluquick123@gmail.com",
   
   // Operating Hours Schedule
   hours: {

@@ -2,8 +2,34 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { ContactFormSchema } from "@/lib/validators/auth";
 
+// In-memory rate limiting map: IP -> { count: number, resetTime: number }
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const MAX_REQUESTS_PER_WINDOW = 5;
+
 export async function POST(request: Request) {
   try {
+    // Basic IP rate limiting
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "anonymous";
+
+    const now = Date.now();
+    const rateData = rateLimitMap.get(ip);
+
+    if (rateData && now < rateData.resetTime) {
+      if (rateData.count >= MAX_REQUESTS_PER_WINDOW) {
+        return NextResponse.json(
+          { error: "Too many messages sent. Please wait a few minutes before trying again." },
+          { status: 429 }
+        );
+      }
+      rateData.count += 1;
+    } else {
+      rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    }
+
     const body = await request.json();
     const result = ContactFormSchema.safeParse(body);
 
@@ -21,7 +47,7 @@ export async function POST(request: Request) {
     const smtpPort = parseInt(process.env.SMTP_PORT || "587", 10);
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
-    const contactRecipient = process.env.CONTACT_EMAIL || "reservations@sokem-restaurant.com";
+    const contactRecipient = process.env.CONTACT_EMAIL || "biluquick123@gmail.com";
 
     if (smtpHost && smtpUser && smtpPass) {
       const transporter = nodemailer.createTransport({

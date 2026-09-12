@@ -24,8 +24,10 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { MOCK_MENU_ITEMS, MOCK_EVENTS } from "@/lib/data";
 import { formatPrice } from "@/lib/utils";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 export default function HomePage() {
+  const { t } = useLanguage();
   const [items, setItems] = React.useState(MOCK_MENU_ITEMS);
   const [events, setEvents] = React.useState(MOCK_EVENTS);
 
@@ -124,7 +126,7 @@ export default function HomePage() {
 
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-gold" />
-              <span>Welcome to Sokem • Addis Ababa</span>
+              <span>{t.hero.badge}</span>
             </div>
           </motion.div>
 
@@ -135,7 +137,7 @@ export default function HomePage() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="font-serif text-5xl sm:text-7xl font-bold tracking-tight text-white leading-[1.1]"
           >
-            Sokem bar and restaurant
+            {t.hero.title}
           </motion.h1>
 
           {/* Simple, Warm Subtitle */}
@@ -145,7 +147,7 @@ export default function HomePage() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-base sm:text-xl text-gray-200 max-w-2xl mx-auto font-normal leading-relaxed"
           >
-            Experience prime dry-aged steaks, ocean delicacies, and bespoke cocktails in a radiant, welcoming dining lounge.
+            {t.hero.subtitle}
           </motion.p>
 
           {/* Action Buttons */}
@@ -158,13 +160,13 @@ export default function HomePage() {
             <Link href="/reservations" className="w-full sm:w-auto">
               <Button variant="primary" size="lg" className="w-full sm:w-auto gap-2">
                 <Calendar className="w-4 h-4" />
-                Reserve a Table
+                {t.hero.ctaBook}
               </Button>
             </Link>
             <Link href="/menu" className="w-full sm:w-auto">
               <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2">
                 <Utensils className="w-4 h-4" />
-                View Full Menu
+                {t.hero.ctaMenu}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>

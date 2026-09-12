@@ -34,7 +34,14 @@ export async function POST(request: Request) {
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     await mkdir(uploadDir, { recursive: true });
 
-    const ext = file.name.split(".").pop() || "jpg";
+    const MIME_TO_EXT: Record<string, string> = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+      "image/avif": "avif",
+      "image/gif": "gif",
+    };
+    const ext = MIME_TO_EXT[file.type] || "jpg";
     const filename = `upload-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${ext}`;
     const filePath = path.join(uploadDir, filename);
 
