@@ -29,7 +29,7 @@ export default function ReservationsPage() {
   const [confirmationCode, setConfirmationCode] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
@@ -55,12 +55,35 @@ export default function ReservationsPage() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      const code = `SKM-${Math.floor(100000 + Math.random() * 900000)}`;
-      setConfirmationCode(code);
+    try {
+      const response = await fetch("/api/reservations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerName: name,
+          email,
+          phone,
+          partySize,
+          date,
+          timeSlot,
+          specialNotes,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit reservation.");
+      }
+
+      setConfirmationCode(data.bookingCode || `SKM-${Math.floor(100000 + Math.random() * 900000)}`);
       setIsSuccess(true);
-    }, 700);
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Failed to submit reservation. Please try again.";
+      setErrorMessage(errorMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
