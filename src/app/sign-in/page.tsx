@@ -96,19 +96,19 @@ function SignInFormInner() {
             htmlFor="signin-email"
             className="block text-xs font-semibold uppercase tracking-wider text-gray-300"
           >
-            Email Address
+            Username or Email
           </label>
           <div className="relative">
             <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3 pointer-events-none" />
             <input
               id="signin-email"
               name="email"
-              type="email"
+              type="text"
               required
-              autoComplete="email"
+              autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
+              placeholder="Admin or your@email.com"
               className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900/90 border border-white/[0.12] text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
             />
           </div>

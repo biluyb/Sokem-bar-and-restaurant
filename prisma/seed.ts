@@ -15,7 +15,7 @@ async function main() {
   console.log("🌱 Seeding database...");
 
   // ── Users ────────────────────────────────────────────────────────────────
-  const adminPasswordHash = await bcrypt.hash("Admin@Sokem2026!", 10);
+  const adminPasswordHash = await bcrypt.hash("Admin@111", 10);
   const staffPasswordHash = await bcrypt.hash("Staff@Sokem2026!", 10);
 
   const admin = await prisma.user.upsert({
@@ -23,7 +23,7 @@ async function main() {
     update: { passwordHash: adminPasswordHash, isActive: true },
     create: {
       email: "admin@sokem-restaurant.com",
-      name: "Sokem Operations Director",
+      name: "Admin",
       passwordHash: adminPasswordHash,
       role: "ADMIN",
       isActive: true,
@@ -219,8 +219,8 @@ async function main() {
 
   console.log("\n✅ Seeding complete!");
   console.log("\n📋 Default credentials:");
-  console.log("   Admin: admin@sokem-restaurant.com / Admin@Sokem2026!");
-  console.log("   Staff: staff@sokem-restaurant.com / Staff@Sokem2026!");
+  console.log("   Admin: Admin / Admin@111 (or admin@sokem-restaurant.com / Admin@111)");
+  console.log("   Staff: Staff / Staff@Sokem2026! (or staff@sokem-restaurant.com / Staff@Sokem2026!)");
 }
 
 main()

@@ -15,7 +15,20 @@ describe("LoginSchema Validator", () => {
     }
   });
 
-  it("rejects empty email", () => {
+  it("validates username format like Admin", () => {
+    const validData = {
+      email: "Admin",
+      password: "Admin@111",
+    };
+    const result = LoginSchema.safeParse(validData);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.email).toBe("admin");
+      expect(result.data.password).toBe("Admin@111");
+    }
+  });
+
+  it("rejects empty username or email", () => {
     const invalidData = {
       email: "",
       password: "password123",
@@ -24,19 +37,10 @@ describe("LoginSchema Validator", () => {
     expect(result.success).toBe(false);
   });
 
-  it("rejects invalid email formats", () => {
+  it("rejects empty password", () => {
     const invalidData = {
-      email: "not-an-email",
-      password: "password123",
-    };
-    const result = LoginSchema.safeParse(invalidData);
-    expect(result.success).toBe(false);
-  });
-
-  it("rejects passwords shorter than 6 characters", () => {
-    const invalidData = {
-      email: "admin@sokem.com",
-      password: "123",
+      email: "Admin",
+      password: "",
     };
     const result = LoginSchema.safeParse(invalidData);
     expect(result.success).toBe(false);
