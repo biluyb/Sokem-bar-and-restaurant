@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
                   {t.footer.hours}
                 </span>
                 <p className="text-slate-800 dark:text-gray-300 font-medium mt-0.5">
-                  {SOKEM_CONFIG.hours.weekdays}
+                  {SOKEM_CONFIG.hours.summary}
                 </p>
               </div>
 

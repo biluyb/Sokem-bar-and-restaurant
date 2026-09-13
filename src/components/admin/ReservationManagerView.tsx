@@ -21,6 +21,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 export type ReservationStatus = "CONFIRMED" | "PENDING" | "SEATED" | "CANCELLED";
 
@@ -117,6 +118,7 @@ export const ReservationManagerView: React.FC<ReservationManagerViewProps> = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"ALL" | ReservationStatus>("ALL");
   const [selectedReservation, setSelectedReservation] = useState<AdminReservation | null>(null);
+  const { t } = useLanguage();
 
   // Manual Reservation Modal State
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -186,8 +188,8 @@ export const ReservationManagerView: React.FC<ReservationManagerViewProps> = ({
       {/* Admin Unified Header */}
       <AdminHeader
         user={user}
-        title="Table Reservations Manager"
-        subtitle="Manage upcoming customer seatings, confirm bookings, seat guests, and handle VIP requests"
+        title={t.admin.reservationsPage.title}
+        subtitle={t.admin.reservationsPage.subtitle}
         actions={
           <Button
             onClick={() => setIsNewModalOpen(true)}
@@ -196,7 +198,7 @@ export const ReservationManagerView: React.FC<ReservationManagerViewProps> = ({
             className="gap-2 shadow-glow font-semibold"
           >
             <Plus className="w-4 h-4" />
-            <span>New Reservation</span>
+            <span>{t.admin.reservationsPage.newReservation}</span>
           </Button>
         }
       />
@@ -204,17 +206,17 @@ export const ReservationManagerView: React.FC<ReservationManagerViewProps> = ({
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card className="p-4 border-slate-800">
-          <span className="text-xs uppercase font-bold text-slate-400 block">Total Bookings</span>
+          <span className="text-xs uppercase font-bold text-slate-400 block">{t.admin.reservationsPage.totalBookings}</span>
           <span className="font-serif text-2xl font-bold text-white mt-1 block">
             {reservations.length}
           </span>
-          <span className="text-[11px] text-slate-400 mt-0.5 block">All records</span>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">{t.admin.reservationsPage.allRecords}</span>
         </Card>
 
         <Card className="p-4 border-slate-800">
-          <span className="text-xs uppercase font-bold text-emerald-400 block">Confirmed Covers</span>
+          <span className="text-xs uppercase font-bold text-emerald-400 block">{t.admin.reservationsPage.confirmedCovers}</span>
           <span className="font-serif text-2xl font-bold text-emerald-300 mt-1 block">
-            {totalGuestsConfirmed} Guests
+            {totalGuestsConfirmed}
           </span>
           <span className="text-[11px] text-slate-400 mt-0.5 block">
             {reservations.filter((r) => r.status === "CONFIRMED").length} parties
@@ -222,19 +224,19 @@ export const ReservationManagerView: React.FC<ReservationManagerViewProps> = ({
         </Card>
 
         <Card className="p-4 border-slate-800">
-          <span className="text-xs uppercase font-bold text-amber-400 block">Pending Review</span>
+          <span className="text-xs uppercase font-bold text-amber-400 block">{t.admin.reservationsPage.pendingReview}</span>
           <span className="font-serif text-2xl font-bold text-gold mt-1 block">
             {reservations.filter((r) => r.status === "PENDING").length}
           </span>
-          <span className="text-[11px] text-slate-400 mt-0.5 block">Requires action</span>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">{t.admin.reservationsPage.requiresAction}</span>
         </Card>
 
         <Card className="p-4 border-slate-800">
-          <span className="text-xs uppercase font-bold text-slate-400 block">Seated / Completed</span>
+          <span className="text-xs uppercase font-bold text-slate-400 block">{t.admin.reservationsPage.seatedCompleted}</span>
           <span className="font-serif text-2xl font-bold text-cyan-300 mt-1 block">
             {reservations.filter((r) => r.status === "SEATED").length}
           </span>
-          <span className="text-[11px] text-slate-400 mt-0.5 block">Currently dining</span>
+          <span className="text-[11px] text-slate-400 mt-0.5 block">{t.admin.reservationsPage.currentlyDining}</span>
         </Card>
       </div>
 
@@ -245,7 +247,7 @@ export const ReservationManagerView: React.FC<ReservationManagerViewProps> = ({
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
             type="text"
-            placeholder="Search by guest name, phone, code..."
+            placeholder={t.admin.reservationsPage.searchPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors"

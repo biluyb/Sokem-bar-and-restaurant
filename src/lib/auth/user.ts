@@ -18,32 +18,44 @@ export async function authenticateCredentials(
       ? "staff@sokem-restaurant.com"
       : normalized;
 
-  // Master fallback helper for guaranteed system access
-  const checkMasterFallback = () => {
-    if (normalized === "admin" || normalizedEmail === "admin@sokem-restaurant.com") {
-      if (
-        plainPassword === "Admin@111" ||
-        plainPassword === "Admin@Sokem2026!" ||
-        plainPassword === "SokemAdmin2026!"
-      ) {
-        return {
-          userId: "admin-sokem-master",
-          email: "admin@sokem-restaurant.com",
-          name: "Admin",
-          role: "ADMIN" as const,
-        };
+  // Emergency fallback helper using environment hashes (for bootstrap or offline DB)
+  const checkMasterFallback = async (): Promise<AuthSessionPayload | null> => {
+    const adminEmail = (process.env.ADMIN_EMAIL || "admin@sokem-restaurant.com").toLowerCase().trim();
+    const staffEmail = (process.env.STAFF_EMAIL || "staff@sokem-restaurant.com").toLowerCase().trim();
+
+    // In test environment, provide default test hash if not provided
+    const defaultTestHash = "$2b$10$KxT58HGlCqrx.Z5H9rODkOGZ3DY1EVHHLo/VpUDWAROyrcye3EHMC";
+    const adminHash = (process.env.ADMIN_PASSWORD_HASH || (process.env.NODE_ENV === "test" ? defaultTestHash : ""))?.replace(/\\/g, "");
+    const staffHash = process.env.STAFF_PASSWORD_HASH?.replace(/\\/g, "");
+
+    if (normalized === "admin" || normalized === "administrator" || normalizedEmail === adminEmail) {
+      if (adminHash) {
+        const isMatch = await verifyPassword(plainPassword, adminHash);
+        if (isMatch) {
+          return {
+            userId: "admin-sokem-master",
+            email: adminEmail,
+            name: process.env.ADMIN_NAME || "Admin",
+            role: "ADMIN" as const,
+          };
+        }
       }
     }
-    if (normalized === "staff" || normalizedEmail === "staff@sokem-restaurant.com") {
-      if (plainPassword === "Staff@Sokem2026!") {
-        return {
-          userId: "staff-sokem-master",
-          email: "staff@sokem-restaurant.com",
-          name: "Staff Member",
-          role: "STAFF" as const,
-        };
+
+    if (normalized === "staff" || normalizedEmail === staffEmail) {
+      if (staffHash) {
+        const isMatch = await verifyPassword(plainPassword, staffHash);
+        if (isMatch) {
+          return {
+            userId: "staff-sokem-master",
+            email: staffEmail,
+            name: process.env.STAFF_NAME || "Staff Member",
+            role: "STAFF" as const,
+          };
+        }
       }
     }
+
     return null;
   };
 
@@ -68,11 +80,11 @@ export async function authenticateCredentials(
   } catch (err) {
     console.error("[Auth] Database error during authentication:", err);
     // Allow master credentials even if database connection is disrupted
-    return checkMasterFallback();
+    return await checkMasterFallback();
   }
 
   if (!user || !user.isActive) {
-    const fallback = checkMasterFallback();
+    const fallback = await checkMasterFallback();
     if (fallback) return fallback;
 
     // Perform a dummy hash comparison to prevent timing attacks that
@@ -81,18 +93,7 @@ export async function authenticateCredentials(
     return null;
   }
 
-  let isPasswordValid = await verifyPassword(plainPassword, user.passwordHash);
-  if (!isPasswordValid && (user.role === "ADMIN" || normalizedEmail === "admin@sokem-restaurant.com")) {
-    // Accept Admin@111 as requested, along with historical admin passwords
-    if (
-      plainPassword === "Admin@111" ||
-      plainPassword === "Admin@Sokem2026!" ||
-      plainPassword === "SokemAdmin2026!"
-    ) {
-      isPasswordValid = true;
-    }
-  }
-
+  const isPasswordValid = await verifyPassword(plainPassword, user.passwordHash);
   if (!isPasswordValid) {
     return null;
   }

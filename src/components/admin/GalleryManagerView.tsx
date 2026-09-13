@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { useLanguage } from "@/components/ui/LanguageContext";
 import {
   createGalleryItemAction,
   deleteGalleryItemAction,
@@ -46,6 +47,7 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
   user,
   initialItems = [],
 }) => {
+  const { t } = useLanguage();
   const [items, setItems] = useState<GalleryItemView[]>(initialItems);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -139,7 +141,7 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to remove this photo from the gallery?")) return;
+    if (!confirm(t.admin.galleryManager.confirmDelete)) return;
 
     try {
       const res = await deleteGalleryItemAction(id);
@@ -158,8 +160,8 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <AdminHeader
         user={user}
-        title="Gallery Manager"
-        subtitle="Manage photo assets, ambience showcases, food plating, and venue highlights"
+        title={t.admin.galleryManager.title}
+        subtitle={t.admin.galleryManager.subtitle}
         actions={
           <Button
             onClick={() => setIsModalOpen(true)}
@@ -168,7 +170,7 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
             className="gap-2 shadow-glow font-semibold"
           >
             <Plus className="w-4 h-4" />
-            <span>Add New Photo</span>
+            <span>{t.admin.galleryManager.addPhoto}</span>
           </Button>
         }
       />
@@ -180,7 +182,7 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search gallery photos..."
+              placeholder={t.admin.galleryManager.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700/80 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-gold"
@@ -345,7 +347,7 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
               variant="ghost"
               onClick={() => setIsModalOpen(false)}
             >
-              Cancel
+              {t.admin.galleryManager.cancel}
             </Button>
             <Button
               type="submit"
@@ -353,7 +355,7 @@ export const GalleryManagerView: React.FC<GalleryManagerViewProps> = ({
               isLoading={isSubmitting}
               disabled={isUploading}
             >
-              Add Photo
+              {t.admin.galleryManager.savePhoto}
             </Button>
           </div>
         </form>

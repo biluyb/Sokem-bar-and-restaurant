@@ -161,6 +161,162 @@ export interface TranslationDictionary {
     secureSession: string;
     backToHome: string;
   };
+  admin: {
+    consoleTitle: string;
+    staffPortalTitle: string;
+    viewPublicSite: string;
+    signOut: string;
+    signingOut: string;
+    themeLight: string;
+    themeDark: string;
+    nightMode: string;
+    lightMode: string;
+    nav: {
+      overview: string;
+      menuManager: string;
+      gallery: string;
+      events: string;
+      reservations: string;
+      users: string;
+      auditLogs: string;
+    };
+    dashboard: {
+      title: string;
+      subtitle: string;
+      tonightCovers: string;
+      tablesConfirmed: string;
+      manage: string;
+      menuItemsActive: string;
+      realtimeSync: string;
+      specialEvents: string;
+      scheduled: string;
+      menuAvailability: string;
+      menuAvailabilitySubtitle: string;
+      available: string;
+      unavailable: string;
+      markAvailable: string;
+      markUnavailable: string;
+      recentReservations: string;
+      guestName: string;
+      guests: string;
+      time: string;
+      status: string;
+      confirm: string;
+      cancel: string;
+      confirmed: string;
+      pending: string;
+      cancelled: string;
+    };
+    menuManager: {
+      title: string;
+      subtitle: string;
+      addDish: string;
+      searchPlaceholder: string;
+      allCategories: string;
+      allStock: string;
+      inStock: string;
+      soldOut: string;
+      dishName: string;
+      price: string;
+      category: string;
+      status: string;
+      actions: string;
+      available: string;
+      unavailable: string;
+      editDish: string;
+      deleteDish: string;
+      noDishesFound: string;
+      saveDish: string;
+      cancel: string;
+      description: string;
+      image: string;
+      dietaryFlags: string;
+      uploading: string;
+      confirmDelete: string;
+    };
+    eventManager: {
+      title: string;
+      subtitle: string;
+      addEvent: string;
+      searchPlaceholder: string;
+      totalScheduled: string;
+      highlightEvent: string;
+      visiblePublic: string;
+      noEventsFound: string;
+      date: string;
+      time: string;
+      badge: string;
+      description: string;
+      editEvent: string;
+      deleteEvent: string;
+      saveEvent: string;
+      cancel: string;
+      confirmDelete: string;
+    };
+    galleryManager: {
+      title: string;
+      subtitle: string;
+      addPhoto: string;
+      searchPlaceholder: string;
+      allCategories: string;
+      category: string;
+      caption: string;
+      deletePhoto: string;
+      noPhotosFound: string;
+      savePhoto: string;
+      cancel: string;
+      confirmDelete: string;
+    };
+    auditLogs: {
+      title: string;
+      subtitle: string;
+      noLogs: string;
+      noLogsSubtitle: string;
+      action: string;
+      resource: string;
+      user: string;
+      timestamp: string;
+      details: string;
+    };
+    users: {
+      title: string;
+      subtitle: string;
+      addUser: string;
+      name: string;
+      email: string;
+      role: string;
+      status: string;
+      active: string;
+      inactive: string;
+      actions: string;
+      noUsers: string;
+    };
+    reservationsPage: {
+      title: string;
+      subtitle: string;
+      newReservation: string;
+      totalBookings: string;
+      confirmedCovers: string;
+      pendingReview: string;
+      seatedCompleted: string;
+      allRecords: string;
+      requiresAction: string;
+      currentlyDining: string;
+      searchPlaceholder: string;
+      allStatuses: string;
+      guest: string;
+      date: string;
+      time: string;
+      guests: string;
+      table: string;
+      status: string;
+      actions: string;
+      noReservations: string;
+      export: string;
+      confirm: string;
+      cancel: string;
+    };
+  };
   footer: {
     tagline: string;
     explore: string;
@@ -340,6 +496,162 @@ export const translations: Record<Locale, TranslationDictionary> = {
       secureSession: "Encrypted HTTP-only Session",
       backToHome: "Return to Public Website",
     },
+    admin: {
+      consoleTitle: "Sokem Management Console",
+      staffPortalTitle: "Sokem Staff Portal",
+      viewPublicSite: "View Public Site",
+      signOut: "Sign Out",
+      signingOut: "Signing Out...",
+      themeLight: "Light",
+      themeDark: "Dark",
+      nightMode: "Night Mode",
+      lightMode: "Light Mode",
+      nav: {
+        overview: "Overview",
+        menuManager: "Menu Manager",
+        gallery: "Gallery",
+        events: "Events",
+        reservations: "Reservations",
+        users: "Users",
+        auditLogs: "Audit Logs",
+      },
+      dashboard: {
+        title: "Operations & Control",
+        subtitle: "Real-time restaurant operations, seating covers, and menu stock status",
+        tonightCovers: "Tonight's Covers",
+        tablesConfirmed: "Tables Confirmed",
+        manage: "Manage",
+        menuItemsActive: "Menu Items Active",
+        realtimeSync: "Real-time sync active",
+        specialEvents: "Special Events",
+        scheduled: "Scheduled",
+        menuAvailability: "Menu Availability & Stock",
+        menuAvailabilitySubtitle: "Toggle item availability for tonight's service",
+        available: "Available",
+        unavailable: "Unavailable",
+        markAvailable: "Mark Available",
+        markUnavailable: "Mark Unavailable",
+        recentReservations: "Recent Reservations",
+        guestName: "Guest",
+        guests: "Guests",
+        time: "Time",
+        status: "Status",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        confirmed: "Confirmed",
+        pending: "Pending",
+        cancelled: "Cancelled",
+      },
+      menuManager: {
+        title: "Menu & Stock Manager",
+        subtitle: "Live catalog control, dish pricing, availability switches, and culinary specials",
+        addDish: "Add New Dish",
+        searchPlaceholder: "Search dish name, description, ingredients...",
+        allCategories: "All Categories",
+        allStock: "All Stock",
+        inStock: "In Stock",
+        soldOut: "Sold Out",
+        dishName: "Dish Name",
+        price: "Price (ETB)",
+        category: "Category",
+        status: "Status",
+        actions: "Actions",
+        available: "Available",
+        unavailable: "Unavailable",
+        editDish: "Edit Dish",
+        deleteDish: "Delete Dish",
+        noDishesFound: "No menu items match your search.",
+        saveDish: "Save Dish",
+        cancel: "Cancel",
+        description: "Description",
+        image: "Image",
+        dietaryFlags: "Dietary Highlights",
+        uploading: "Uploading...",
+        confirmDelete: "Are you sure you want to delete this menu item?",
+      },
+      eventManager: {
+        title: "Events & Theme Nights Manager",
+        subtitle: "Schedule live performances, cocktail masterclasses, DJ sets, and special evenings",
+        addEvent: "Schedule New Event",
+        searchPlaceholder: "Search events by title or theme...",
+        totalScheduled: "Total Scheduled",
+        highlightEvent: "Highlight Event",
+        visiblePublic: "Visible on public events page",
+        noEventsFound: "No events found matching your criteria.",
+        date: "Date",
+        time: "Time",
+        badge: "Badge",
+        description: "Description",
+        editEvent: "Edit Event",
+        deleteEvent: "Delete Event",
+        saveEvent: "Save Event",
+        cancel: "Cancel",
+        confirmDelete: "Are you sure you want to remove this event?",
+      },
+      galleryManager: {
+        title: "Gallery Manager",
+        subtitle: "Manage photo assets, ambience showcases, food plating, and venue highlights",
+        addPhoto: "Add New Photo",
+        searchPlaceholder: "Search photos by caption or category...",
+        allCategories: "All Categories",
+        category: "Category",
+        caption: "Caption / Title",
+        deletePhoto: "Delete Photo",
+        noPhotosFound: "No photos found matching your criteria.",
+        savePhoto: "Save Photo",
+        cancel: "Cancel",
+        confirmDelete: "Are you sure you want to remove this photo from the gallery?",
+      },
+      auditLogs: {
+        title: "Audit Logs",
+        subtitle: "Immutable security trail of administrative mutations, logins, and system changes",
+        noLogs: "No audit logs found",
+        noLogsSubtitle: "Activity will appear here as actions are performed.",
+        action: "Action",
+        resource: "Resource",
+        user: "User",
+        timestamp: "Timestamp",
+        details: "Details",
+      },
+      users: {
+        title: "User Management",
+        subtitle: "Manage staff and admin accounts for the Sokem platform",
+        addUser: "Add User",
+        name: "Name",
+        email: "Email",
+        role: "Role",
+        status: "Status",
+        active: "Active",
+        inactive: "Inactive",
+        actions: "Actions",
+        noUsers: "No users found",
+      },
+      reservationsPage: {
+        title: "Reservations",
+        subtitle: "Manage and update guest reservation statuses",
+        newReservation: "New Reservation",
+        totalBookings: "Total Bookings",
+        confirmedCovers: "Confirmed Covers",
+        pendingReview: "Pending Review",
+        seatedCompleted: "Seated / Completed",
+        allRecords: "All records",
+        requiresAction: "Requires action",
+        currentlyDining: "Currently dining",
+        searchPlaceholder: "Search by guest name, phone, code...",
+        allStatuses: "All Statuses",
+        guest: "Guest",
+        date: "Date",
+        time: "Time",
+        guests: "Guests",
+        table: "Table",
+        status: "Status",
+        actions: "Actions",
+        noReservations: "No reservations found",
+        export: "Export CSV",
+        confirm: "Confirm",
+        cancel: "Cancel",
+      },
+    },
     footer: {
       tagline: "Fine Dining & Cocktail Lounge",
       explore: "Dining & Experiences",
@@ -357,11 +669,11 @@ export const translations: Record<Locale, TranslationDictionary> = {
       menu: "የምግብ ዝርዝር",
       reservations: "ቦታ ማስያዣ",
       events: "ዝግጅቶች",
-      gallery: "ማዕከለ-ስዕላት",
+      gallery: "ምስሎች",
       contact: "አድራሻ",
       signIn: "ግባ",
-      bookTable: "ጠረጴዛ ያስይዙ",
-      statusOpen: "ዛሬ ክፍት ነው • የጠረጴዛ ማስያዣ ዝግጁ ነው",
+      bookTable: "ቦታ ያስይዙ",
+      statusOpen: "ዛሬ ክፍት ነው • የቦታ ማስያዣ ዝግጁ ነው",
       addressShort: "ለገሀር፣ አዲስ አበባ",
     },
     hero: {
@@ -391,11 +703,11 @@ export const translations: Record<Locale, TranslationDictionary> = {
       highlightsTitle: "የተመረጡ ምግቦች",
       highlightsSubtitle: "በዋና ሼፎቻችን በየዕለቱ በጥንቃቄ የተዘጋጁ ልዩ ምግቦች እና መጠጦች።",
       viewFullMenu: "ሙሉውን ሜኑ ይመልከቱ",
-      eventsTitle: "መጪ ዝግጅቶች",
+      eventsTitle: "ልዩ ዝግጅቶች",
       eventsSubtitle: "የቀጥታ ጃዝ ሙዚቃ ምሽቶች እና ልዩ የመስተንግዶ ዝግጅቶች በአዲስ አበባ።",
       viewAllEvents: "ሁሉንም ዝግጅቶች ይመልከቱ",
       ambienceTitle: "ልዩ ድባብና ውበት",
-      ambienceSubtitle: "ለማይረሳ የደስታ ጊዜ እና በዓላት ተብሎ የተዘጋጀ ምቹ የመስተንግዶ ቦታ።",
+      ambienceSubtitle: "ለማይረሳ የደስታ ጊዜ እና ለበዓላት ተብሎ የተዘጋጀ ምቹ የመስተንግዶ ቦታ።",
       experiencePrompt: "ልዩ የመመገቢያ ጊዜ ለማሳለፍ ዝግጁ ነዎት?",
       reserveButton: "አሁኑኑ ጠረጴዛዎን ያስይዙ",
     },
@@ -406,28 +718,28 @@ export const translations: Record<Locale, TranslationDictionary> = {
         "ከልዩ የስጋ ምግቦች እስከ ጥበባዊ ኮክቴሎች ድረስ፣ በየቀኑ የሚዘጋጁ ትኩስ ምግቦችን ይጎብኙ።",
       searchPlaceholder: "ምግቦችን፣ ቅመሞችን፣ መጠጦችን ይፈልጉ...",
       allCategory: "ሁሉም",
-      clearFilter: "ማጣሪያን አጽዳ",
+      clearFilter: "አጽዳ",
       noItemsFound: "የተፈለገው የምግብ ዓይነት አልተገኘም።",
       viewDetails: "ዝርዝር ይመልከቱ",
       orderNow: "አሁን ይዘዙ",
       orderModalTitle: "በስልክ ይዘዙ",
       orderModalSubtitle: "ምግብ ለማዘዝ ወይም ለውሰድ ትዕዛዝ በቀጥታ ወደ ኩሽናችን ይደውሉ።",
-      callToOrder: "ለመዘዝ ይደውሉ",
+      callToOrder: "ለማዘዝ ይደውሉ",
       copyNumber: "ስልክ ቁጥር ቅዳ",
       copied: "ተቀድቷል!",
-      orderHoursNotice: "የኩሽና እና ባር ክፍት ሰዓት፡ በየቀኑ ከጠዋቱ 12:00 እስከ ማታ 5:30",
-      kitchenDirect: "የኩሽና ቀጥታ ስልክ",
+      orderHoursNotice: "የምግብ እና ባር ክፍት ሰዓት፡ በየቀኑ ከጠዋቱ 12:00 እስከ ማታ 5:30",
+      kitchenDirect: "ቀጥታ ስልክ",
       ingredients: "ዋና ይዘቶች",
       dietary: {
-        chefSpecial: "የሼፍ ልዩ",
-        signatureCocktail: "ልዩ ኮክቴል",
+        chefSpecial: "የሼፍ ልዩ ምግብ",
+        signatureCocktail: "የተመረጠ ልዩ ኮክቴል",
         glutenFree: "ከግሉተን ነፃ",
         vegetarian: "የአትክልት",
         vegan: "የጾም/ቪጋን",
       },
     },
     reservations: {
-      badge: "የኦንላይን ጠረጴዛ ማስያዣ",
+      badge: "የኦንላይን ቦታ ማስያዣ",
       title: "በሶከም ጠረጴዛ ያስይዙ",
       subtitle: "የመመገቢያ ጠረጴዛዎን በኦንላይን ያስይዙ ወይም በቀጥታ ይደውሉልን በ",
       stepPartySize: "1. የተጠቃሚዎችን ብዛት ይምረጡ",
@@ -461,7 +773,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
       subtitle:
         "በቀጥታ የቀረቡ የሙዚቃ ምሽቶች እና ወቅታዊ የመስተንግዶ ዝግጅቶች በአዲስ አበባ ይደሰቱ።",
       admissionFree: "መግቢያ በነጻ",
-      rsvpRequired: "ቅድመ ቦታ ማስያዝ ይመከራል",
+      rsvpRequired: "ቀድሞ ቦታ ማስያዝ ይመከራል",
       reserveSpot: "ለዝግጅቱ ጠረጴዛ ያስይዙ",
       noEvents: "በአሁኑ ሰዓት የታቀደ ዝግጅት የለም። በቅርቡ ይመለሱ!",
     },
@@ -484,7 +796,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
       badge: "ያግኙን",
       title: "አድራሻ እና ጥያቄዎች",
       subtitle:
-        "ስለ ጠረጴዛ፣ የግል ዝግጅቶች ወይም ሌላ ማንኛውም ጥያቄ የመስተንግዶ ቡድናችንን ያነጋግሩ።",
+        "ስለ ቦታ ማስያዝ ፣ የግል ዝግጅቶች ወይም ሌላ ማንኛውም ጥያቄ የመስተንግዶ ቡድናችንን ያነጋግሩ።",
       visitCardTitle: "ሶከምን ይጎብኙ",
       addressHeading: "አድራሻ",
       phoneHeading: "የቀጥታ ስልክ",
@@ -516,6 +828,162 @@ export const translations: Record<Locale, TranslationDictionary> = {
       authFailed: "ማረጋገጥ አልተሳካም",
       secureSession: "ደህንነቱ የተጠበቀ ክፍለ-ጊዜ",
       backToHome: "ወደ ዋናው ድረ-ገጽ ተመለስ",
+    },
+    admin: {
+      consoleTitle: "የሶከም አስተዳደር ማዕከል",
+      staffPortalTitle: "የሶከም ሰራተኛ ፖርታል",
+      viewPublicSite: "ዋናውን ድረ-ገጽ ይመልከቱ",
+      signOut: "ውጣ",
+      signingOut: "በመውጣት ላይ...",
+      themeLight: "ቀን",
+      themeDark: "ሌሊት",
+      nightMode: "የማታ ገጽታ",
+      lightMode: "የቀን ገጽታ",
+      nav: {
+        overview: "አጠቃላይ እይታ",
+        menuManager: "የምግብ አስተዳደር",
+        gallery: "የፎቶ ማዕከል",
+        events: "ዝግጅቶች",
+        reservations: "ቦታ ማስያዣዎች",
+        users: "ተጠቃሚዎች",
+        auditLogs: "የስራ ታሪክ",
+      },
+      dashboard: {
+        title: "ስራዎች እና ቁጥጥር",
+        subtitle: "ወቅታዊ የሬስቶራንት ስራ፣ የጠረጴዛ ሁኔታ እና የምናሌ ክምችት",
+        tonightCovers: "የዛሬ ምሽት እንግዶች",
+        tablesConfirmed: "ጠረጴዛዎች ተረጋግጠዋል",
+        manage: "አስተዳደር",
+        menuItemsActive: "ንቁ የምናሌ ምርቶች",
+        realtimeSync: "ወቅታዊ ትስስር ንቁ ነው",
+        specialEvents: "ልዩ ዝግጅቶች",
+        scheduled: "ታቅደዋል",
+        menuAvailability: "የምናሌ ተገኝነት እና ክምችት",
+        menuAvailabilitySubtitle: "ለዛሬ ምሽት ምርቶቹን ያብሩ ወይም ያጥፉ",
+        available: "ዝግጁ",
+        unavailable: "አይገኝም",
+        markAvailable: "እንዳለ ምልክት አድርግ",
+        markUnavailable: "እንደሌለ ምልክት አድርግ",
+        recentReservations: "የቅርብ ቦታ ማስያዣዎች",
+        guestName: "እንግዳ",
+        guests: "እንግዶች",
+        time: "ሰዓት",
+        status: "ሁኔታ",
+        confirm: "አረጋግጥ",
+        cancel: "ሰርዝ",
+        confirmed: "ተረጋግጧል",
+        pending: "በጥበቃ ላይ",
+        cancelled: "ተሰርዟል",
+      },
+      menuManager: {
+        title: "የምግብና መጠጥ ዝርዝር አስተዳደር",
+        subtitle: "የምግብ ካታሎግ፣ ዋጋዎች፣ ተገኝነት እና ልዩ ምግቦች ቁጥጥር",
+        addDish: "አዲስ ምግብ ጨምር",
+        searchPlaceholder: "የምግብ ስም፣ ማብራሪያ፣ ይዘት ፈልግ...",
+        allCategories: "ሁሉም ምድቦች",
+        allStock: "ሁሉም ክምችት",
+        inStock: "በክምችት ላይ ያለ",
+        soldOut: "ያለቀ / የሌለ",
+        dishName: "የምግብ ስም",
+        price: "ዋጋ (ብር)",
+        category: "ምድብ",
+        status: "ሁኔታ",
+        actions: "እርምጃዎች",
+        available: "አለ",
+        unavailable: "የለም",
+        editDish: "አስተካክል",
+        deleteDish: "አስወግድ",
+        noDishesFound: "የተፈለገው የምግብ ዓይነት አልተገኘም።",
+        saveDish: "መዝግብ",
+        cancel: "ሰርዝ",
+        description: "ዝርዝር ማብራሪያ",
+        image: "ምስል",
+        dietaryFlags: "የአመጋገብ ሁኔታዎች",
+        uploading: "በመጫን ላይ...",
+        confirmDelete: "እርግጠኛ ነዎት ይህን ምግብ ማስወገድ ይፈልጋሉ?",
+      },
+      eventManager: {
+        title: "የዝግጅቶችና ልዩ ምሽቶች አስተዳደር",
+        subtitle: "የቀጥታ ሙዚቃ፣ ዲጄ ዝግጅቶች እና ልዩ የምሽት መርሃግብሮችን ያቅዱ",
+        addEvent: "አዲስ ዝግጅት ጨምር",
+        searchPlaceholder: "ዝግጅቶችን በርዕስ ወይም መለያ ፈልግ...",
+        totalScheduled: "አጠቃላይ የታቀዱ",
+        highlightEvent: "ዋና ዝግጅት",
+        visiblePublic: "በህዝብ ገጽ ላይ የሚታይ",
+        noEventsFound: "ምንም ዝግጅት አልተገኘም።",
+        date: "ቀን",
+        time: "ሰዓት",
+        badge: "መለያ",
+        description: "ማብራሪያ",
+        editEvent: "አስተካክል",
+        deleteEvent: "አስወግድ",
+        saveEvent: "መዝግብ",
+        cancel: "ሰርዝ",
+        confirmDelete: "እርግጠኛ ነዎት ይህን ዝግጅት ማስወገድ ይፈልጋሉ?",
+      },
+      galleryManager: {
+        title: "የፎቶ ማዕከል አስተዳደር",
+        subtitle: "የሬስቶራንት ውበት፣ ልዩ ምግቦች እና የመስተንግዶ ፎቶዎችን ያስተዳድሩ",
+        addPhoto: "አዲስ ፎቶ ጨምር",
+        searchPlaceholder: "ፎቶዎችን በመግለጫ ወይም ምድብ ፈልግ...",
+        allCategories: "ሁሉም ምድቦች",
+        category: "ምድብ",
+        caption: "ርዕስ / መግለጫ",
+        deletePhoto: "ፎቶ አስወግድ",
+        noPhotosFound: "ምንም ፎቶ አልተገኘም።",
+        savePhoto: "መዝግብ",
+        cancel: "ሰርዝ",
+        confirmDelete: "እርግጠኛ ነዎት ይህን ፎቶ ማስወገድ ይፈልጋሉ?",
+      },
+      auditLogs: {
+        title: "የስራ ታሪክ ምዝገባ",
+        subtitle: "የአስተዳደር ለውጦች፣ መግቢያዎች እና የስርዓት ለውጦች የማይሻሻል ሰነድ",
+        noLogs: "ምንም ታሪክ አልተገኘም",
+        noLogsSubtitle: "ድርጊቶች ሲከናወኑ እዚህ ይታያሉ።",
+        action: "ድርጊት",
+        resource: "ምንጭ",
+        user: "ተጠቃሚ",
+        timestamp: "ጊዜ",
+        details: "ዝርዝሮች",
+      },
+      users: {
+        title: "የተጠቃሚ አስተዳደር",
+        subtitle: "ለሶከም መድረክ ሰራተኛ እና አስተዳዳሪ መለያዎችን ያስተዳድሩ",
+        addUser: "ተጠቃሚ ጨምር",
+        name: "ስም",
+        email: "ኢሜይል",
+        role: "ሚና",
+        status: "ሁኔታ",
+        active: "ንቁ",
+        inactive: "ንቁ አይደለም",
+        actions: "ድርጊቶች",
+        noUsers: "ምንም ተጠቃሚ አልተገኘም",
+      },
+      reservationsPage: {
+        title: "የቦታ ማስያዣዎች አስተዳደር",
+        subtitle: "የእንግዳ ቦታ ማስያዣዎችን ይቆጣጠሩ፣ ያረጋግጡ እና ሁኔታቸውን ያዘምኑ",
+        newReservation: "አዲስ ቦታ ማስያዝ",
+        totalBookings: "አጠቃላይ ቦታ ማስያዣዎች",
+        confirmedCovers: "የተረጋገጡ እንግዶች",
+        pendingReview: "በጥበቃ ላይ ያሉ",
+        seatedCompleted: "የተስተናገዱ / የተጠናቀቁ",
+        allRecords: "ሁሉም መረጃዎች",
+        requiresAction: "ማረጋገጫ የሚሹ",
+        currentlyDining: "በመመገብ ላይ ያሉ",
+        searchPlaceholder: "በእንግዳ ስም፣ ስልክ፣ ወይም ኮድ ፈልግ...",
+        allStatuses: "ሁሉም ሁኔታዎች",
+        guest: "እንግዳ",
+        date: "ቀን",
+        time: "ሰዓት",
+        guests: "እንግዶች",
+        table: "ጠረጴዛ",
+        status: "ሁኔታ",
+        actions: "እርምጃዎች",
+        noReservations: "ምንም ቦታ ማስያዝ አልተገኘም",
+        export: "ወደ ፋይል ቅዳ",
+        confirm: "አረጋግጥ",
+        cancel: "ሰርዝ",
+      },
     },
     footer: {
       tagline: "ዘመናዊ ምግብና ኮክቴል ላውንጅ",

@@ -22,6 +22,7 @@ import { MOCK_CATEGORIES, MOCK_MENU_ITEMS } from "@/lib/data";
 import { formatPrice } from "@/lib/utils";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { useLanguage } from "@/components/ui/LanguageContext";
 import {
   createMenuItemAction,
   updateMenuItemAction,
@@ -49,6 +50,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
   initialItems,
   initialCategories,
 }) => {
+  const { t } = useLanguage();
   const categories = initialCategories || MOCK_CATEGORIES;
   const [items, setItems] = useState<MenuItem[]>(initialItems || MOCK_MENU_ITEMS);
   const [searchQuery, setSearchQuery] = useState("");
@@ -107,7 +109,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to remove this dish from the menu?")) {
+    if (confirm(t.admin.menuManager.confirmDelete)) {
       setItems((prev) => prev.filter((i) => i.id !== id));
       try {
         await deleteMenuItemAction(id);
@@ -258,8 +260,8 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
       {/* Admin Unified Header */}
       <AdminHeader
         user={user}
-        title="Menu & Stock Manager"
-        subtitle="Live catalog control, dish pricing, availability switches, and culinary specials"
+        title={t.admin.menuManager.title}
+        subtitle={t.admin.menuManager.subtitle}
         actions={
           <Button
             onClick={openAddModal}
@@ -268,7 +270,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
             className="gap-2 shadow-glow font-semibold"
           >
             <Plus className="w-4 h-4" />
-            <span>Add New Dish</span>
+            <span>{t.admin.menuManager.addDish}</span>
           </Button>
         }
       />
@@ -280,7 +282,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
           <input
             type="text"
-            placeholder="Search dish name, description, ingredients..."
+            placeholder={t.admin.menuManager.searchPlaceholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
@@ -302,7 +304,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="w-full py-2.5 px-3.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
           >
-            <option value="all">All Categories ({items.length})</option>
+            <option value="all">{t.admin.menuManager.allCategories} ({items.length})</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name} ({items.filter((i) => i.categoryId === cat.id).length})
@@ -321,7 +323,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            All
+            {t.admin.menuManager.allStock}
           </button>
           <button
             onClick={() => setStatusFilter("available")}
@@ -331,7 +333,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            In Stock
+            {t.admin.menuManager.inStock}
           </button>
           <button
             onClick={() => setStatusFilter("sold_out")}
@@ -341,7 +343,7 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            Sold Out
+            {t.admin.menuManager.soldOut}
           </button>
         </div>
       </div>
@@ -371,12 +373,12 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
           <table className="w-full text-left text-sm text-slate-300">
             <thead className="bg-slate-900/90 text-xs uppercase text-slate-400 border-b border-slate-800">
               <tr>
-                <th className="px-6 py-3.5">Dish</th>
-                <th className="px-6 py-3.5">Category</th>
-                <th className="px-6 py-3.5">Price</th>
-                <th className="px-6 py-3.5">Dietary Tags</th>
-                <th className="px-6 py-3.5 text-center">Status</th>
-                <th className="px-6 py-3.5 text-right">Actions</th>
+                <th className="px-6 py-3.5">{t.admin.menuManager.dishName}</th>
+                <th className="px-6 py-3.5">{t.admin.menuManager.category}</th>
+                <th className="px-6 py-3.5">{t.admin.menuManager.price}</th>
+                <th className="px-6 py-3.5">{t.admin.menuManager.dietaryFlags}</th>
+                <th className="px-6 py-3.5 text-center">{t.admin.menuManager.status}</th>
+                <th className="px-6 py-3.5 text-right">{t.admin.menuManager.actions}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
@@ -434,11 +436,11 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
                     >
                       {item.isAvailable ? (
                         <Badge variant="success" className="cursor-pointer">
-                          ● In Stock
+                          ● {t.admin.menuManager.inStock}
                         </Badge>
                       ) : (
                         <Badge variant="danger" className="cursor-pointer">
-                          ● Sold Out
+                          ● {t.admin.menuManager.soldOut}
                         </Badge>
                       )}
                     </button>
@@ -605,10 +607,10 @@ export const MenuManagerView: React.FC<MenuManagerViewProps> = ({
               variant="ghost"
               onClick={() => setIsModalOpen(false)}
             >
-              Cancel
+              {t.admin.menuManager.cancel}
             </Button>
             <Button type="submit" variant="primary">
-              {editingItemId ? "Save Changes" : "Create Dish"}
+              {t.admin.menuManager.saveDish}
             </Button>
           </div>
         </form>

@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/Button";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { logoutAction } from "@/lib/auth/actions";
 import { SOKEM_CONFIG } from "@/config/site";
+import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 interface AdminHeaderProps {
   user: AuthSessionPayload;
@@ -37,6 +40,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 }) => {
   const pathname = usePathname();
   const [isLoggingOut, startLogoutTransition] = useTransition();
+  const { t } = useLanguage();
 
   const handleLogout = () => {
     startLogoutTransition(async () => {
@@ -50,25 +54,25 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 
   const navItems = [
     {
-      label: "Overview",
+      label: t.admin.nav.overview,
       href: `${basePath}/dashboard`,
       icon: LayoutDashboard,
       isActive: pathname === `${basePath}/dashboard`,
     },
     {
-      label: "Menu Manager",
+      label: t.admin.nav.menuManager,
       href: `${basePath}/menu`,
       icon: Utensils,
       isActive: pathname.startsWith(`${basePath}/menu`),
     },
     {
-      label: "Gallery",
+      label: t.admin.nav.gallery,
       href: `${basePath}/gallery`,
       icon: ImageIcon,
       isActive: pathname.startsWith(`${basePath}/gallery`),
     },
     {
-      label: "Events",
+      label: t.admin.nav.events,
       href: `${basePath}/events`,
       icon: Sparkles,
       isActive: pathname.startsWith(`${basePath}/events`),
@@ -76,19 +80,19 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
     ...(user.role === "ADMIN" && !isStaffSection
       ? [
           {
-            label: "Reservations",
+            label: t.admin.nav.reservations,
             href: "/admin/reservations",
             icon: CalendarCheck2,
             isActive: pathname.startsWith("/admin/reservations"),
           },
           {
-            label: "Users",
+            label: t.admin.nav.users,
             href: "/admin/users",
             icon: Users,
             isActive: pathname.startsWith("/admin/users"),
           },
           {
-            label: "Audit Logs",
+            label: t.admin.nav.auditLogs,
             href: "/admin/audit",
             icon: FileText,
             isActive: pathname.startsWith("/admin/audit"),
@@ -99,8 +103,9 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 
   return (
     <div className="space-y-6 border-b border-slate-200 dark:border-slate-800 pb-6">
-      {/* Top Bar: Brand, Session, and Actions */}
+      {/* Top Bar: Brand, Controls, Session, Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* Brand */}
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-amber-500/40 dark:border-gold/40 flex items-center justify-center bg-gold/10 p-1 shadow-sm">
             <Image
@@ -114,7 +119,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           <div>
             <div className="flex items-center gap-2 text-amber-700 dark:text-gold text-xs font-bold uppercase tracking-wider">
               <Shield className="w-3.5 h-3.5" />
-              <span>{isStaffSection ? "Sokem Staff Portal" : "Sokem Management Console"}</span>
+              <span>{isStaffSection ? t.admin.staffPortalTitle : t.admin.consoleTitle}</span>
             </div>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {title}
@@ -125,17 +130,23 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           </div>
         </div>
 
-        {/* User Session Info & Action Controls */}
-        <div className="flex flex-wrap items-center gap-3">
+        {/* Controls: Theme, Language, Public Site, User Info, Sign Out */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          {/* Theme & Language toggles */}
+          <ThemeSwitcher showLabel={true} />
+          <LanguageSwitcher />
+
+          {/* View public site */}
           <Link
             href="/"
             target="_blank"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900/80 dark:hover:bg-slate-800 border border-slate-300 dark:border-white/[0.1] text-xs text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
-            <span>View Public Site</span>
+            <span>{t.admin.viewPublicSite}</span>
           </Link>
 
+          {/* User session badge */}
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-white/[0.12] text-xs text-slate-700 dark:text-slate-300">
             <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span className="font-medium text-slate-900 dark:text-white">{user.name}</span>
@@ -145,6 +156,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             </span>
           </div>
 
+          {/* Sign out */}
           <Button
             variant="outline"
             size="sm"
@@ -153,12 +165,12 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             className="gap-1.5 text-xs text-rose-700 dark:text-rose-300 hover:text-rose-800 dark:hover:text-rose-200 border-rose-400/40 dark:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10"
           >
             <LogOut className="w-3.5 h-3.5" />
-            <span>{isLoggingOut ? "Signing Out..." : "Sign Out"}</span>
+            <span>{isLoggingOut ? t.admin.signingOut : t.admin.signOut}</span>
           </Button>
         </div>
       </div>
 
-      {/* Navigation Tabs & Page Level Action Buttons */}
+      {/* Navigation Tabs & Page-Level Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
         <nav className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
           {navItems.map((item) => {

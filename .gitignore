@@ -1,42 +1,74 @@
-# dependencies
+# ==============================================================================
+# SOKEM BAR AND RESTAURANT — .gitignore
+# ==============================================================================
+
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
 
-# testing
+# Testing
 /coverage
 
-# next.js
+# Next.js Build Output & Cache
 /.next/
 /out/
-
-# production
 /build
 
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
+# Environment files & Secrets
+# NEVER commit environment files containing secrets
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production
+.env.production.local
+.env*.local
+# Explicitly keep .env.example tracked
+!.env.example
 
-# vercel
-.vercel
+# Certificates, Keys & Credentials
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.cer
+id_rsa*
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# database & storage
+# Local Databases & Journals
 *.db
 *.db-journal
 *.sqlite
 *.sqlite3
-/public/uploads
+prisma/dev.db
+prisma/dev.db-journal
 
+# User Uploaded Content
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Logs & Debug Output
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript Build Info
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel deployment cache
+.vercel

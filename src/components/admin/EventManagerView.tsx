@@ -21,6 +21,7 @@ import { MOCK_EVENTS } from "@/lib/data";
 import { EventItem } from "@/types";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { useLanguage } from "@/components/ui/LanguageContext";
 import {
   createEventAction,
   updateEventAction,
@@ -37,6 +38,7 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
   user,
   initialEvents,
 }) => {
+  const { t } = useLanguage();
   const [events, setEvents] = useState<EventItem[]>(initialEvents || MOCK_EVENTS);
   const [searchQuery, setSearchQuery] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -68,7 +70,7 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
   }, [events, searchQuery]);
 
   const handleDelete = async (id: string) => {
-    if (confirm("Are you sure you want to remove this event?")) {
+    if (confirm(t.admin.eventManager.confirmDelete)) {
       setEvents((prev) => prev.filter((e) => e.id !== id));
       try {
         await deleteEventAction(id);
@@ -180,8 +182,8 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
       {/* Admin Unified Header */}
       <AdminHeader
         user={user}
-        title="Events & Theme Nights Manager"
-        subtitle="Schedule live performances, cocktail masterclasses, DJ sets, and special evenings"
+        title={t.admin.eventManager.title}
+        subtitle={t.admin.eventManager.subtitle}
         actions={
           <Button
             onClick={openAddModal}
@@ -190,7 +192,7 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
             className="gap-2 shadow-glow font-semibold"
           >
             <Plus className="w-4 h-4" />
-            <span>Schedule New Event</span>
+            <span>{t.admin.eventManager.addEvent}</span>
           </Button>
         }
       />
@@ -198,17 +200,17 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <Card className="p-6 border-slate-800">
-          <span className="text-xs uppercase font-bold text-slate-400 block">Total Scheduled</span>
+          <span className="text-xs uppercase font-bold text-slate-400 block">{t.admin.eventManager.totalScheduled}</span>
           <span className="font-serif text-3xl font-bold text-white mt-2 block">
-            {events.length} Events
+            {events.length}
           </span>
-          <span className="text-xs text-emerald-400 mt-1 block">Visible on public events page</span>
+          <span className="text-xs text-emerald-400 mt-1 block">{t.admin.eventManager.visiblePublic}</span>
         </Card>
 
         <Card className="p-6 border-slate-800">
-          <span className="text-xs uppercase font-bold text-slate-400 block">Highlight Event</span>
+          <span className="text-xs uppercase font-bold text-slate-400 block">{t.admin.eventManager.highlightEvent}</span>
           <span className="font-serif text-xl font-bold text-gold mt-2 block truncate">
-            {events[0]?.title || "No Events"}
+            {events[0]?.title || "—"}
           </span>
           <span className="text-xs text-slate-400 mt-1 block">
             {events[0]?.date} • {events[0]?.time}
@@ -229,7 +231,7 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
         <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
         <input
           type="text"
-          placeholder="Search event title, description, or badge..."
+          placeholder={t.admin.eventManager.searchPlaceholder}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors"
@@ -407,10 +409,10 @@ export const EventManagerView: React.FC<EventManagerViewProps> = ({
               variant="ghost"
               onClick={() => setIsModalOpen(false)}
             >
-              Cancel
+              {t.admin.eventManager.cancel}
             </Button>
             <Button type="submit" variant="primary">
-              {editingEventId ? "Save Changes" : "Publish Event"}
+              {t.admin.eventManager.saveEvent}
             </Button>
           </div>
         </form>

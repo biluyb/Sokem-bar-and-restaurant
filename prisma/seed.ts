@@ -15,8 +15,10 @@ async function main() {
   console.log("🌱 Seeding database...");
 
   // ── Users ────────────────────────────────────────────────────────────────
-  const adminPasswordHash = await bcrypt.hash("Admin@111", 10);
-  const staffPasswordHash = await bcrypt.hash("Staff@Sokem2026!", 10);
+  const adminPassword = process.env.ADMIN_INITIAL_PASSWORD || "Admin@111";
+  const staffPassword = process.env.STAFF_INITIAL_PASSWORD || "Staff@Sokem2026!";
+  const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
+  const staffPasswordHash = await bcrypt.hash(staffPassword, 10);
 
   const admin = await prisma.user.upsert({
     where: { email: "admin@sokem-restaurant.com" },

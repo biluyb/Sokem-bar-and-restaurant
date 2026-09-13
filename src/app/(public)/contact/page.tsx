@@ -143,7 +143,7 @@ export default function ContactPage() {
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-gray-300">Monday – Sunday</span>
-                  <span className="text-slate-900 dark:text-white font-medium">{SOKEM_CONFIG.hours.weekdays}</span>
+                  <span className="text-slate-900 dark:text-white font-medium">{SOKEM_CONFIG.hours.summary}</span>
                 </div>
               </div>
             </div>

@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { SOKEM_CONFIG } from "@/config/site";
 
 export const viewport: Viewport = {
@@ -89,7 +87,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${jakarta.variable} dark`} suppressHydrationWarning>
+    <html lang="en" className={`${playfair.variable} ${jakarta.variable} light`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -98,12 +96,12 @@ export default function RootLayout({
                 try {
                   var savedTheme = localStorage.getItem('sokem-theme');
                   var root = document.documentElement;
-                  if (savedTheme === 'light') {
-                    root.classList.remove('dark');
-                    root.classList.add('light');
-                  } else {
+                  if (savedTheme === 'dark') {
                     root.classList.remove('light');
                     root.classList.add('dark');
+                  } else {
+                    root.classList.remove('dark');
+                    root.classList.add('light');
                   }
                 } catch (e) {}
               })();
@@ -121,9 +119,7 @@ export default function RootLayout({
           </div>
 
           <div className="relative z-10 flex flex-col min-h-screen w-full max-w-full">
-            <Header />
-            <main className="flex-grow w-full max-w-full overflow-x-hidden">{children}</main>
-            <Footer />
+            {children}
           </div>
         </LanguageProvider>
       </body>

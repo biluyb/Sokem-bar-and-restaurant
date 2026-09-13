@@ -6,7 +6,13 @@ export const SESSION_COOKIE_NAME = "sokem_admin_session";
 const SESSION_DURATION_SECONDS = 60 * 60 * 24; // 24 hours
 
 function getSecretKey(): Uint8Array {
-  const secret = process.env.AUTH_SECRET || "fallback-secret-sokem-restaurant-admin-key-2026-auth";
+  const secret = process.env.AUTH_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("[Security] AUTH_SECRET environment variable is required in production.");
+    }
+    return new TextEncoder().encode("dev-secret-sokem-restaurant-admin-key-2026-auth");
+  }
   return new TextEncoder().encode(secret);
 }
 

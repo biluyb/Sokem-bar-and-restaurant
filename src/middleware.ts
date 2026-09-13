@@ -5,8 +5,14 @@ import { AuthSessionPayload } from "@/lib/validators/auth";
 
 const SESSION_COOKIE_NAME = "sokem_admin_session";
 
-function getSecretKey(): Uint8Array {
-  const secret = process.env.AUTH_SECRET || "fallback-secret-sokem-restaurant-admin-key-2026-auth";
+function getSecretKey(): Uint8Array | null {
+  const secret = process.env.AUTH_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      return null;
+    }
+    return new TextEncoder().encode("dev-secret-sokem-restaurant-admin-key-2026-auth");
+  }
   return new TextEncoder().encode(secret);
 }
 
@@ -16,6 +22,7 @@ async function getSessionPayload(request: NextRequest): Promise<AuthSessionPaylo
 
   try {
     const secretKey = getSecretKey();
+    if (!secretKey) return null;
     const { payload } = await jwtVerify(sessionCookie, secretKey, {
       algorithms: ["HS256"],
     });

@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { useLanguage } from "@/components/ui/LanguageContext";
 
 export interface AuditLogItem {
   id: string;
@@ -30,6 +31,7 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({
   logs = [],
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { t } = useLanguage();
 
   const filteredLogs = logs.filter((log) => {
     if (!searchQuery.trim()) return true;
@@ -66,8 +68,8 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <AdminHeader
         user={user}
-        title="Audit Logs"
-        subtitle="Immutable security trail of administrative mutations, logins, and system changes"
+        title={t.admin.auditLogs.title}
+        subtitle={t.admin.auditLogs.subtitle}
       />
 
       <Card className="p-4 space-y-4">
@@ -88,18 +90,18 @@ export const AuditLogView: React.FC<AuditLogViewProps> = ({
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-900/90 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
               <tr>
-                <th className="px-6 py-4">Timestamp</th>
-                <th className="px-6 py-4">Operator</th>
-                <th className="px-6 py-4">Action</th>
-                <th className="px-6 py-4">Resource</th>
-                <th className="px-6 py-4">Details</th>
+                <th className="px-6 py-4">{t.admin.auditLogs.timestamp}</th>
+                <th className="px-6 py-4">{t.admin.auditLogs.user}</th>
+                <th className="px-6 py-4">{t.admin.auditLogs.action}</th>
+                <th className="px-6 py-4">{t.admin.auditLogs.resource}</th>
+                <th className="px-6 py-4">{t.admin.auditLogs.details}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/80 bg-slate-950/40">
               {filteredLogs.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
-                    No audit records match your query.
+                    {t.admin.auditLogs.noLogs}
                   </td>
                 </tr>
               ) : (

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
 import { AuthSessionPayload } from "@/lib/validators/auth";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { useLanguage } from "@/components/ui/LanguageContext";
 import {
   createUserAction,
   deleteUserAction,
@@ -48,6 +49,7 @@ export const UserManagerView: React.FC<UserManagerViewProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -138,8 +140,8 @@ export const UserManagerView: React.FC<UserManagerViewProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <AdminHeader
         user={user}
-        title="User & Staff Management"
-        subtitle="Manage administrative accounts, staff permissions, and portal credentials"
+        title={t.admin.users.title}
+        subtitle={t.admin.users.subtitle}
         actions={
           <Button
             onClick={() => {
@@ -151,7 +153,7 @@ export const UserManagerView: React.FC<UserManagerViewProps> = ({
             className="gap-2 shadow-glow font-semibold"
           >
             <Plus className="w-4 h-4" />
-            <span>Create New User</span>
+            <span>{t.admin.users.addUser}</span>
           </Button>
         }
       />
@@ -161,11 +163,11 @@ export const UserManagerView: React.FC<UserManagerViewProps> = ({
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-900/90 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
               <tr>
-                <th className="px-6 py-4">User</th>
-                <th className="px-6 py-4">Email</th>
-                <th className="px-6 py-4">Role</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-4">{t.admin.users.name}</th>
+                <th className="px-6 py-4">{t.admin.users.email}</th>
+                <th className="px-6 py-4">{t.admin.users.role}</th>
+                <th className="px-6 py-4">{t.admin.users.status}</th>
+                <th className="px-6 py-4 text-right">{t.admin.users.actions}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/80 bg-slate-950/40">
