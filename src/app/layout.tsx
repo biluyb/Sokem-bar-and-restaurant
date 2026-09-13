@@ -109,7 +109,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="flex flex-col min-h-screen bg-canvas text-slate-900 dark:text-gray-100 font-sans antialiased selection:bg-gold selection:text-slate-950 overflow-x-hidden relative transition-colors duration-300 w-full max-w-[100vw]">
+      <body className="flex flex-col min-h-screen bg-[#FAF9F6] dark:bg-[#0E1015] text-slate-900 dark:text-gray-100 font-sans antialiased selection:bg-gold selection:text-slate-950 overflow-x-hidden relative transition-colors duration-300 w-full max-w-[100vw]">
         <LanguageProvider>
           {/* Ambient Lighting Orbs - strictly clipped to prevent horizontal overflow on mobile */}
           <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">

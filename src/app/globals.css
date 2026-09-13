@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --bg-main: #0E1015;
-  --text-main: #F3F4F6;
-  --text-muted: #9CA3AF;
-  --card-bg: rgba(22, 25, 34, 0.75);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --radial-bg: radial-gradient(circle at 50% 0%, #1A1D27 0%, #0E1015 70%);
+  --bg-main: #FAF9F6;
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --card-bg: #FFFFFF;
+  --card-border: rgba(15, 23, 42, 0.08);
+  --radial-bg: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F5F3EF 100%);
+  color-scheme: light;
 }
 
 html.light {

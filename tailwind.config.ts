@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   darkMode: "class",
   content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,10 +12,10 @@ const config: Config = {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: "#0E1015",
-          lighter: "#161922",
-          card: "rgba(22, 25, 34, 0.75)",
-          border: "rgba(255, 255, 255, 0.1)",
+          DEFAULT: "var(--bg-main)",
+          lighter: "var(--card-bg)",
+          card: "var(--card-bg)",
+          border: "var(--card-border)",
         },
         gold: {
           DEFAULT: "#F59E0B",
