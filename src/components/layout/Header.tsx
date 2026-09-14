@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 dark:bg-[#0E1117]/95 backdrop-blur-md border-b border-slate-200 dark:border-white/[0.08] shadow-sm dark:shadow-lg dark:shadow-black/40 transition-colors duration-200">
+    <header className="sticky top-0 z-40 w-full bg-white dark:bg-[#0E1117] md:bg-white/95 md:dark:bg-[#0E1117]/95 md:backdrop-blur-md border-b border-slate-200 dark:border-white/[0.08] shadow-sm dark:shadow-lg dark:shadow-black/40 transition-colors duration-200">
       {/* Tier 1: Slender Hospitality & Utility Bar */}
       <div className="border-b border-slate-200/80 dark:border-white/[0.06] bg-slate-50/90 dark:bg-[#0A0C10]/95 px-4 sm:px-6 lg:px-8 py-1.5 text-[11px] text-slate-600 dark:text-gray-400">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
