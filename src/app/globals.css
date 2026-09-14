@@ -87,20 +87,28 @@ html.dark ::-webkit-scrollbar-thumb {
   background: #D97706;
 }
 
-/* Luxury Cards */
+/* Cards: High-performance mobile fallback with desktop glassmorphism */
 .luminous-card {
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-html.light .luminous-card {
   background: #FFFFFF;
   border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transform: translateZ(0);
+}
+
+html.dark .luminous-card {
+  background: #161922;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Enable richer backdrop blur only on desktop/tablet to preserve 60fps on older mobile GPUs (iPhone 6 Plus) */
+@media (min-width: 768px) {
+  .luminous-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
 }
 
 .luminous-card:hover {

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { z } from "zod";
+import { sendEmail } from "@/lib/email";
 import { ReservationSchema } from "@/lib/validators/reservation";
 
 // In-memory rate limiting: max 5 reservations per 10 minutes per IP
@@ -50,104 +51,65 @@ export async function POST(request: Request) {
     const { customerName, email, phone, partySize, date, timeSlot, specialNotes } = result.data;
     const bookingCode = `SKM-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    const smtpHost = process.env.SMTP_HOST;
-    const smtpPort = parseInt(process.env.SMTP_PORT || "587", 10);
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS;
     const reservationRecipient = process.env.CONTACT_EMAIL || "biluquick123@gmail.com";
 
-    if (smtpHost && smtpUser && smtpPass) {
-      const cleanPass = smtpPass.replace(/\s+/g, "");
-      const isGmail = smtpHost === "smtp.gmail.com" || smtpUser.endsWith("@gmail.com");
-      const transporter = isGmail
-        ? nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: smtpUser,
-              pass: cleanPass,
-            },
-          })
-        : nodemailer.createTransport({
-            host: smtpHost,
-            port: smtpPort,
-            secure: smtpPort === 465,
-            auth: {
-              user: smtpUser,
-              pass: cleanPass,
-            },
-          });
-
-      await transporter.sendMail({
-        from: `"Sokem Reservations" <${smtpUser}>`,
-        replyTo: email,
-        to: reservationRecipient,
-        subject: `[New Reservation: ${bookingCode}] ${customerName} • ${partySize} Guests • ${date} @ ${timeSlot}`,
-        text: `New Table Reservation Received!\n\nReference: ${bookingCode}\nName: ${customerName}\nEmail: ${email}\nPhone: ${phone}\nParty Size: ${partySize} Guests\nDate & Time: ${date} at ${timeSlot}\nSpecial Notes: ${specialNotes || "None"}\n`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background-color: #0f172a; color: #f8fafc; border-radius: 12px; border: 1px solid #334155;">
-            <div style="text-align: center; margin-bottom: 20px;">
-              <h1 style="color: #f59e0b; margin: 0; font-size: 24px; letter-spacing: 1px;">SOKEM BAR & RESTAURANT</h1>
-              <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Table Reservation Notification</p>
-            </div>
-            
-            <div style="background-color: #1e293b; padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
-              <p style="margin: 0; font-size: 13px; color: #94a3b8;">Booking Reference</p>
-              <h2 style="margin: 4px 0 0 0; color: #f8fafc; font-size: 20px; font-family: monospace;">${bookingCode}</h2>
-            </div>
-
-            <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px;">
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 10px 0; color: #94a3b8;">Guest Name</td>
-                <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">${customerName}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 10px 0; color: #94a3b8;">Party Size</td>
-                <td style="padding: 10px 0; font-weight: bold; color: #f59e0b; text-align: right;">${partySize} Guests</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 10px 0; color: #94a3b8;">Date & Time</td>
-                <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">${date} at ${timeSlot}</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 10px 0; color: #94a3b8;">Phone Number</td>
-                <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">
-                  <a href="tel:${phone.replace(/\s+/g, "")}" style="color: #38bdf8; text-decoration: none;">${phone}</a>
-                </td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 10px 0; color: #94a3b8;">Email Address</td>
-                <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">
-                  <a href="mailto:${email}" style="color: #38bdf8; text-decoration: none;">${email}</a>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding: 10px 0; color: #94a3b8; vertical-align: top;">Special Requests</td>
-                <td style="padding: 10px 0; color: #e2e8f0; text-align: right;">${specialNotes || "None provided"}</td>
-              </tr>
-            </table>
-
-            <div style="text-align: center; border-top: 1px solid #334155; padding-top: 16px; font-size: 12px; color: #64748b;">
-              <p style="margin: 0;">Sokem Bar & Restaurant • Legehar, Addis Ababa</p>
-              <p style="margin: 4px 0 0 0;">Recipient: ${reservationRecipient}</p>
-            </div>
+    // Non-blocking, fast email dispatch via pooled SSL connection
+    sendEmail({
+      fromName: "Sokem Reservations",
+      replyTo: email,
+      to: reservationRecipient,
+      subject: `[New Reservation: ${bookingCode}] ${customerName} • ${partySize} Guests • ${date} @ ${timeSlot}`,
+      text: `New Table Reservation Received!\n\nReference: ${bookingCode}\nName: ${customerName}\nEmail: ${email}\nPhone: ${phone}\nParty Size: ${partySize} Guests\nDate & Time: ${date} at ${timeSlot}\nSpecial Notes: ${specialNotes || "None"}\n`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background-color: #0f172a; color: #f8fafc; border-radius: 12px; border: 1px solid #334155;">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <h1 style="color: #f59e0b; margin: 0; font-size: 24px; letter-spacing: 1px;">SOKEM BAR & RESTAURANT</h1>
+            <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Table Reservation Notification</p>
           </div>
-        `,
-      });
+          
+          <div style="background-color: #1e293b; padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
+            <p style="margin: 0; font-size: 13px; color: #94a3b8;">Booking Reference</p>
+            <h2 style="margin: 4px 0 0 0; color: #f8fafc; font-size: 20px; font-family: monospace;">${bookingCode}</h2>
+          </div>
 
-      console.log(`[Reservation] Email notification sent successfully to ${reservationRecipient}`);
-    } else {
-      console.log("[Reservation] SMTP not configured. Simulated direct email dispatch:", {
-        recipient: reservationRecipient,
-        bookingCode,
-        customerName,
-        partySize,
-        date,
-        timeSlot,
-        email,
-        phone,
-        specialNotes,
-      });
-    }
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px;">
+            <tr style="border-bottom: 1px solid #334155;">
+              <td style="padding: 10px 0; color: #94a3b8;">Guest Name</td>
+              <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">${customerName}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+              <td style="padding: 10px 0; color: #94a3b8;">Party Size</td>
+              <td style="padding: 10px 0; font-weight: bold; color: #f59e0b; text-align: right;">${partySize} Guests</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+              <td style="padding: 10px 0; color: #94a3b8;">Date & Time</td>
+              <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">${date} at ${timeSlot}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+              <td style="padding: 10px 0; color: #94a3b8;">Phone Number</td>
+              <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">
+                <a href="tel:${phone.replace(/\s+/g, "")}" style="color: #38bdf8; text-decoration: none;">${phone}</a>
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid #334155;">
+              <td style="padding: 10px 0; color: #94a3b8;">Email Address</td>
+              <td style="padding: 10px 0; font-weight: bold; color: #f8fafc; text-align: right;">
+                <a href="mailto:${email}" style="color: #38bdf8; text-decoration: none;">${email}</a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; color: #94a3b8; vertical-align: top;">Special Requests</td>
+              <td style="padding: 10px 0; color: #e2e8f0; text-align: right;">${specialNotes || "None provided"}</td>
+            </tr>
+          </table>
+
+          <div style="text-align: center; border-top: 1px solid #334155; padding-top: 16px; font-size: 12px; color: #64748b;">
+            <p style="margin: 0;">Sokem Bar & Restaurant • Legehar, Addis Ababa</p>
+            <p style="margin: 4px 0 0 0;">Recipient: ${reservationRecipient}</p>
+          </div>
+        </div>
+      `,
+    }).catch((err) => console.error("[Reservation Email Background Error]:", err));
 
     return NextResponse.json({
       success: true,

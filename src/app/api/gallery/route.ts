@@ -9,7 +9,11 @@ export async function GET() {
     const items = await prisma.galleryItem.findMany({
       orderBy: [{ displayOrder: "asc" }, { createdAt: "desc" }],
     });
-    return NextResponse.json(items);
+    return NextResponse.json(items, {
+      headers: {
+        "Cache-Control": "public, s-maxage=120, stale-while-revalidate=600",
+      },
+    });
   } catch (error) {
     console.error("[API Gallery GET] Error:", error);
     return NextResponse.json({ error: "Failed to fetch gallery items" }, { status: 500 });

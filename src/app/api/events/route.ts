@@ -9,7 +9,11 @@ export async function GET() {
     const events = await prisma.restaurantEvent.findMany({
       orderBy: { createdAt: "desc" },
     });
-    return NextResponse.json(events);
+    return NextResponse.json(events, {
+      headers: {
+        "Cache-Control": "public, s-maxage=120, stale-while-revalidate=600",
+      },
+    });
   } catch (error) {
     console.error("[API Events GET] Error:", error);
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });

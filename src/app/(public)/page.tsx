@@ -134,11 +134,12 @@ export default function HomePage() {
                 alt="Sokem Bar and Restaurant"
                 fill
                 priority
+                sizes="(max-width: 640px) 96px, 112px"
                 className="object-contain"
               />
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 dark:bg-gold/20 border border-amber-500/30 dark:border-gold/40 text-amber-900 dark:text-gold-light text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 dark:bg-gold/20 border border-amber-500/30 dark:border-gold/40 text-amber-900 dark:text-gold-light text-xs font-semibold uppercase tracking-wider md:backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-gold" />
               <span>{t.hero.badge}</span>
             </div>
@@ -280,6 +281,8 @@ export default function HomePage() {
                       src={item.imageUrl || ""}
                       alt={item.title}
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      quality={75}
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 right-3 flex flex-wrap gap-1.5">
@@ -343,6 +346,8 @@ export default function HomePage() {
                 src={featuredEvent.imageUrl || ""}
                 alt={featuredEvent.title}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={75}
                 className="object-cover"
               />
               <div className="absolute top-4 left-4">

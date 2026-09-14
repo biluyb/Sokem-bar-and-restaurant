@@ -111,8 +111,8 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen bg-[#FAF9F6] dark:bg-[#0E1015] text-slate-900 dark:text-gray-100 font-sans antialiased selection:bg-gold selection:text-slate-950 overflow-x-hidden relative transition-colors duration-300 w-full max-w-[100vw]">
         <LanguageProvider>
-          {/* Ambient Lighting Orbs - strictly clipped to prevent horizontal overflow on mobile */}
-          <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+          {/* Ambient Lighting Orbs - strictly desktop/tablet only to eliminate GPU memory thrashing on older mobile hardware (e.g. iPhone 6 Plus) */}
+          <div className="hidden md:block fixed inset-0 overflow-hidden pointer-events-none z-0">
             <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold/15 dark:bg-gold/15 blur-[140px] rounded-full opacity-40 dark:opacity-100" />
             <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-amber-500/10 dark:bg-amber-500/10 blur-[150px] rounded-full opacity-30 dark:opacity-100" />
             <div className="absolute -bottom-40 -left-40 w-[600px] h-[500px] bg-gold/10 dark:bg-gold/10 blur-[150px] rounded-full opacity-30 dark:opacity-100" />

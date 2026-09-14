@@ -15,22 +15,29 @@ export async function GET() {
       orderBy: { displayOrder: "asc" },
     });
 
-    return NextResponse.json({
-      items: items.map((item) => ({
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        price: item.price,
-        currency: item.currency,
-        categoryId: item.categoryId,
-        categoryName: item.category.name,
-        imageUrl: item.imageUrl,
-        dietaryFlags: JSON.parse(item.dietaryFlags || "[]"),
-        isAvailable: item.isAvailable,
-        isFeatured: item.isFeatured,
-      })),
-      categories,
-    });
+    return NextResponse.json(
+      {
+        items: items.map((item) => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          price: item.price,
+          currency: item.currency,
+          categoryId: item.categoryId,
+          categoryName: item.category.name,
+          imageUrl: item.imageUrl,
+          dietaryFlags: JSON.parse(item.dietaryFlags || "[]"),
+          isAvailable: item.isAvailable,
+          isFeatured: item.isFeatured,
+        })),
+        categories,
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=120, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (error) {
     console.error("[API Menu GET] Error:", error);
     return NextResponse.json({ error: "Failed to fetch menu items" }, { status: 500 });
