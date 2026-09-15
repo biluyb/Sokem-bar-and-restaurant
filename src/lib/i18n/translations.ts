@@ -341,7 +341,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
       signIn: "Sign In",
       bookTable: "Book Table",
       statusOpen: "Open Today • Table Reservations Available",
-      addressShort: "Legehar, Addis Ababa",
+      addressShort: "Cherkos 15/16, Addis Ababa",
     },
     hero: {
       badge: "Addis Ababa • Fine Dining & Cocktails",
@@ -353,7 +353,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
     },
     common: {
       callUs: "Call Concierge",
-      location: "Legehar, Addis Ababa",
+      location: "Cherkos 15/16, Addis Ababa",
       hours: "6 AM – 11:30 PM Daily",
       viewAll: "View All",
       viewDetails: "View Details",
@@ -674,7 +674,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
       signIn: "ግባ",
       bookTable: "ቦታ ያስይዙ",
       statusOpen: "ዛሬ ክፍት ነው • የቦታ ማስያዣ ዝግጁ ነው",
-      addressShort: "ለገሀር፣ አዲስ አበባ",
+      addressShort: "ቸርኮስ 15/16፣ አዲስ አበባ",
     },
     hero: {
       badge: "አዲስ አበባ • ዘመናዊ ምግብና ኮክቴል",
@@ -686,7 +686,7 @@ export const translations: Record<Locale, TranslationDictionary> = {
     },
     common: {
       callUs: "ይደውሉልን",
-      location: "ለገሀር፣ አዲስ አበባ",
+      location: "ቸርኮስ 15/16፣ አዲስ አበባ",
       hours: "ከጠዋቱ 12:00 – ማታ 5:30 በየቀኑ",
       viewAll: "ሁሉንም ይመልከቱ",
       viewDetails: "ዝርዝር ይመልከቱ",

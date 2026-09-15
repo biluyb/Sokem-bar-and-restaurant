@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Location & Contact",
   description:
-    "Find Sokem Bar & Restaurant in Legehar, Addis Ababa. Contact our concierge team for private events, large group seatings, and directions.",
+    "Find Sokem Bar & Restaurant in Cherkos 15/16, Addis Ababa. Contact our concierge team for private events, large group seatings, and directions.",
 };
 
 export default function ContactLayout({

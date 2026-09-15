@@ -8,6 +8,7 @@ import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { MOCK_EVENTS } from "@/lib/data";
+import { SOKEM_CONFIG } from "@/config/site";
 import { useLanguage } from "@/components/ui/LanguageContext";
 
 export default function EventsPage() {
@@ -38,8 +39,9 @@ export default function EventsPage() {
       name: "Sokem Bar & Restaurant",
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Legehar",
+        streetAddress: SOKEM_CONFIG.address,
         addressLocality: "Addis Ababa",
+        postalCode: "1000",
         addressCountry: "ET",
       },
     },

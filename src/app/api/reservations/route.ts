@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendEmail } from "@/lib/email";
 import { ReservationSchema } from "@/lib/validators/reservation";
+import { SOKEM_CONFIG } from "@/config/site";
 
 // In-memory rate limiting: max 5 reservations per 10 minutes per IP
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -104,7 +105,7 @@ export async function POST(request: Request) {
           </table>
 
           <div style="text-align: center; border-top: 1px solid #334155; padding-top: 16px; font-size: 12px; color: #64748b;">
-            <p style="margin: 0;">Sokem Bar & Restaurant • Legehar, Addis Ababa</p>
+            <p style="margin: 0;">${SOKEM_CONFIG.name} • ${SOKEM_CONFIG.address}, ${SOKEM_CONFIG.city}</p>
             <p style="margin: 4px 0 0 0;">Recipient: ${reservationRecipient}</p>
           </div>
         </div>

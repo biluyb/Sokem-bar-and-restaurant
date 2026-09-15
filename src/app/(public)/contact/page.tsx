@@ -147,6 +147,20 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
+
+            {/* Interactive Map View */}
+            <div className="pt-4 border-t border-slate-200 dark:border-white/[0.08] space-y-2">
+              <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-white/[0.1] h-48 w-full bg-slate-100 dark:bg-slate-800 shadow-inner">
+                <iframe
+                  title="Sokem Bar and Restaurant Location Map"
+                  src={SOKEM_CONFIG.embedMapUrl}
+                  width="100%"
+                  height="100%"
+                  className="w-full h-full border-0 pointer-events-auto filter contrast-[1.05]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </Card>
         </motion.div>
 

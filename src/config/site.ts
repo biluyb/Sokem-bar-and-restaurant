@@ -14,10 +14,16 @@ export const SOKEM_CONFIG = {
   logo: "/images/logo.png",
   
   // Business Contact Details
-  address: "Sokem Bar & Restaurant",
-  city: "Addis Ababa, Ethiopia",
+  address: "Cherkos 15/16",
+  city: "Addis Ababa 1000, Ethiopia",
+  fullAddress: "Cherkos 15/16, Addis Ababa 1000, Ethiopia",
+  coordinates: {
+    lat: 9.013810,
+    lng: 38.752111,
+  },
   phone: "093 001 4033",
-  mapUrl: "https://maps.app.goo.gl/MJnT1GHeW1mSMDQr5",
+  mapUrl: "https://maps.google.com/?q=9.013810,38.752111",
+  embedMapUrl: "https://maps.google.com/maps?q=9.013810,38.752111&t=&z=16&ie=UTF8&iwloc=&output=embed",
   email: "biluquick123@gmail.com",
   
   // Operating Hours Schedule

@@ -137,7 +137,7 @@ export const Footer: React.FC = () => {
               <div className="relative h-36 w-full overflow-hidden bg-slate-200 dark:bg-slate-800">
                 <iframe
                   title="Sokem Bar and Restaurant Location Map"
-                  src="https://maps.google.com/maps?q=Legehar%2C%20Addis%20Ababa%2C%20Ethiopia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src={SOKEM_CONFIG.embedMapUrl}
                   width="100%"
                   height="100%"
                   className="w-full h-full border-0 pointer-events-auto filter contrast-[1.05] grayscale-[20%]"
