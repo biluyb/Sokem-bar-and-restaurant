@@ -13,15 +13,15 @@ describe("Site Configuration Integrity (src/config/site.ts)", () => {
   });
 
   it("should have the verified Google Maps URL set", () => {
-    expect(SOKEM_CONFIG.mapUrl).toBe("https://maps.google.com/?q=9.013810,38.752111");
-    expect(SOKEM_CONFIG.embedMapUrl).toBeDefined();
+    expect(SOKEM_CONFIG.mapUrl).toContain("https://www.google.com/maps/place/Sokem+Bar+%26+Restaurant");
+    expect(SOKEM_CONFIG.embedMapUrl).toContain("google.com/maps/embed");
   });
 
   it("should have the verified address, city, and coordinates set", () => {
     expect(SOKEM_CONFIG.address).toBe("Cherkos 15/16");
     expect(SOKEM_CONFIG.city).toBe("Addis Ababa 1000, Ethiopia");
-    expect(SOKEM_CONFIG.coordinates.lat).toBe(9.01381);
-    expect(SOKEM_CONFIG.coordinates.lng).toBe(38.752111);
+    expect(SOKEM_CONFIG.coordinates.lat).toBe(9.013883);
+    expect(SOKEM_CONFIG.coordinates.lng).toBe(38.7520751);
   });
 
   it("should have the verified contact email set", () => {
